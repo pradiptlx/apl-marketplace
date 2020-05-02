@@ -1,0 +1,9 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^3.3",
+        "ramsey/uuid": "^3.8",
+      "ext-pdo": "*",
+        "swiftmailer/swiftmailer": "^6.0",
+      "ext-json": "*"
+    }
+}
