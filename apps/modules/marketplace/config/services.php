@@ -1,23 +1,19 @@
 <?php
 
-use Dex\Marketplace\Application\CreateNewIdea\CreateNewIdeaService;
-use Dex\Marketplace\Application\RateIdea\RateIdeaService;
-use Dex\Marketplace\Application\ViewAllIdeas\ViewAllIdeasService;
-use Dex\Marketplace\Application\VoteIdea\VoteIdeaService;
 use Dex\Marketplace\Infrastructure\Transport\SwiftMailer;
 use Phalcon\Mvc\View;
-use Dex\Marketplace\Infrastructure\Persistence\SqlIdeaRepository;
+use Phalcon\Mvc\View\Engine\Volt;
 
 $di['voltServiceMail'] = function($view) use ($di) {
 
     $config = $di->get('config');
 
-    $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
+    $volt = new Volt($view, $di);
     if (!is_dir($config->mail->cacheDir)) {
         mkdir($config->mail->cacheDir);
     }
 
-    $compileAlways = $config->mode == 'DEVELOPMENT' ? true : false;
+    $compileAlways = $config->mode == 'DEVELOPMENT';
 
     $volt->setOptions(array(
         "compiledPath" => $config->mail->cacheDir,
@@ -57,11 +53,9 @@ $di['db'] = function () use ($di) {
 
 $di->set('swiftMailerTransport', function ()  use ($di) {
     $config = $di->get('config');
-    $transport = (new Swift_SmtpTransport($config->mail->smtp->server, $config->mail->smtp->port))
+    return (new Swift_SmtpTransport($config->mail->smtp->server, $config->mail->smtp->port))
         ->setUsername($config->mail->smtp->username)
         ->setPassword($config->mail->smtp->password);
-
-    return $transport;
 });
 
 $di->set('swiftMailer', function () use ($di) {

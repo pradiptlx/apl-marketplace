@@ -230,3 +230,9 @@ composer.phar
 /vendor/
 
 # End of https://www.gitignore.io/api/vim,linux,macos,phalcon,windows,phpstorm,sublimetext,visualstudiocode
+/.idea/.gitignore
+/.idea/apl-marketplace.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/vcs.xml
