@@ -1,6 +1,6 @@
 <?php
 
-namespace Idy\Common\Events;
+namespace Dex\Common\Events;
 
 interface DomainEvent
 {

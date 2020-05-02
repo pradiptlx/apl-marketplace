@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Phalcon\Di;
 use Phalcon\Di\FactoryDefault;
@@ -20,9 +20,9 @@ $loader = new Loader();
 
 $loader->registerNamespaces([
 
-    'Idy\Idea\Domain\Model' => APP_PATH . '/modules/idea/domain/model',
-    'Idy\Idea\Application' => APP_PATH . '/modules/idea/application',
-    'Idy\Idea\Infrastructure' => APP_PATH . '/modules/idea/infrastructure',
+    'Idy\Idea\Domain\Model' => APP_PATH . '/modules/marketplace/domain/model',
+    'Idy\Idea\Application' => APP_PATH . '/modules/marketplace/application',
+    'Idy\Idea\Infrastructure' => APP_PATH . '/modules/marketplace/infrastructure',
 
 ]);
 

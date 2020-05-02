@@ -1,27 +1,48 @@
 <?php
 
-use Idy\Idea\Application\SwiftMailer;
-use Phalcon\Logger\Adapter\File as Logger;
-use Phalcon\Session\Adapter\Files as Session;
+use Dex\Marketplace\Application\SwiftMailer;
+use Phalcon\Config;
+use Phalcon\Escaper;
+use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Url;
+use Phalcon\Session\Manager as SessionManager;
+use Phalcon\Session\Adapter\Stream as SessionAdapter;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Security;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
-use Phalcon\Flash\Direct as FlashDirect;
+use Phalcon\Flash\Direct as Flash;
 use Phalcon\Flash\Session as FlashSession;
 
-$di['config'] = function() use ($config) {
-	return $config;
+/**
+ * @var Phalcon\Config $config
+ *
+ * @return Config
+ */
+$di['config'] = function () use ($config) {
+    return $config;
 };
 
-$di->setShared('session', function() {
-    $session = new Session();
-	$session->start();
+/**
+ * Start the session the first time some component request the session service
+ */
+$di->setShared('session', function () {
+    $session = new SessionManager();
+    $files = new SessionAdapter([
+        'savePath' => sys_get_temp_dir(),
+    ]);
+    $session->setAdapter($files);
+    $session->start();
 
-	return $session;
+    return $session;
 });
 
-$di['dispatcher'] = function() use ($di, $defaultModule) {
+/**
+ * @var string $defaultModule
+ *
+ * @return Dispatcher
+ */
+$di['dispatcher'] = function () use ($di, $defaultModule) {
 
     $eventsManager = $di->getShared('eventsManager');
     $dispatcher = new Dispatcher();
@@ -30,21 +51,21 @@ $di['dispatcher'] = function() use ($di, $defaultModule) {
     return $dispatcher;
 };
 
-$di['url'] = function() use ($config, $di) {
-	$url = new \Phalcon\Mvc\Url();
+$di['url'] = function () use ($config, $di) {
+    $url = new Url();
 
     $url->setBaseUri($config->url['baseUrl']);
 
-	return $url;
+    return $url;
 };
 
-$di['voltService'] = function($view, $di) use ($config) {
-    $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
+$di['voltService'] = function ($view, $di) use ($config) {
+    $volt = new Volt($view, $di);
     if (!is_dir($config->application->cacheDir)) {
         mkdir($config->application->cacheDir);
     }
 
-    $compileAlways = $config->mode == 'DEVELOPMENT' ? true : false;
+    $compileAlways = $config->mode == 'DEVELOPMENT';
 
     $volt->setOptions(array(
         "compiledPath" => $config->application->cacheDir,
@@ -78,36 +99,36 @@ $di->set(
     true
 );
 
-$di->set(
-    'flash',
-    function () {
-        $flash = new FlashDirect(
-            [
-                'error'   => 'alert alert-danger',
-                'success' => 'alert alert-success',
-                'notice'  => 'alert alert-info',
-                'warning' => 'alert alert-warning',
-            ]
-        );
+/**
+ * Register the session flash service with the Twitter Bootstrap classes
+ */
+$di->set('flash', function () {
+    $escaper = new Escaper();
+    $flash = new Flash($escaper);
 
-        return $flash;
-    }
-);
+    $flash->setCssClasses([
+        'error' => 'alert alert-danger alert-dismissible fade show',
+        'success' => 'alert alert-success alert-dismissible fade show',
+        'notice' => 'alert alert-info alert-dismissible fade show',
+        'warning' => 'alert alert-warning alert-dismissible fade show'
+    ]);
 
-$di->set(
-    'flashSession',
-    function () {
-        $flash = new FlashSession(
-            [
-                'error'   => 'alert alert-danger',
-                'success' => 'alert alert-success',
-                'notice'  => 'alert alert-info',
-                'warning' => 'alert alert-warning',
-            ]
-        );
+    return $flash;
+});
 
-        $flash->setAutoescape(false);
-        
-        return $flash;
-    }
-);
+
+/**
+ * Change Flash session css Classes
+ */
+$di->set('flashSession', function () {
+    $escaper = new Escaper();
+    $flash = new FlashSession($escaper);
+    $flash->setCssClasses([
+        'error' => 'alert alert-danger alert-dismissible fade show',
+        'success' => 'alert alert-success alert-dismissible fade show',
+        'notice' => 'alert alert-info alert-dismissible fade show',
+        'warning' => 'alert alert-warning alert-dismissible fade show'
+    ]);
+
+    return $flash;
+});

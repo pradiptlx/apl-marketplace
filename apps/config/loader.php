@@ -1,6 +1,8 @@
 <?php
 
-$loader = new \Phalcon\Loader();
+use Phalcon\Loader;
+
+$loader = new Loader();
 
 /**
   * Load library namespace
@@ -16,7 +18,7 @@ $loader->registerNamespaces(array(
 	/**
 	 * Load common classes
 	 */
-	'Idy\Common\Events' => APP_PATH . '/common/events',
+	'Dex\Common\Events' => APP_PATH . '/common/events',
 ));
 
 $loader->register();

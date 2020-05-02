@@ -11,6 +11,7 @@ class Bootstrap extends Application
 
 	public function __construct($defaultModule)
 	{
+	    parent::__construct();
 		$this->modules = require APP_PATH . '/config/modules.php';
 		$this->defaultModule= $defaultModule;
 	}
@@ -25,13 +26,13 @@ class Bootstrap extends Application
 			$debug = new Debug();
 			$debug->listen();
 		}
-		
+
 		/**
 		 * Load modules
 		 */
 		$this->registerModules($this->modules);
 
-		echo $this->handle()->getContent();
+		echo $this->handle($_SERVER['REQUEST_URI'])->getContent();
 	}
 
 	private function _registerServices()
@@ -54,7 +55,7 @@ class Bootstrap extends Application
 		}
 
 		$di = new FactoryDefault();
-		$config = require APP_PATH . '/config/config.php';
+        $config = require APP_PATH . '/config/config.php';
 		$modules = $this->modules;
 
 		include_once APP_PATH . '/config/loader.php';

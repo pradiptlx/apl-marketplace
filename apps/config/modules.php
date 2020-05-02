@@ -1,15 +1,15 @@
 <?php
 
 return array(
-    'idea' => [
-        'namespace' => 'Idy\Idea',
-        'webControllerNamespace' => 'Idy\Idea\Presentation\Controllers\Web',
-        'apiControllerNamespace' => 'Idy\Idea\Presentation\Controllers\Api',
-        'className' => 'Idy\Idea\Module',
-        'path' => APP_PATH . '/modules/idea/Module.php',
+    'marketplace' => [
+        'namespace' => 'Dex\Marketplace',
+        'webControllerNamespace' => 'Dex\Marketplace\Presentation\Controllers\Web',
+        'apiControllerNamespace' => 'Dex\Marketplace\Presentation\Controllers\Api',
+        'className' => 'Dex\Marketplace\Module',
+        'path' => APP_PATH . '/modules/marketplace/Module.php',
         'userDefinedRouting' => true,
         'defaultRouting' => true,
-        'defaultController' => 'idea',
+        'defaultController' => 'marketplace',
         'defaultAction' => 'index',
     ],
 
