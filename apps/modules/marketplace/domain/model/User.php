@@ -35,6 +35,11 @@ class User
         $this->status_user = $status;
     }
 
+    public function getId(): UserId
+    {
+        return $this->id;
+    }
+
     public function getUsername(): string
     {
         return $this->username;
@@ -43,6 +48,11 @@ class User
     public function getFullname(): string
     {
         return $this->fullname;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
     }
 
     public function getEmail(): string

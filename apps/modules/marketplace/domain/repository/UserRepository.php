@@ -11,7 +11,7 @@ interface UserRepository
 {
     public function byId(UserId $id): ?User;
 
-//    public function save(User $user): bool;
+    public function save(User $user);
 
     public function getPassword(User $user): string;
 
