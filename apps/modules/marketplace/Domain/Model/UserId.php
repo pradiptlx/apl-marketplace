@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\marketplace\domain\model;
+namespace Dex\marketplace\domain\Model;
 
 
 use Ramsey\Uuid\Uuid;

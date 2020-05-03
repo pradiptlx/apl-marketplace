@@ -20,9 +20,9 @@ $loader = new Loader();
 
 $loader->registerNamespaces([
 
-    'Idy\Idea\Domain\Model' => APP_PATH . '/modules/marketplace/domain/model',
-    'Idy\Idea\Application' => APP_PATH . '/modules/marketplace/application',
-    'Idy\Idea\Infrastructure' => APP_PATH . '/modules/marketplace/infrastructure',
+    'Dex\Marketplace\Domain\Model' => APP_PATH . '/modules/marketplace/Domain/Model',
+    'Dex\Marketplace\Application' => APP_PATH . '/modules/marketplace/Application',
+    'Dex\Marketplace\Infrastructure' => APP_PATH . '/modules/marketplace/Infrastructure',
 
 ]);
 

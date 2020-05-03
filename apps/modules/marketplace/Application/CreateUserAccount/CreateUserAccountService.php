@@ -6,7 +6,7 @@ namespace Dex\Marketplace\Application;
 
 use Dex\Marketplace\Domain\Exception\InvalidUsernameDomainException;
 use Dex\Marketplace\Domain\Model\User;
-use Dex\marketplace\domain\model\UserId;
+use Dex\marketplace\domain\Model\UserId;
 use Dex\Marketplace\Domain\Repository\UserRepository;
 
 class CreateUserAccountService

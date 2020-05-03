@@ -5,7 +5,7 @@ namespace Dex\Marketplace\Domain\Repository;
 
 
 use Dex\Marketplace\Domain\Model\User;
-use Dex\marketplace\domain\model\UserId;
+use Dex\marketplace\domain\Model\UserId;
 
 interface UserRepository
 {

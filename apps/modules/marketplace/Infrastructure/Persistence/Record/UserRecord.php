@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\Marketplace\Infrastructure\persistence\Record;
+namespace Dex\Marketplace\Infrastructure\Persistence\Record;
 
 
 use Phalcon\Mvc\Model;

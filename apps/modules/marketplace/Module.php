@@ -13,16 +13,16 @@ class Module implements ModuleDefinitionInterface
         $loader = new Loader();
 
         $loader->registerNamespaces([
-            'Dex\Marketplace\Domain\Model' => __DIR__ . '/domain/model',
-            'Dex\Marketplace\Domain\Repository' => __DIR__ . '/domain/repository',
-            'Dex\Marketplace\Domain\Transport' => __DIR__ . '/domain/transport',
-            'Dex\Marketplace\Domain\Exception' => __DIR__ . '/domain/exception',
-            'Dex\Marketplace\Infrastructure\Persistence' => __DIR__ . '/infrastructure/persistence',
-            'Dex\Marketplace\Infrastructure\Transport' => __DIR__ . '/infrastructure/transport',
-            'Dex\Marketplace\Application' => __DIR__ . '/application',
-            'Dex\Marketplace\Presentation\Controllers\Web' => __DIR__ . '/presentation/controllers/web',
-            'Dex\Marketplace\Presentation\Controllers\Api' => __DIR__ . '/presentation/controllers/api',
-            'Dex\Marketplace\Presentation\Controllers\Validators' => __DIR__ . '/presentation/controllers/validators',
+            'Dex\Marketplace\Domain\Model' => __DIR__ . '/Domain/Model',
+            'Dex\Marketplace\Domain\Repository' => __DIR__ . '/Domain/Repository',
+            'Dex\Marketplace\Domain\Transport' => __DIR__ . '/Domain/Transport',
+            'Dex\Marketplace\Domain\Exception' => __DIR__ . '/Domain/Exception',
+            'Dex\Marketplace\Infrastructure\Persistence' => __DIR__ . '/Infrastructure/Persistence',
+            'Dex\Marketplace\Infrastructure\Transport' => __DIR__ . '/Infrastructure/Transport',
+            'Dex\Marketplace\Application' => __DIR__ . '/Application',
+            'Dex\Marketplace\Presentation\Controllers\Web' => __DIR__ . '/Presentation/Controllers/Web',
+            'Dex\Marketplace\Presentation\Controllers\Api' => __DIR__ . '/Presentation/Controllers/Api',
+            'Dex\Marketplace\Presentation\Controllers\Validators' => __DIR__ . '/Presentation/Controllers/Validators',
         ]);
 
         $loader->register();
