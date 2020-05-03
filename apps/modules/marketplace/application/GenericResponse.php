@@ -7,7 +7,7 @@ class GenericResponse
     protected $data;
     protected $message;
     protected $error;
-    protected $code;
+    protected int $code;
 
     /**
      * GenericResponse constructor.

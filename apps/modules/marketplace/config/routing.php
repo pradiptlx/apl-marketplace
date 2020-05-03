@@ -3,6 +3,7 @@
 $namespace = 'Dex\Marketplace\Presentation\Controllers\Web';
 $module = 'marketplace';
 
+/** @var Phalcon\Mvc\Router $router */
 $router->addGet('/marketplace/add', [
     'namespace' => $namespace,
     'module' => $module,
