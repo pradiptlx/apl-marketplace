@@ -15,6 +15,10 @@ interface UserRepository
 
     public function getPassword(User $user): string;
 
+    public function isEmailAlreadyExist(string $email): bool;
+
+    public function byEmail(string $email): ?User;
+
     public function setStatusUser(User $user, string $status = ""): bool;
 
     public function changeProfile(User $user, array $data = []): bool;

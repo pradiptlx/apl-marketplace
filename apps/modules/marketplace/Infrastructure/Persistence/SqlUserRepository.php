@@ -47,6 +47,13 @@ class SqlUserRepository implements UserRepository
         return $this->parsingRecord($userRecord);
     }
 
+    public function byEmail(string $email): ?User
+    {
+        $userRecord = UserRecord::findFirstByEmail($email);
+
+        return $this->parsingRecord($userRecord);
+    }
+
     public function save(User $user)
     {
         if ($this->isUsernameExist($user->getUsername()))
@@ -116,5 +123,15 @@ class SqlUserRepository implements UserRepository
     public function changeProfile(User $user, array $data = []): bool
     {
         // TODO: Implement changeProfile() method.
+    }
+
+    public function isEmailAlreadyExist(string $email): bool
+    {
+        $user = UserRecord::findFirstByEmail($email);
+
+        if (is_null($user->email)) {
+            return false;
+        }
+        return true;
     }
 }

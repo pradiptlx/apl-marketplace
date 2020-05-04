@@ -10,7 +10,7 @@ use Swift_Message;
 
 class SwiftMailer implements MailerInterface
 {
-    protected $mailer;
+    protected Swift_Mailer $mailer;
     protected $template;
     protected $message;
 
@@ -19,7 +19,7 @@ class SwiftMailer implements MailerInterface
         $this->mailer = $mailer;
     }
 
-    public function createMessage($to, $from, $subject, $body)
+    public function createMessage($to, $from, $subject, $body): self
     {
         $message = (new Swift_Message($subject))
             ->setFrom([$from => $from])

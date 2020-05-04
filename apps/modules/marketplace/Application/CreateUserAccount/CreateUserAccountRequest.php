@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\Marketplace\Application;
+namespace Dex\Marketplace\Application\CreateUserAccount;
 
 
 class CreateUserAccountRequest
