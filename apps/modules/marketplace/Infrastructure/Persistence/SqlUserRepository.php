@@ -6,7 +6,7 @@ namespace Dex\Marketplace\Infrastructure\Persistence;
 
 use Dex\Marketplace\Domain\Exception\InvalidUsernameDomainException;
 use Dex\Marketplace\Domain\Model\User;
-use Dex\marketplace\domain\Model\UserId;
+use Dex\Marketplace\Domain\Model\UserId;
 use Dex\Marketplace\Domain\Repository\UserRepository;
 use Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord;
 use Phalcon\Db\Adapter\Pdo\Sqlsrv;
