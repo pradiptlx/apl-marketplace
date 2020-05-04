@@ -4,12 +4,14 @@
 namespace Dex\Marketplace\Application\CreateUserAccount;
 
 
+use Dex\Marketplace\Domain\Exception\InvalidEmailDomainException;
 use Dex\Marketplace\Domain\Exception\InvalidUsernameDomainException;
 use Dex\Marketplace\Domain\Model\User;
 use Dex\marketplace\domain\Model\UserId;
 use Dex\Marketplace\Domain\Repository\UserRepository;
+use Phalcon\Mvc\Model\Transaction\Failed;
 
-class CreateUserAccountService
+class CreateUserAccountService extends \Phalcon\Di\Injectable
 {
 
     protected UserRepository $userRepository;
@@ -37,12 +39,21 @@ class CreateUserAccountService
 
             if ($response instanceof InvalidUsernameDomainException)
                 throw new InvalidUsernameDomainException($response->getMessage());
+            elseif ($response instanceof InvalidEmailDomainException)
+                throw new InvalidEmailDomainException($response->getMessage());
             elseif ($response instanceof \Exception)
                 throw new \Exception($response->getMessage());
+            elseif ($response instanceof Failed)
+                throw new \Exception($response->getMessage());
 
+            $this->session->set('user_id', $userModel->getId());
+            $this->session->set('username', $userModel->getUsername());
+            $this->session->set('fullname', $userModel->getFullname());
             return new CreateUserAccountResponse($response, "User created successfully");
 
         } catch (InvalidUsernameDomainException $exception) {
+            return new CreateUserAccountResponse($exception, $exception->getMessage(), 400, true);
+        } catch (InvalidEmailDomainException $exception) {
             return new CreateUserAccountResponse($exception, $exception->getMessage(), 400, true);
         } catch (\Exception $exception) {
             return new CreateUserAccountResponse($exception, $exception->getMessage(), 500, true);

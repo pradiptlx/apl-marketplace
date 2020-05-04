@@ -14,6 +14,8 @@ class User
     protected string $address;
     protected string $telp_no;
     protected string $status_user;
+    protected string $created_at;
+    protected string $updated_at;
 
     public const STATUS_USER = "BUYER";
     public static string $BUYER = 'BUYER';
@@ -75,6 +77,16 @@ class User
         return $this->status_user;
     }
 
+    public function getCreatedDate(): string
+    {
+        return $this->created_at;
+    }
+
+    public function getUpdatedDate(): string
+    {
+        return $this->updated_at;
+    }
+
     public function setUsername(string $username)
     {
         $this->username = $username;
@@ -112,5 +124,13 @@ class User
             default:
                 break;
         }
+    }
+
+    public function isSeller(string $status = null): bool
+    {
+        if (isset($status))
+            return strtoupper($status) === self::$SELLER;
+        else
+            return strtoupper($this->status_user) === self::$SELLER;
     }
 }

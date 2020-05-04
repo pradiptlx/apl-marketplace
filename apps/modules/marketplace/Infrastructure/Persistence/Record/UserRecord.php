@@ -17,6 +17,8 @@ class UserRecord extends Model
     public string $address;
     public string $no_telp;
     public string $status_user;
+    public string $created_at;
+    public string $updated_at;
 
     public function initialize()
     {

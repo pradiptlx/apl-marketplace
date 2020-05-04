@@ -4,6 +4,7 @@
 namespace Dex\Marketplace\Infrastructure\Persistence;
 
 
+use Dex\Marketplace\Domain\Exception\InvalidEmailDomainException;
 use Dex\Marketplace\Domain\Exception\InvalidUsernameDomainException;
 use Dex\Marketplace\Domain\Model\User;
 use Dex\Marketplace\Domain\Model\UserId;
@@ -30,11 +31,21 @@ class SqlUserRepository implements UserRepository
         );
     }
 
-    private function isUsernameExist(string $username): bool
+    public function isUsernameAlreadyExist(string $username): bool
     {
         $user = UserRecord::findFirstByUsername($username);
 
         if (is_null($user->username)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function isEmailAlreadyExist(string $email): bool
+    {
+        $user = UserRecord::findFirstByEmail($email);
+
+        if (is_null($user->email)) {
             return false;
         }
         return true;
@@ -56,9 +67,12 @@ class SqlUserRepository implements UserRepository
 
     public function save(User $user)
     {
-        if ($this->isUsernameExist($user->getUsername()))
+        if ($this->isUsernameAlreadyExist($user->getUsername()))
             return new InvalidUsernameDomainException(
                 'Username already taken');
+        if($this->isEmailAlreadyExist($user->getEmail()))
+            return new InvalidEmailDomainException(
+                'Email already registered');
 
         $trans = (new Manager())->get();
 
@@ -72,6 +86,8 @@ class SqlUserRepository implements UserRepository
             $userModel->address = $user->getAddress();
             $userModel->no_telp = $user->getTelp();
             $userModel->status_user = $user->getStatusUser();
+            $userModel->created_at = (new \DateTime())->format('Y-m-d H:i:s');
+            $userModel->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
 
             if ($userModel->save()) {
                 $trans->commit();
@@ -91,15 +107,23 @@ class SqlUserRepository implements UserRepository
 
     public function getPassword(User $user): string
     {
-        // TODO: Implement getPassword() method.
+        $userModel = UserRecord::findFirst([
+            'conditions' => 'id=:id:',
+            'bind' => [
+                'id' => $user->getId()->getId()
+            ]
+        ]);
+
+        return $userModel->password;
+
     }
 
-    public function setStatusUser(User $user, string $status = ""): bool
+    public function setStatusUser(User $user, string $status = null)
     {
-        if (empty($status)) {
-            $status_user = $user->getStatusUser();
-        } else {
+        if (isset($status)) {
             $status_user = $status;
+        } else {
+            $status_user = $user->getStatusUser();
         }
 
         $trans = (new Manager())->get();
@@ -120,18 +144,22 @@ class SqlUserRepository implements UserRepository
 
     }
 
-    public function changeProfile(User $user, array $data = []): bool
+    public function changeProfile(User $user, array $datas = [])
     {
-        // TODO: Implement changeProfile() method.
-    }
+        $trans = (new Manager())->get();
 
-    public function isEmailAlreadyExist(string $email): bool
-    {
-        $user = UserRecord::findFirstByEmail($email);
-
-        if (is_null($user->email)) {
-            return false;
+        $userModel = new UserRecord();
+        foreach ($datas as $data => $val){
+            $userModel->$data = $val;
         }
-        return true;
+
+        if($userModel->update()){
+            $trans->commit();
+
+            return true;
+        }
+        $trans->rollback();
+        return new Failed((string)$trans->getMessages());
     }
+
 }
