@@ -25,6 +25,7 @@ class UserRecord extends Model
         $this->setConnectionService('db');
         $this->setSource('user');
 
+//        $this->hasOne('cart', CartRecord::class, 'id');
     }
 
 }
