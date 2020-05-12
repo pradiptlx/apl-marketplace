@@ -1,5 +1,10 @@
 <?php
 
+use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerService;
+use Dex\Marketplace\Infrastructure\Persistence\SqlCartRepository;
+use Dex\Marketplace\Infrastructure\Persistence\SqlProductRepository;
+use Dex\Marketplace\Infrastructure\Persistence\SqlUserRepository;
+use Dex\Marketplace\Infrastructure\Persistence\SqlWishlistRepository;
 use Dex\Marketplace\Infrastructure\Transport\SwiftMailer;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -63,23 +68,38 @@ $di->set('swiftMailer', function () use ($di) {
 
     return new SwiftMailer($mailer);
 });
-/*
-$di->set('ideaRepository', function() use ($di) {
-    return new SqlIdeaRepository($di->get('db'));
+
+$di->set('sqlUserRepository', function (){
+    return new SqlUserRepository();
 });
 
-$di->set('viewAllIdeasService', function () use ($di) {
-   return new ViewAllIdeasService($di->get('ideaRepository'));
+$di->set('sqlProductRepository', function (){
+    return new SqlProductRepository();
 });
 
-$di->set('createNewIdeaService', function () use ($di) {
-   return new CreateNewIdeaService($di->get('ideaRepository'));
+$di->set('sqlCartRepository', function (){
+    return new SqlCartRepository();
 });
 
-$di->set('voteIdeaService', function () use ($di) {
-   return new VoteIdeaService($di->get('ideaRepository'));
+$di->set('sqlWishlistRepository', function (){
+    return new SqlWishlistRepository();
 });
 
-$di->set('rateIdeaService', function () use ($di) {
-   return new RateIdeaService($di->get('ideaRepository'));
-});*/
+$di->set('addItemToWishlistBuyerService', function () use($di){
+    return new AddItemToWishlistBuyerService(
+        $di->get('sqlWishlistRepository'),
+        $di->get('sqlProductRepository'),
+        $di->get('sqlUserRepository')
+    );
+});
+
+$di->set('addToCartBuyerService', function () use($di){
+    return new AddItemToWishlistBuyerService(
+        $di->get('sqlCartRepository'),
+        $di->get('sqlProductRepository'),
+        $di->get('sqlUserRepository')
+    );
+});
+
+
+
