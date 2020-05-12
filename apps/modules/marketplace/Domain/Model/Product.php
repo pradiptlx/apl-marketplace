@@ -15,6 +15,7 @@ class Product
     private string $price;
     private ?int $wishlistCounter;
     private ?User $seller;
+    private ?UserId $sellerId;
 
     public function __construct(
         ProductId $id,
@@ -25,7 +26,8 @@ class Product
         int $stock = 0,
         string $price = "",
         int $wishlistCounter = 0,
-        User $seller = null
+        User $seller = null,
+        UserId $sellerId = null
     )
     {
         $this->id = $id;
@@ -37,6 +39,7 @@ class Product
         $this->price = $price;
         $this->wishlistCounter = $wishlistCounter;
         $this->seller = $seller;
+        $this->sellerId = $sellerId;
     }
 
     public function getId(): ProductId
@@ -84,24 +87,29 @@ class Product
         return $this->seller;
     }
 
+    public function getSellerId(): UserId
+    {
+        return $this->sellerId;
+    }
+
     public function incStock(): int
     {
-        return $this->stock++;
+        return ++$this->stock;
     }
 
     public function decStock(): int
     {
-        return $this->stock--;
+        return --$this->stock;
     }
 
     public function incWishlistCounter(): int
     {
-        return $this->wishlistCounter++;
+        return ++$this->wishlistCounter;
     }
 
     public function decWishlistCounter(): int
     {
-        return $this->wishlistCounter--;
+        return --$this->wishlistCounter;
     }
 
 }
