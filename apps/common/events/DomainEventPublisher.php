@@ -7,14 +7,14 @@ class DomainEventPublisher
     /**
      * @var DomainEventSubscriber[]
      */
-    private $subscribers;
+    private array $subscribers;
 
     /**
      * @var DomainEventPublisher
      */
-    private static $instance = null;
+    private static ?DomainEventPublisher $instance = null;
 
-    private $id = 0;
+    private int $id = 0;
 
     public static function instance()
     {
