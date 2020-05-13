@@ -77,6 +77,40 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
         // TODO: Implement bySellerId() method.
     }
 
+    public function getAll()
+    {
+        $query = "SELECT p.*, u.username, u.fullname, u.email, u.address, u.telp_no
+                FROM FROM Dex\Marketplace\Infrastructure\Persistence\Record\ProductRecord p
+                JOIN Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord u on u.id = p.user_id";
+        $productSet = $this->modelsManager->createQuery($query)->execute();
+
+        $products = [];
+
+        foreach ($productSet as $product) {
+            $products[] = new Product(
+                new ProductId($product->id),
+                $product->product_name,
+                $product->description,
+                $product->created_at,
+                $product->updated_at,
+                $product->stock,
+                $product->price,
+                $product->wishlist_counter,
+                new User(
+                    new UserId($product->user_id),
+                    $product->username,
+                    $product->fullname,
+                    '',
+                    $product->email,
+                    $product->address,
+                    $product->telp_no
+                )
+            );
+        }
+
+        return $products;
+    }
+
     public function saveProduct(Product $product)
     {
         $transx = (new Manager())->get();
@@ -114,13 +148,13 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
             ]
         ]);
 
-        if(isset($product)){
-            if($product->delete()){
+        if (isset($product)) {
+            if ($product->delete()) {
                 $transx->commit();
 
                 return true;
             }
-        }else{
+        } else {
             return false;
         }
 

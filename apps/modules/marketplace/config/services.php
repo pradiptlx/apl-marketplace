@@ -1,6 +1,8 @@
 <?php
 
 use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerService;
+use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
+use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerService;
 use Dex\Marketplace\Infrastructure\Persistence\SqlCartRepository;
 use Dex\Marketplace\Infrastructure\Persistence\SqlProductRepository;
 use Dex\Marketplace\Infrastructure\Persistence\SqlUserRepository;
@@ -98,6 +100,18 @@ $di->set('addToCartBuyerService', function () use($di){
         $di->get('sqlCartRepository'),
         $di->get('sqlProductRepository'),
         $di->get('sqlUserRepository')
+    );
+});
+
+$di->set('showItemDetailBuyerService', function () use($di){
+    return new ShowItemDetailBuyerService(
+        $di->get('sqlProductRepository')
+    );
+});
+
+$di->set('listItemsBuyerService', function () use($di){
+    return new ListItemsBuyerService(
+        $di->get('sqlProductRepository')
     );
 });
 

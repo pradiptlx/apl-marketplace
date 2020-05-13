@@ -14,6 +14,8 @@ interface ProductRepository
 
     public function bySellerId(UserId $userId): ?Product;
 
+    public function getAll();
+
     public function saveProduct(Product $product);
 
     public function deleteProduct(ProductId $productId);
