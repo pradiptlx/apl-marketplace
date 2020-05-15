@@ -26,7 +26,7 @@
 </head>
 <body>
 {% include 'layout/navbar.volt' %}
-<div class="container-fluid my-5">
+<div class="mt-5">
     {% block content %}
 
     {% endblock %}

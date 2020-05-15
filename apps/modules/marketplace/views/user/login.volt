@@ -1,9 +1,10 @@
 {% extends 'layout/base.volt' %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{{ static_url('/assets/css/login/util.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ static_url('/assets/css/login/main.css') }}">
-
 {% endblock %}
 
 {% block content %}

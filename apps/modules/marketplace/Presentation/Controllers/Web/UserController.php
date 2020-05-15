@@ -31,6 +31,7 @@ class UserController extends Controller
 
     public function loginAction()
     {
+        $this->view->setVar('title', 'Login Page');
         $request = $this->request;
 
         if ($request->isPost()) {
@@ -79,7 +80,6 @@ class UserController extends Controller
         }
 
         $this->view->setVar('title', 'Register Page');
-        //TODO: CSS/JS
         return $this->view->pick('user/register');
     }
 

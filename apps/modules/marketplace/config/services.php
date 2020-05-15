@@ -29,7 +29,6 @@ $di['voltServiceMail'] = function($view) use ($di) {
         'separator' => '_',
         'stat' => true,
         'path' => $config->application->cacheDir,
-        'prefix' => '-prefix-',
     ));
     return $volt;
 };
