@@ -16,7 +16,7 @@ class UserController extends Controller
     public function initialize()
     {
         // TODO: CREATE SERVICE
-//        $this->createUserAccountService = $this->di->get('createUserAccountService');
+        $this->createUserAccountService = $this->di->get('createUserAccountService');
 
     }
 
@@ -43,7 +43,7 @@ class UserController extends Controller
         $this->view->setVar('title', 'Login Page');
         //TODO: Collection CSS/JS
 
-        $this->view->pick('home');
+        $this->view->pick('user/login');
     }
 
     public function registerAction()

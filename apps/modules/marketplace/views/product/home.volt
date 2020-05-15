@@ -1,4 +1,4 @@
-{% extends 'layout/base.volt' %}
+{% extends '../layout/base.volt' %}
 
 {% block title %}Home{% endblock %}
 

@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function indexAction()
     {
 
-        $this->view->pick('home');
+        $this->view->pick('product/home');
 
     }
 
