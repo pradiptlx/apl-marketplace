@@ -11,7 +11,7 @@ class CreateUserAccountRequest
     protected string $password;
     protected string $email;
     protected string $address;
-    protected string $telp_no;
+    protected string $telp_number;
     protected ?string $status_user;
 
     public function __construct(
@@ -20,7 +20,7 @@ class CreateUserAccountRequest
         string $password,
         string $email,
         string $address,
-        string $telp_no,
+        string $telp_number,
         string $status_user = null
     )
     {
@@ -29,7 +29,7 @@ class CreateUserAccountRequest
         $this->password = $password;
         $this->email = $email;
         $this->address = $address;
-        $this->telp_no = $telp_no;
+        $this->telp_number = $telp_number;
         $this->status_user = $status_user;
 
     }
@@ -61,7 +61,7 @@ class CreateUserAccountRequest
 
     public function getTelp(): string
     {
-        return $this->telp_no;
+        return $this->telp_number;
     }
 
     public function getStatusUser(): ?string

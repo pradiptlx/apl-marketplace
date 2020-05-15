@@ -39,6 +39,7 @@ class UserController extends Controller
             $password = $request->getPost('password', 'string');
 
 
+
         }
 
         $this->view->setVar('title', 'Login Page');
@@ -57,17 +58,17 @@ class UserController extends Controller
             $password = $request->getPost('password', 'string');
             $email = $request->getPost('email', 'email');
             $address = $request->getPost('address');
-            $telp_no = $request->getPost('telp_no', 'string');
+            $telp_number = $request->getPost('area_code', 'string'). $request->getPost('telp_no', 'string');
             $status_user = $request->getPost('status_user', 'string');
 
 
             $userRequest = new CreateUserAccountRequest(
                 $username,
                 $fullname,
-                $password,
+                password_hash($password, PASSWORD_BCRYPT),
                 $email,
                 $address,
-                $telp_no,
+                $telp_number,
                 strtoupper($status_user)
             );
 

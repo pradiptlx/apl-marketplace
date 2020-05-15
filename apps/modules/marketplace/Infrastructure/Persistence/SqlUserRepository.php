@@ -4,13 +4,10 @@
 namespace Dex\Marketplace\Infrastructure\Persistence;
 
 
-use Dex\Marketplace\Domain\Exception\InvalidEmailDomainException;
-use Dex\Marketplace\Domain\Exception\InvalidUsernameDomainException;
 use Dex\Marketplace\Domain\Model\User;
 use Dex\Marketplace\Domain\Model\UserId;
 use Dex\Marketplace\Domain\Repository\UserRepository;
 use Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord;
-use Phalcon\Db\Adapter\Pdo\Sqlsrv;
 use Phalcon\Mvc\Model\Transaction\Failed;
 use Phalcon\Mvc\Model\Transaction\Manager;
 
@@ -26,7 +23,7 @@ class SqlUserRepository implements UserRepository
             $record->password,
             $record->email,
             $record->address,
-            $record->no_telp,
+            $record->telp_number,
             $record->status_user
         );
     }
@@ -67,12 +64,12 @@ class SqlUserRepository implements UserRepository
 
     public function save(User $user)
     {
-        if ($this->isUsernameAlreadyExist($user->getUsername()))
-            return new InvalidUsernameDomainException(
-                'Username already taken');
-        if($this->isEmailAlreadyExist($user->getEmail()))
-            return new InvalidEmailDomainException(
-                'Email already registered');
+//        if ($this->isUsernameAlreadyExist($user->getUsername()))
+//            return new InvalidUsernameDomainException(
+//                'Username already taken');
+//        if($this->isEmailAlreadyExist($user->getEmail()))
+//            return new InvalidEmailDomainException(
+//                'Email already registered');
 
         $trans = (new Manager())->get();
 
@@ -84,7 +81,7 @@ class SqlUserRepository implements UserRepository
             $userModel->password = $user->getPassword();
             $userModel->email = $user->getEmail();
             $userModel->address = $user->getAddress();
-            $userModel->no_telp = $user->getTelp();
+            $userModel->telp_number = $user->getTelp();
             $userModel->status_user = $user->getStatusUser();
             $userModel->created_at = (new \DateTime())->format('Y-m-d H:i:s');
             $userModel->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
@@ -96,11 +93,12 @@ class SqlUserRepository implements UserRepository
                 return $user;
             } else {
                 $trans->rollback();
-
+                var_dump($userModel->getMessages());
+                die();
                 throw new Failed('Failed save new user');
             }
         } catch (Failed $exception) {
-            return new \Exception('Error');
+            return new \Exception($exception->getMessage());
         }
 
     }

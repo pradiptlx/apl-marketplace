@@ -7,7 +7,7 @@ namespace Dex\Marketplace\Application\CreateUserAccount;
 use Dex\Marketplace\Domain\Exception\InvalidEmailDomainException;
 use Dex\Marketplace\Domain\Exception\InvalidUsernameDomainException;
 use Dex\Marketplace\Domain\Model\User;
-use Dex\marketplace\domain\Model\UserId;
+use Dex\Marketplace\Domain\Model\UserId;
 use Dex\Marketplace\Domain\Repository\UserRepository;
 use Phalcon\Mvc\Model\Transaction\Failed;
 
@@ -23,6 +23,11 @@ class CreateUserAccountService extends \Phalcon\Di\Injectable
 
     public function execute(CreateUserAccountRequest $userAccountRequest): CreateUserAccountResponse
     {
+
+        if (!$userAccountRequest->getStatusUser() == User::$SELLER
+            || !$userAccountRequest->getStatusUser() == User::$BUYER)
+            return new CreateUserAccountResponse(null, 'User Type Not Found', 403, true);
+
         try {
             $userModel = new User(
                 new UserId(),

@@ -18,8 +18,10 @@ class ProductRecord extends Model
     public ?int $wishlist_counter;
     public string $user_id;
 
-    public function initialize(){
+    public function initialize()
+    {
         $this->setConnectionService('db');
+        $this->setSchema('dbo');
         $this->setSource('product');
 
         $this->belongsTo('user_id', UserRecord::class, 'id');

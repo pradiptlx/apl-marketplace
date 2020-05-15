@@ -14,6 +14,7 @@ class WishlistRecord extends Model
 
     public function initialize()
     {
+        $this->setConnectionService('db');
         $this->setSchema('dbo');
         $this->setSource('wishlist');
 

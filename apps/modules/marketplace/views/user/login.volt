@@ -11,7 +11,8 @@
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
-                <form class="login100-form validate-form flex-sb flex-w">
+                <form class="login100-form validate-form flex-sb flex-w"
+                      method="post" action="{{ url('/marketplace/user/login') }}">
 					<span class="login100-form-title p-b-32">
 						Account Login
 					</span>
@@ -31,7 +32,7 @@
 						<span class="btn-show-pass">
 							<i class="fa fa-eye"></i>
 						</span>
-                        <input class="input100" type="password" name="pass" >
+                        <input class="input100" type="password" name="password" >
                         <span class="focus-input100"></span>
                     </div>
 
@@ -50,11 +51,13 @@
                         </div>
                     </div>
 
-                    <div class="container-login100-form-btn">
-                        <button class="login100-form-btn">
-                            Login
-                        </button>
-                    </div>
+                    <button class="btn btn-primary" type="submit">
+                        Login
+                    </button>
+
+                    <a type="button" href="{{ url('/marketplace/user/register') }}" class="btn btn-outline-primary float-right">
+                        Register
+                    </a>
 
                 </form>
             </div>

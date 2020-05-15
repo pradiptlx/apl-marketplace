@@ -15,7 +15,7 @@ class UserRecord extends Model
     public string $password;
     public string $email;
     public string $address;
-    public string $no_telp;
+    public string $telp_number;
     public string $status_user;
     public string $created_at;
     public string $updated_at;
@@ -23,9 +23,11 @@ class UserRecord extends Model
     public function initialize()
     {
         $this->setConnectionService('db');
-        $this->setSource('user');
+        $this->setSchema('dbo');
+        $this->setSource('users');
 
-//        $this->hasOne('cart', CartRecord::class, 'id');
+        $this->hasOne('id', CartRecord::class, 'user_id');
+        $this->hasMany('id', ProductRecord::class, 'user_id');
     }
 
 }

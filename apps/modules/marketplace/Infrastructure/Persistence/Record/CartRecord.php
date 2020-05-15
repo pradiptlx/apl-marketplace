@@ -16,6 +16,7 @@ class CartRecord extends Model
     public function initialize()
     {
         $this->setConnectionService('db');
+        $this->setSchema('dbo');
         $this->setSource('cart');
 
         $this->belongsTo('product_id', ProductRecord::class, 'id');

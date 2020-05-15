@@ -12,7 +12,7 @@ class User
     protected string $password;
     protected string $email;
     protected string $address;
-    protected string $telp_no;
+    protected string $telp_number;
     protected string $status_user;
     protected string $created_at;
     protected string $updated_at;
@@ -24,7 +24,7 @@ class User
     public function __construct(
         UserId $id, string $username, string $fullname,
         string $password, string $email, string $address,
-        string $telp_no, string $status = self::STATUS_USER
+        string $telp_number, string $status = self::STATUS_USER
     )
     {
         $this->id = $id;
@@ -33,7 +33,7 @@ class User
         $this->password = $password;
         $this->email = $email;
         $this->address = $address;
-        $this->telp_no = $telp_no;
+        $this->telp_number = $telp_number;
         $this->status_user = $status;
     }
 
@@ -69,7 +69,7 @@ class User
 
     public function getTelp(): string
     {
-        return $this->telp_no;
+        return $this->telp_number;
     }
 
     public function getStatusUser(): string
@@ -109,7 +109,7 @@ class User
 
     public function setTelp(string $telp)
     {
-        $this->telp_no = $telp;
+        $this->telp_number = $telp;
     }
 
     public function changeStatusUser()

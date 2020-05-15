@@ -31,7 +31,7 @@ create unique index product_id_uindex
     on product (id)
 go
 
-create table [user]
+create table users
 (
     id          uniqueidentifier not null
         primary key,
@@ -48,19 +48,19 @@ create table [user]
 go
 
 create unique index User_id_uindex
-    on [user] (id)
+    on users (id)
 go
 
 create unique index User_username_uindex
-    on [user] (username)
+    on users (username)
 go
 
 create unique index User_email_uindex
-    on [user] (email)
+    on users (email)
 go
 
 create unique index user_telp_number_uindex
-    on [user] (telp_number)
+    on users (telp_number)
 go
 
 
