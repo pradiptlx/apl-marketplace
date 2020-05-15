@@ -3,12 +3,8 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block css %}
-    <!-- Icons font CSS-->
     <link href="{{ static_url('vendor/mdi-font/css/material-design-iconic-font.min.css') }}" rel="stylesheet" media="all">
-    <!-- Font special for pages-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
-
-    <!-- Main CSS-->
     <link href="{{ static_url('/assets/css/register/main.css') }}" rel="stylesheet" media="all">
 {% endblock %}
 
