@@ -18,9 +18,14 @@ class UserController extends Controller
         // TODO: CREATE SERVICE
         $this->createUserAccountService = $this->di->get('createUserAccountService');
 
+        if($this->session->has('username') && $this->session->has('fullname')){
+            $this->view->setVar('username', $this->session->get('username'));
+            $this->view->setVar('fullname', $this->session->get('fullname'));
+        }
     }
 
-    public function indexAction(){
+    public function indexAction()
+    {
         $this->dispatcher->forward([
             'namespace' => 'Dex\Marketplace\Presentation\Controllers\Web',
             'module' => 'marketplace',
@@ -37,7 +42,6 @@ class UserController extends Controller
         if ($request->isPost()) {
             $username = $request->getPost('username', 'string');
             $password = $request->getPost('password', 'string');
-
 
 
         }
@@ -58,7 +62,7 @@ class UserController extends Controller
             $password = $request->getPost('password', 'string');
             $email = $request->getPost('email', 'email');
             $address = $request->getPost('address');
-            $telp_number = $request->getPost('area_code', 'string'). $request->getPost('telp_no', 'string');
+            $telp_number = $request->getPost('area_code', 'string') . $request->getPost('telp_no', 'string');
             $status_user = $request->getPost('status_user', 'string');
 
 
@@ -83,5 +87,23 @@ class UserController extends Controller
         $this->view->setVar('title', 'Register Page');
         return $this->view->pick('user/register');
     }
+
+    public function logoutAction()
+    {
+        if ($this->session->has('user_id')) {
+            $this->session->remove('user_id');
+        }
+        if ($this->session->has('username')) {
+            $this->session->remove('username');
+        }
+        if ($this->session->has('fullname')) {
+            $this->session->remove('fullname');
+        }
+
+        $this->flashSession->success('Logout success');
+        return $this->response->redirect('/');
+
+    }
+
 
 }

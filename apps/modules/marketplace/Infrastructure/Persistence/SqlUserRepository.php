@@ -4,6 +4,8 @@
 namespace Dex\Marketplace\Infrastructure\Persistence;
 
 
+use Dex\Marketplace\Domain\Exception\InvalidEmailDomainException;
+use Dex\Marketplace\Domain\Exception\InvalidUsernameDomainException;
 use Dex\Marketplace\Domain\Model\User;
 use Dex\Marketplace\Domain\Model\UserId;
 use Dex\Marketplace\Domain\Repository\UserRepository;
@@ -64,12 +66,12 @@ class SqlUserRepository implements UserRepository
 
     public function save(User $user)
     {
-//        if ($this->isUsernameAlreadyExist($user->getUsername()))
-//            return new InvalidUsernameDomainException(
-//                'Username already taken');
-//        if($this->isEmailAlreadyExist($user->getEmail()))
-//            return new InvalidEmailDomainException(
-//                'Email already registered');
+        if ($this->isUsernameAlreadyExist($user->getUsername()))
+            return new InvalidUsernameDomainException(
+                'Username already taken');
+        if($this->isEmailAlreadyExist($user->getEmail()))
+            return new InvalidEmailDomainException(
+                'Email already registered');
 
         $trans = (new Manager())->get();
 

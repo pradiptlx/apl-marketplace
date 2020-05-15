@@ -12,6 +12,10 @@ class ProductController extends Controller
     public function initialize()
     {
 
+        if($this->session->has('username') && $this->session->has('fullname')){
+            $this->view->setVar('username', $this->session->get('username'));
+            $this->view->setVar('fullname', $this->session->get('fullname'));
+        }
     }
 
     public function indexAction()
