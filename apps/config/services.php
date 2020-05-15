@@ -56,6 +56,8 @@ $di['dispatcher'] = function () use ($di, $defaultModule) {
             if ($exception instanceof \Phalcon\Mvc\Dispatcher\Exception) {
                 $dispatcher->forward(
                     [
+                        'namespace' => 'Dex\Marketplace\Presentation\Controllers\Web',
+                        'module' => 'marketplace',
                         'controller' => 'index',
                         'action' => 'fourOhFour',
                     ]

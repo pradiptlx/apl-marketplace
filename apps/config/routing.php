@@ -20,7 +20,7 @@ $di['router'] = function () use ($defaultModule, $modules, $di, $config) {
     $router->add('/', [
         'namespace' => $modules[$defaultModule]['webControllerNamespace'],
         'module' => $defaultModule,
-        'controller' => isset($modules[$defaultModule]['defaultController']) ? $modules[$defaultModule]['defaultController'] : 'index',
+        'controller' => isset($modules[$defaultModule]['defaultController']) ? $modules[$defaultModule]['defaultController'] : 'product',
         'action' => isset($modules[$defaultModule]['defaultAction']) ? $modules[$defaultModule]['defaultAction'] : 'index'
     ]);
 

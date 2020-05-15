@@ -8,9 +8,9 @@ return array(
         'className' => 'Dex\Marketplace\Module',
         'path' => APP_PATH . '/modules/marketplace/Module.php',
         'userDefinedRouting' => true,
-        'defaultRouting' => false,
-        'defaultController' => 'user',
-        'defaultAction' => 'login',
+        'defaultRouting' => true,
+        'defaultController' => 'product',
+        'defaultAction' => 'index',
     ],
 
 );

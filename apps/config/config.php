@@ -9,12 +9,12 @@ return new Config(
         'url' => [
             'baseUrl' => getenv('BASE_URL'),
         ],
-        
+
         'application' => [
             'libraryDir' => APP_PATH . "/lib/",
             'cacheDir' => APP_PATH . "/cache/",
         ],
 
-        'version' => '0.1',
+        'version' => '1.0',
     ]
 );

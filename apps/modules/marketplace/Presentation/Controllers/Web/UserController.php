@@ -15,9 +15,18 @@ class UserController extends Controller
 
     public function initialize()
     {
+        // TODO: CREATE SERVICE
+//        $this->createUserAccountService = $this->di->get('createUserAccountService');
 
-        $this->createUserAccountService = $this->di->get('createUserAccountService');
+    }
 
+    public function indexAction(){
+        $this->dispatcher->forward([
+            'namespace' => 'Dex\Marketplace\Presentation\Controllers\Web',
+            'module' => 'marketplace',
+            'controller' => 'user',
+            'action' => 'login'
+        ]);
     }
 
     public function loginAction()
