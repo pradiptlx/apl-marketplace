@@ -23,9 +23,12 @@ $di['voltServiceMail'] = function($view) use ($di) {
     $compileAlways = $config->mode == 'DEVELOPMENT';
 
     $volt->setOptions(array(
-        "compiledPath" => $config->mail->cacheDir,
-        "compiledExtension" => ".compiled",
-        "compileAlways" => $compileAlways
+        'always' => $compileAlways,
+        'extension' => '.php',
+        'separator' => '_',
+        'stat' => true,
+        'path' => $config->application->cacheDir,
+        'prefix' => '-prefix-',
     ));
     return $volt;
 };

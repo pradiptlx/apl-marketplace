@@ -34,7 +34,7 @@ class UserController extends Controller
         $this->view->setVar('title', 'Login Page');
         //TODO: Collection CSS/JS
 
-        $this->view->pick('user/login');
+        $this->view->pick('home');
     }
 
     public function registerAction()

@@ -29,9 +29,9 @@ $di['router'] = function () use ($defaultModule, $modules, $di, $config) {
      */
     $router->notFound(
         [
-            'namespace' => 'Phalcon\Init\Common\Controllers',
-            'controller' => 'base',
-            'action' => 'route404',
+            'namespace' => 'Dex\Marketplace\Presentation\Controllers\Web',
+            'controller' => 'index',
+            'action' => 'fourOhFour',
         ]
     );
 
@@ -120,6 +120,9 @@ $di['router'] = function () use ($defaultModule, $modules, $di, $config) {
     }
 
     $router->removeExtraSlashes(true);
+
+//    var_dump($router);
+//    die();
 
     return $router;
 };

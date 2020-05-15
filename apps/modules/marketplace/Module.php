@@ -35,7 +35,7 @@ class Module implements ModuleDefinitionInterface
         $di->get('config')->merge($moduleConfig);
 
         include_once __DIR__ . '/config/services.php';
-        include_once  __DIR__ . '/config/register-events.php';
+//        include_once  __DIR__ . '/config/register-events.php';
     }
 
 }

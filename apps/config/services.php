@@ -1,9 +1,12 @@
 <?php
 
-use Dex\Marketplace\Application\SwiftMailer;
+use Dex\Marketplace\Infrastructure\Transport\SwiftMailer;
 use Phalcon\Config;
 use Phalcon\Escaper;
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
 use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Mvc\ViewInterface;
 use Phalcon\Url;
 use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Session\Adapter\Stream as SessionAdapter;
@@ -44,7 +47,25 @@ $di->setShared('session', function () {
  */
 $di['dispatcher'] = function () use ($di, $defaultModule) {
 
-    $eventsManager = $di->getShared('eventsManager');
+    $eventsManager = new Manager();
+
+    $eventsManager->attach(
+        'dispatch:beforeException',
+        function (Event $event, $dispatcher, Exception $exception) {
+            // 404
+            if ($exception instanceof \Phalcon\Mvc\Dispatcher\Exception) {
+                $dispatcher->forward(
+                    [
+                        'controller' => 'index',
+                        'action' => 'fourOhFour',
+                    ]
+                );
+
+            }
+            return false;
+        }
+    );
+
     $dispatcher = new Dispatcher();
     $dispatcher->setEventsManager($eventsManager);
 
@@ -59,7 +80,7 @@ $di['url'] = function () use ($config, $di) {
     return $url;
 };
 
-$di['voltService'] = function ($view, $di) use ($config) {
+$di['voltService'] = function (ViewInterface $view) use ($di, $config) {
     $volt = new Volt($view, $di);
     if (!is_dir($config->application->cacheDir)) {
         mkdir($config->application->cacheDir);
@@ -68,9 +89,12 @@ $di['voltService'] = function ($view, $di) use ($config) {
     $compileAlways = $config->mode == 'DEVELOPMENT';
 
     $volt->setOptions(array(
-        "compiledPath" => $config->application->cacheDir,
-        "compiledExtension" => ".compiled",
-        "compileAlways" => $compileAlways
+        'always' => $compileAlways,
+        'extension' => '.php',
+        'separator' => '_',
+        'stat' => true,
+        'path' => $config->application->cacheDir,
+        'prefix' => '-prefix-',
     ));
     return $volt;
 };
