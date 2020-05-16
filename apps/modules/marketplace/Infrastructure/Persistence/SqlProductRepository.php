@@ -124,7 +124,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
         $productRecord->stock = $product->getStock();
         $productRecord->price = $product->getPrice();
         $productRecord->wishlist_counter = $product->getWishlistCounter();
-        $productRecord->user_id = $product->getSeller()->getId();
+        $productRecord->user_id = $product->getSellerId()->getId();
 
         if ($productRecord->save()) {
             $transx->commit();

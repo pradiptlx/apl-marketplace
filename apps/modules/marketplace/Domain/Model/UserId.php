@@ -15,7 +15,7 @@ class UserId
         $this->id = $id ?: Uuid::uuid4()->toString();
     }
 
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }

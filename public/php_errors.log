@@ -1,0 +1,43 @@
+[16-May-2020 16:52:59 Asia/Jakarta] PHP Notice:  Trying to get property 'username' of non-object in /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Infrastructure/Persistence/SqlUserRepository.php on line 37
+[16-May-2020 16:52:59 Asia/Jakarta] PHP Stack trace:
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   1. {main}() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/public/index.php:0
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   2. Bootstrap->init() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/public/index.php:22
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   3. Bootstrap->handle() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   4. Phalcon\Mvc\Dispatcher->dispatch() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   5. Phalcon\Mvc\Dispatcher->callActionMethod() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   6. Dex\Marketplace\Presentation\Controllers\Web\UserController->registerAction() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   7. Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService->execute() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Presentation/Controllers/Web/UserController.php:101
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   8. Dex\Marketplace\Infrastructure\Persistence\SqlUserRepository->save() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Application/CreateUserAccount/CreateUserAccountService.php:43
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   9. Dex\Marketplace\Infrastructure\Persistence\SqlUserRepository->isUsernameAlreadyExist() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Infrastructure/Persistence/SqlUserRepository.php:77
+[16-May-2020 16:52:59 Asia/Jakarta] PHP Notice:  Trying to get property 'email' of non-object in /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Infrastructure/Persistence/SqlUserRepository.php on line 47
+[16-May-2020 16:52:59 Asia/Jakarta] PHP Stack trace:
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   1. {main}() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/public/index.php:0
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   2. Bootstrap->init() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/public/index.php:22
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   3. Bootstrap->handle() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   4. Phalcon\Mvc\Dispatcher->dispatch() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   5. Phalcon\Mvc\Dispatcher->callActionMethod() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   6. Dex\Marketplace\Presentation\Controllers\Web\UserController->registerAction() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   7. Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService->execute() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Presentation/Controllers/Web/UserController.php:101
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   8. Dex\Marketplace\Infrastructure\Persistence\SqlUserRepository->save() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Application/CreateUserAccount/CreateUserAccountService.php:43
+[16-May-2020 16:52:59 Asia/Jakarta] PHP   9. Dex\Marketplace\Infrastructure\Persistence\SqlUserRepository->isEmailAlreadyExist() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Infrastructure/Persistence/SqlUserRepository.php:80
+[16-May-2020 21:24:26 Asia/Jakarta] PHP Notice:  Undefined variable: title in /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/cache/-prefix-_mnt_e_kuliah_semester 6_apl_fp_apl-marketplace_apps_modules_marketplace_views_seller_dashboard.volt.php on line 4
+[16-May-2020 21:24:26 Asia/Jakarta] PHP Stack trace:
+[16-May-2020 21:24:26 Asia/Jakarta] PHP   1. {main}() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/public/index.php:0
+[16-May-2020 21:24:26 Asia/Jakarta] PHP   2. Bootstrap->init() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/public/index.php:22
+[16-May-2020 21:24:26 Asia/Jakarta] PHP   3. Bootstrap->handle() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 21:24:26 Asia/Jakarta] PHP   4. Phalcon\Mvc\View->render() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 21:24:26 Asia/Jakarta] PHP   5. Phalcon\Mvc\View->processRender() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 21:24:26 Asia/Jakarta] PHP   6. Phalcon\Mvc\View->engineRender() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 21:24:26 Asia/Jakarta] PHP   7. Phalcon\Mvc\View\Engine\Volt->render() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 21:24:26 Asia/Jakarta] PHP   8. Phalcon\Mvc\View\Engine\Volt->render() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 23:46:41 Asia/Jakarta] PHP Notice:  Undefined variable: userRepository in /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Application/CreateProduct/CreateProductService.php on line 21
+[16-May-2020 23:46:41 Asia/Jakarta] PHP Stack trace:
+[16-May-2020 23:46:41 Asia/Jakarta] PHP   1. {main}() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/public/index.php:0
+[16-May-2020 23:46:41 Asia/Jakarta] PHP   2. Bootstrap->init() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/public/index.php:22
+[16-May-2020 23:46:41 Asia/Jakarta] PHP   3. Bootstrap->handle() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 23:46:41 Asia/Jakarta] PHP   4. Phalcon\Mvc\Dispatcher->dispatch() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 23:46:41 Asia/Jakarta] PHP   5. Dex\Marketplace\Presentation\Controllers\Web\ProductController->initialize() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/Bootstrap.php:35
+[16-May-2020 23:46:41 Asia/Jakarta] PHP   6. Phalcon\Di\FactoryDefault->get() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Presentation/Controllers/Web/ProductController.php:30
+[16-May-2020 23:46:41 Asia/Jakarta] PHP   7. Phalcon\Di\Service->resolve() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Presentation/Controllers/Web/ProductController.php:30
+[16-May-2020 23:46:41 Asia/Jakarta] PHP   8. Phalcon\Di\FactoryDefault->{closure:/mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/config/services.php:142-146}() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/Presentation/Controllers/Web/ProductController.php:30
+[16-May-2020 23:46:41 Asia/Jakarta] PHP   9. Dex\Marketplace\Application\CreateProduct\CreateProductService->__construct() /mnt/e/Kuliah/semester 6/apl/fp/apl-marketplace/apps/modules/marketplace/config/services.php:144

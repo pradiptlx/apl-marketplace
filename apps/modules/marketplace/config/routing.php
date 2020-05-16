@@ -32,5 +32,4 @@ $router->addPost('/marketplace/rate', [
     'action' => 'rate'
 ]);
 
-
 return $router;

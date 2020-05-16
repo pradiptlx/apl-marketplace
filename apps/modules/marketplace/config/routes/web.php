@@ -17,3 +17,13 @@ $router->add(
     ]
 );
 
+$router->add(
+    '/seller',
+    [
+    'namespace' => $module['webControllerNamespace'],
+    'module' => $marketplace,
+    'controller' => 'seller',
+    'action' => 'index'
+    ]
+);
+

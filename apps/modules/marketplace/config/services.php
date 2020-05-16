@@ -1,6 +1,7 @@
 <?php
 
 use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerService;
+use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
 use Dex\Marketplace\Application\LoginUser\LoginUserService;
@@ -138,3 +139,9 @@ $di->set('loginUserService', function () use($di){
     );
 });
 
+$di->set('createProductSerivce', function () use($di){
+    return new CreateProductService(
+        $di->get('sqlProductRepository'),
+        $di->get('sqlUserRepository')
+    );
+});

@@ -3,11 +3,15 @@
 
 namespace Dex\Marketplace\Presentation\Controllers\Web;
 
-
+use Dex\Marketplace\Application\CreateProduct\CreateProductRequest;
+use Dex\Marketplace\Application\CreateProduct\CreateProductService;
+use Dex\Marketplace\Application\LoginUser\LoginUserRequest;
 use Phalcon\Mvc\Controller;
 
 class ProductController extends Controller
 {
+
+    private CreateProductService $createProductSerivce;
 
     public function initialize()
     {
@@ -23,12 +27,11 @@ class ProductController extends Controller
             $this->view->setVar('fullname', $this->session->get('fullname'));
         }
 
-
+        $this->createProductSerivce = $this->di->get('createProductSerivce');
     }
 
     public function indexAction()
     {
-
         $this->view->pick('product/home');
 
     }
@@ -42,7 +45,38 @@ class ProductController extends Controller
 
     public function createProductAction()
     {
+        $request = $this->request;
 
+        if ($request->isPost()) {
+            $productName = $request->getPost('productName', 'string');
+            $stok = $request->getPost('stok');
+            $price = $request->getPost('price');
+            $description = $request->getPost('description');
+            $sellerId = strval($this->session->get('user_id'));
+
+
+            $request = new CreateProductRequest(
+                $sellerId, 
+                $price, 
+                $description, 
+                $stok, 
+                $productName
+            );
+
+            $response = $this->createProductSerivce->execute($request);
+
+            $response->getError() ?
+                $this->flashSession->error($response->getMessage())
+                :
+                $this->flashSession->success($response->getMessage());
+
+            return $this->response->redirect('/');
+        }
+
+        $this->view->setVar('title', 'Create Product');
+        // //TODO: Collection CSS/JS
+
+        $this->view->pick('product/create');
     }
 
     public function deleteProductAction()
