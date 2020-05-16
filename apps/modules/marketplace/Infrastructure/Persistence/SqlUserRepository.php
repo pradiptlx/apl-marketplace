@@ -64,12 +64,20 @@ class SqlUserRepository implements UserRepository
         return $this->parsingRecord($userRecord);
     }
 
+    public function byUsername(string $username): ?User
+    {
+        $userRecord = UserRecord::findFirstByUsername($username);
+
+        return $this->parsingRecord($userRecord);
+    }
+
+
     public function save(User $user)
     {
         if ($this->isUsernameAlreadyExist($user->getUsername()))
             return new InvalidUsernameDomainException(
                 'Username already taken');
-        if($this->isEmailAlreadyExist($user->getEmail()))
+        if ($this->isEmailAlreadyExist($user->getEmail()))
             return new InvalidEmailDomainException(
                 'Email already registered');
 
@@ -149,11 +157,11 @@ class SqlUserRepository implements UserRepository
         $trans = (new Manager())->get();
 
         $userModel = new UserRecord();
-        foreach ($datas as $data => $val){
+        foreach ($datas as $data => $val) {
             $userModel->$data = $val;
         }
 
-        if($userModel->update()){
+        if ($userModel->update()) {
             $trans->commit();
 
             return true;

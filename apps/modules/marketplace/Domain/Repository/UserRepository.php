@@ -21,6 +21,8 @@ interface UserRepository
 
     public function byEmail(string $email): ?User;
 
+    public function byUsername(string $username): ?User;
+
     public function setStatusUser(User $user, string $status = "");
 
     public function changeProfile(User $user, array $data = []);

@@ -6,19 +6,23 @@ namespace Dex\Marketplace\Presentation\Controllers\Web;
 
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountRequest;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
+use Dex\Marketplace\Application\LoginUser\LoginUserRequest;
+use Dex\Marketplace\Application\LoginUser\LoginUserService;
 use Phalcon\Mvc\Controller;
 
 class UserController extends Controller
 {
 
     private CreateUserAccountService $createUserAccountService;
+    private LoginUserService $loginUserService;
 
     public function initialize()
     {
         // TODO: CREATE SERVICE
         $this->createUserAccountService = $this->di->get('createUserAccountService');
+        $this->loginUserService = $this->di->get('loginUserService');
 
-        if($this->session->has('username') && $this->session->has('fullname')){
+        if ($this->session->has('username') && $this->session->has('fullname')) {
             $this->view->setVar('username', $this->session->get('username'));
             $this->view->setVar('fullname', $this->session->get('fullname'));
         }
@@ -42,8 +46,26 @@ class UserController extends Controller
         if ($request->isPost()) {
             $username = $request->getPost('username', 'string');
             $password = $request->getPost('password', 'string');
+            $rememberMe = $request->getPost('remember-me');
 
+            if(isset($rememberMe))
+                $rememberMe = true;
+            else
+                $rememberMe = false;
 
+            $request = new LoginUserRequest($username,
+                $password,
+                $rememberMe
+            );
+
+            $response = $this->loginUserService->execute($request);
+
+            $response->getError() ?
+                $this->flashSession->error($response->getMessage())
+                :
+                $this->flashSession->success($response->getMessage());
+
+            return $this->response->redirect('/');
         }
 
         $this->view->setVar('title', 'Login Page');

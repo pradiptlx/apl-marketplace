@@ -3,6 +3,7 @@
 use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerService;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
+use Dex\Marketplace\Application\LoginUser\LoginUserService;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerService;
 use Dex\Marketplace\Infrastructure\Persistence\SqlCartRepository;
 use Dex\Marketplace\Infrastructure\Persistence\SqlProductRepository;
@@ -127,6 +128,12 @@ $di->set('listItemsBuyerService', function () use($di){
 
 $di->set('createUserAccountService', function () use($di){
     return new CreateUserAccountService(
+        $di->get('sqlUserRepository')
+    );
+});
+
+$di->set('loginUserService', function () use($di){
+    return new LoginUserService(
         $di->get('sqlUserRepository')
     );
 });
