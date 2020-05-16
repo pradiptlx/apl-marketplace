@@ -112,6 +112,9 @@ class UserController extends Controller
 
     public function logoutAction()
     {
+        $this->cookies->set('rememberMe', null, time()-3600);
+        $this->cookies->delete('rememberMe');
+
         if ($this->session->has('user_id')) {
             $this->session->remove('user_id');
         }

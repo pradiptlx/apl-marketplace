@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function initialize()
     {
         if ($this->cookies->has('rememberMe')){
-            $rememberMe = json_decode($this->cookies->get('rememberMe'));
+            $rememberMe = json_decode(($this->cookies->get('rememberMe')->getValue()));
             $this->session->set('username', $rememberMe->username);
             $this->session->set('fullname', $rememberMe->fullname);
             $this->session->set('user_id', $rememberMe->user_id);
