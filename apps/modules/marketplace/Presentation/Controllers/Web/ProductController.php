@@ -28,6 +28,8 @@ class ProductController extends Controller
     public function detailProductAction()
     {
 
+        $this->view->setVar('title', 'Detail Page');
+        $this->view->pick('product/detail');
     }
 
     public function createProductAction()
