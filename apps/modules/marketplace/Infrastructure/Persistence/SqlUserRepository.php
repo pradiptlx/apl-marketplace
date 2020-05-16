@@ -103,8 +103,7 @@ class SqlUserRepository implements UserRepository
                 return $user;
             } else {
                 $trans->rollback();
-                var_dump($userModel->getMessages());
-                die();
+
                 throw new Failed('Failed save new user');
             }
         } catch (Failed $exception) {
