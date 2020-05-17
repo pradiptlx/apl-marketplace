@@ -12,7 +12,7 @@ interface ProductRepository
 {
     public function byId(ProductId $productId): ?Product;
 
-    public function bySellerId(UserId $userId): ?Product;
+    public function bySellerId(UserId $userId);
 
     public function getAll();
 
