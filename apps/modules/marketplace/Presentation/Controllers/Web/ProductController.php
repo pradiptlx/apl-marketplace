@@ -3,16 +3,12 @@
 
 namespace Dex\Marketplace\Presentation\Controllers\Web;
 
-<<<<<<< HEAD
 use Dex\Marketplace\Application\CreateProduct\CreateProductRequest;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
-use Dex\Marketplace\Application\LoginUser\LoginUserRequest;
-=======
-
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerRequest;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerService;
->>>>>>> 90fedeca0f5d36f76a478fb39a41e35ca97a36c6
+
 use Phalcon\Mvc\Controller;
 
 class ProductController extends Controller
@@ -20,7 +16,7 @@ class ProductController extends Controller
     private ListItemsBuyerService $listItemsBuyerService;
     private ShowItemDetailBuyerService $showItemDetailBuyerService;
 
-    private CreateProductService $createProductSerivce;
+    private CreateProductService $createProductService;
 
     public function initialize()
     {
@@ -39,7 +35,7 @@ class ProductController extends Controller
             $this->view->setVar('fullname', $this->session->get('fullname'));
         }
 
-        $this->createProductSerivce = $this->di->get('createProductSerivce');
+        $this->createProductService = $this->di->get('createProductService');
     }
 
     public function indexAction()
@@ -86,14 +82,14 @@ class ProductController extends Controller
 
 
             $request = new CreateProductRequest(
-                $sellerId, 
-                $price, 
-                $description, 
-                $stok, 
+                $sellerId,
+                $price,
+                $description,
+                $stok,
                 $productName
             );
 
-            $response = $this->createProductSerivce->execute($request);
+            $response = $this->createProductService->execute($request);
 
             $response->getError() ?
                 $this->flashSession->error($response->getMessage())
