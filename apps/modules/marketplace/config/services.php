@@ -139,7 +139,7 @@ $di->set('loginUserService', function () use($di){
     );
 });
 
-$di->set('createProductSerivce', function () use($di){
+$di->set('createProductService', function () use($di){
     return new CreateProductService(
         $di->get('sqlProductRepository'),
         $di->get('sqlUserRepository')

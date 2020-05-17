@@ -22,20 +22,21 @@ class ProductController extends Controller
     {
         $this->listItemsBuyerService = $this->di->get('listItemsBuyerService');
         $this->showItemDetailBuyerService = $this->di->get('showItemDetailBuyerService');
+        $this->createProductService = $this->di->get('createProductService');
 
-        if ($this->cookies->has('rememberMe')) {
-            $rememberMe = json_decode(($this->cookies->get('rememberMe')->getValue()));
-            $this->session->set('username', $rememberMe->username);
-            $this->session->set('fullname', $rememberMe->fullname);
-            $this->session->set('user_id', $rememberMe->user_id);
-        }
+//        if ($this->cookies->has('rememberMe')) {
+//            $rememberMe = json_decode(($this->cookies->get('rememberMe')->getValue()));
+//            $this->session->set('username', $rememberMe->username);
+//            $this->session->set('fullname', $rememberMe->fullname);
+//            $this->session->set('user_id', $rememberMe->user_id);
+//        }
 
         if ($this->session->has('username') && $this->session->has('fullname')) {
             $this->view->setVar('username', $this->session->get('username'));
             $this->view->setVar('fullname', $this->session->get('fullname'));
         }
 
-        $this->createProductService = $this->di->get('createProductService');
+//        $this->createProductService = $this->di->get('createProductService');
     }
 
     public function indexAction()
@@ -102,7 +103,7 @@ class ProductController extends Controller
         $this->view->setVar('title', 'Create Product');
         // //TODO: Collection CSS/JS
 
-        $this->view->pick('product/create');
+        return $this->view->pick('product/create');
     }
 
     public function deleteProductAction()
