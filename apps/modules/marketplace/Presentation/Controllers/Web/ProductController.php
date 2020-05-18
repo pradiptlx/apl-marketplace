@@ -6,6 +6,8 @@ namespace Dex\Marketplace\Presentation\Controllers\Web;
 use Dex\Marketplace\Application\CreateProduct\CreateProductRequest;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
+use Dex\Marketplace\Application\SearchProduct\SearchProductRequest;
+use Dex\Marketplace\Application\SearchProduct\SearchProductService;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerRequest;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerService;
 
@@ -15,28 +17,28 @@ class ProductController extends Controller
 {
     private ListItemsBuyerService $listItemsBuyerService;
     private ShowItemDetailBuyerService $showItemDetailBuyerService;
-
     private CreateProductService $createProductService;
+    private SearchProductService $searchProductService;
 
     public function initialize()
     {
         $this->listItemsBuyerService = $this->di->get('listItemsBuyerService');
         $this->showItemDetailBuyerService = $this->di->get('showItemDetailBuyerService');
         $this->createProductService = $this->di->get('createProductService');
+        $this->searchProductService = $this->di->get('searchProductService');
 
-//        if ($this->cookies->has('rememberMe')) {
-//            $rememberMe = json_decode(($this->cookies->get('rememberMe')->getValue()));
-//            $this->session->set('username', $rememberMe->username);
-//            $this->session->set('fullname', $rememberMe->fullname);
-//            $this->session->set('user_id', $rememberMe->user_id);
-//        }
+        if ($this->cookies->has('rememberMe')) {
+            $rememberMe = json_decode(($this->cookies->get('rememberMe')->getValue()));
+            $this->session->set('username', $rememberMe->username);
+            $this->session->set('fullname', $rememberMe->fullname);
+            $this->session->set('user_id', $rememberMe->user_id);
+        }
 
         if ($this->session->has('username') && $this->session->has('fullname')) {
             $this->view->setVar('username', $this->session->get('username'));
             $this->view->setVar('fullname', $this->session->get('fullname'));
         }
 
-//        $this->createProductService = $this->di->get('createProductService');
     }
 
     public function indexAction()
@@ -116,5 +118,15 @@ class ProductController extends Controller
 
     }
 
+    public function searchProductAction()
+    {
+        $keyword = $this->request->get('q');
+        $req = new SearchProductRequest($keyword);
+
+        $res = $this->searchProductService->execute($req);
+
+        return $this->response->setJsonContent($res->getData());
+
+    }
 
 }

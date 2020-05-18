@@ -8,6 +8,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
+                <form class="form-group mt-2" style="width: 30vh">
+                    <select id="searchProduct" class="search-ajax form-control mr-sm-2"></select>
+                </form>
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ url('/') }}">Home
                         <span class="sr-only">(current)</span>
@@ -15,9 +18,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
                 </li>
                 {% if username is defined and fullname is defined %}
                     <li class="nav-item dropdown">

@@ -181,6 +181,41 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
         return new Failed("Failed to delete product");
     }
 
+    public function searchProduct(string $keyword)
+    {
+        $productRecord = ProductRecord::find([
+            'conditions' => 'product_name LIKE :keyword:',
+            'bind' => [
+                'keyword' => '%'.$keyword.'$'
+            ]
+        ]);
+
+        $products = [];
+        foreach ($productRecord as $product) {
+            $products[] = new Product(
+                new ProductId($product->id),
+                $product->product_name,
+                $product->description,
+                $product->created_at,
+                $product->updated_at,
+                $product->stock,
+                $product->price,
+                $product->wishlist_counter,
+                new User(
+                    new UserId($product->user_id),
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
+                )
+            );
+        }
+
+        return $products;
+    }
+
     public function editProduct(ProductId $productId)
     {
         // TODO: Implement editProduct() method.
