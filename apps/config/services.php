@@ -108,7 +108,7 @@ $di['voltService'] = function (ViewInterface $view) use ($di, $config) {
         'separator' => '_',
         'stat' => true,
         'path' => $config->application->cacheDir,
-        'prefix' => '-prefix-',
+        'prefix' => 'cache',
     ));
     return $volt;
 };

@@ -166,7 +166,7 @@ class SqlUserRepository implements UserRepository
             return true;
         }
         $trans->rollback();
-        return new Failed((string)$trans->getMessages());
+        return new Failed((string)$trans->getMessages()[0]);
     }
 
 }
