@@ -1,16 +1,3 @@
-create table cart
-(
-    id         varchar(150) not null,
-    product_id varchar(150) not null,
-    user_id    varchar(150) not null,
-    created_at datetime     not null
-)
-go
-
-create unique index cart_id_uindex
-    on cart (id)
-go
-
 create table product
 (
     id               varchar(150)          not null
@@ -47,6 +34,37 @@ create table users
 )
 go
 
+create table cart
+(
+    id         varchar(150)     not null,
+    product_id varchar(150)     not null
+        constraint cart_product_id_fk
+            references product,
+    user_id    uniqueidentifier not null
+        constraint cart_users_id_fk
+            references users,
+    created_at datetime         not null
+)
+go
+
+create unique index cart_id_uindex
+    on cart (id)
+go
+
+create table transaction_product
+(
+    id         uniqueidentifier not null
+        constraint transaction_product_pk
+            primary key nonclustered,
+    product_id varchar(150)     not null
+        constraint transaction_product_product_id_fk
+            references product,
+    user_id    uniqueidentifier not null
+        constraint transaction_product_users_id_fk
+            references users
+)
+go
+
 create unique index User_id_uindex
     on users (id)
 go
@@ -61,6 +79,20 @@ go
 
 create unique index user_telp_number_uindex
     on users (telp_number)
+go
+
+create table wishlist
+(
+    id         uniqueidentifier not null
+        constraint wishlist_pk
+            primary key nonclustered,
+    product_id varchar(150)     not null
+        constraint wishlist_product_id_fk
+            references product,
+    user_id    uniqueidentifier not null
+        constraint wishlist_users_id_fk
+            references users
+)
 go
 
 
