@@ -26,9 +26,11 @@ class UserController extends Controller
         $this->loginUserService = $this->di->get('loginUserService');
         $this->forgotPasswordUserService = $this->di->get('forgotPasswordUserService');
 
-        if ($this->session->has('username') && $this->session->has('fullname')) {
+        if ($this->session->has('username') && $this->session->has('fullname')
+            && $this->session->has('status_user')) {
             $this->view->setVar('username', $this->session->get('username'));
             $this->view->setVar('fullname', $this->session->get('fullname'));
+            $this->view->setVar('status_user', $this->session->get('status_user'));
         }
     }
 
@@ -63,9 +65,10 @@ class UserController extends Controller
 
             $response = $this->loginUserService->execute($request);
 
-            $response->getError() ?
-                $this->flashSession->error($response->getMessage())
-                :
+            if ($response->getError()) {
+                $this->flashSession->error($response->getMessage());
+                return $this->response->redirect('/marketplace/user/login');
+            } else
                 $this->flashSession->success($response->getMessage());
 
             return $this->response->redirect('/');
@@ -115,16 +118,16 @@ class UserController extends Controller
 
     public function forgotPasswordAction()
     {
-        if($this->request->isPost()){
+        if ($this->request->isPost()) {
             $email = $this->request->getPost('email', 'email');
 
             $req = new ForgotPasswordUserRequest($email);
 
             $res = $this->forgotPasswordUserService->execute($req);
 
-            if($res->getError()){
+            if ($res->getError()) {
                 $this->flashSession->error($res->getMessage());
-            }else{
+            } else {
                 $this->flashSession->success($res->getMessage());
                 return $this->response->redirect('/marketplace/user/verifyToken');
             }
@@ -136,16 +139,16 @@ class UserController extends Controller
 
     public function verifyTokenAction()
     {
-        if($this->request->isPost()){
+        if ($this->request->isPost()) {
             $token = $this->request->getPost('token');
 
             $req = new ForgotPasswordUserRequest('', true, $token);
 
             $res = $this->forgotPasswordUserService->execute($req);
 
-            if($res->getError()){
+            if ($res->getError()) {
                 $this->flashSession->error($res->getMessage());
-            }else{
+            } else {
                 $this->session->set('resetPassword', true);
                 return $this->response->redirect('/marketplace/user/resetPassword');
             }
@@ -154,19 +157,20 @@ class UserController extends Controller
         }
 
         $this->view->setVar('title', 'Verify Token');
-        return$this->view->pick('user/verify');
+        return $this->view->pick('user/verify');
     }
 
-    public function resetPasswordAction(){
+    public function resetPasswordAction()
+    {
 
-        if($this->request->isPost()){
+        if ($this->request->isPost()) {
             $password = $this->request->getPost('password');
             $req = new ForgotPasswordUserRequest($this->session->get('email')
                 , false, null, true, $password);
 
             $res = $this->forgotPasswordUserService->execute($req);
 
-            if($res->getError()){
+            if ($res->getError()) {
                 $this->flashSession->error($res->getMessage());
                 return $this->response->redirect('/');
             }

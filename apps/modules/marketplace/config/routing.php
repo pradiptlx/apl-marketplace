@@ -4,7 +4,7 @@ $namespace = 'Dex\Marketplace\Presentation\Controllers\Web';
 $module = 'marketplace';
 
 /** @var Phalcon\Mvc\Router $router */
-$router->addGet('/marketplace/add', [
+/*$router->addGet('/marketplace/add', [
     'namespace' => $namespace,
     'module' => $module,
     'controller' => 'marketplace',
@@ -30,6 +30,6 @@ $router->addPost('/marketplace/rate', [
     'module' => $module,
     'controller' => 'marketplace',
     'action' => 'rate'
-]);
+]);*/
 
 return $router;

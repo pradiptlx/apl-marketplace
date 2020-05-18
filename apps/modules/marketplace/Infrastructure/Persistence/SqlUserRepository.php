@@ -68,6 +68,9 @@ class SqlUserRepository implements UserRepository
     {
         $userRecord = UserRecord::findFirstByUsername($username);
 
+        if(!isset($userRecord))
+            return null;
+
         return $this->parsingRecord($userRecord);
     }
 
