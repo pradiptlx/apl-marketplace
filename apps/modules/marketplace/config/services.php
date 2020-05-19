@@ -4,6 +4,7 @@ use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerSer
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
 use Dex\Marketplace\Application\ForgotPasswordUser\ForgotPasswordUserService;
+use Dex\Marketplace\Application\GetProductBySellerId\GetProductBySellerIdService;
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
 use Dex\Marketplace\Application\LoginUser\LoginUserService;
 use Dex\Marketplace\Application\SearchProduct\SearchProductService;
@@ -156,6 +157,12 @@ $di->set('forgotPasswordUserService', function () use($di){
 
 $di->set('searchProductService', function () use($di){
     return new SearchProductService(
+        $di->get('sqlProductRepository')
+    );
+});
+
+$di->set('getProductBySellerIdService', function () use($di){
+    return new GetProductBySellerIdService(
         $di->get('sqlProductRepository')
     );
 });

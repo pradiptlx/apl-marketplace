@@ -31,6 +31,7 @@ class UserController extends Controller
             $this->view->setVar('username', $this->session->get('username'));
             $this->view->setVar('fullname', $this->session->get('fullname'));
             $this->view->setVar('status_user', $this->session->get('status_user'));
+            $this->view->setVar('user_id', $this->session->get('user_id'));
         }
     }
 

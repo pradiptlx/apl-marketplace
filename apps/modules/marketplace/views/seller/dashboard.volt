@@ -16,7 +16,7 @@
                 <h1 class="my-4">Seller</h1>
                 <div class="list-group">
                     <a href="{{url('/marketplace/product/createProduct')}}" class="list-group-item">Add Product</a>
-                    <a href="#" class="list-group-item">Category 2</a>
+                    <a href="{{url("marketplace/seller/myProduct/"~user_id)}}" class="list-group-item">My product</a>
                     <a href="#" class="list-group-item">Category 3</a>
                 </div>
             </div>

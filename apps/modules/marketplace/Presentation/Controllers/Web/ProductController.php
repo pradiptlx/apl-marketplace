@@ -109,12 +109,14 @@ class ProductController extends Controller
 
     public function deleteProductAction()
     {
-
+        $productId = $this->router->getParams()[0];
+        if (!isset($productId))
+            return $this->response->redirect('/');
     }
 
     public function editProductAction()
     {
-
+        
     }
 
     public function searchProductAction()
