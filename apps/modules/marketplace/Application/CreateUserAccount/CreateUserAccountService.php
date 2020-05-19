@@ -54,6 +54,7 @@ class CreateUserAccountService extends \Phalcon\Di\Injectable
             $this->session->set('user_id', $userModel->getId());
             $this->session->set('username', $userModel->getUsername());
             $this->session->set('fullname', $userModel->getFullname());
+            $this->session->set('status_user', $userModel->getStatusUser());
             return new CreateUserAccountResponse($response, "User created successfully");
 
         } catch (InvalidUsernameDomainException $exception) {

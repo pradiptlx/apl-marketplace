@@ -37,7 +37,8 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
     }*/
 
-    private function parsingSet(Resultset $result) {
+    private function parsingSet(Resultset $result)
+    {
         $products = [];
 
         foreach ($result as $product) {
@@ -50,6 +51,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $product->stock,
                 $product->price,
                 $product->wishlist_counter,
+                $product->image_path,
                 new User(
                     new UserId($product->user_id),
                     $product->username,
@@ -58,7 +60,8 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                     $product->email,
                     $product->address,
                     $product->telp_number
-                )
+                ),
+                new UserId($product->user_id)
             );
         }
         return $products;
@@ -66,7 +69,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
     public function byId(ProductId $productId): ?Product
     {
-       
+
         $query = "SELECT p.*, u.id as userId, u.username as username, u.fullname as fullname,
                 u.email as email, u.telp_number as telp_number
                 FROM Dex\Marketplace\Infrastructure\Persistence\Record\ProductRecord p
@@ -79,7 +82,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
             'id' => $productId->getId()
         ]);
 
-        if (isset($productRecord))
+        if (!empty($productRecord))
             return new Product(
                 new ProductId($productRecord[0]->p->id),
                 $productRecord[0]->p->product_name,
@@ -89,6 +92,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $productRecord[0]->p->stock,
                 $productRecord[0]->p->price,
                 $productRecord[0]->p->wishlist_counter,
+                $productRecord[0]->p->image_path,
                 new User(
                     new UserId($productRecord[0]->userId),
                     $productRecord[0]->username,
@@ -97,7 +101,8 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                     $productRecord[0]->email,
                     "",
                     $productRecord[0]->telp_number
-                )
+                ),
+                new UserId($productRecord[0]->userId)
             );
 
         return null;
@@ -105,7 +110,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
     public function bySellerId(UserId $userId)
     {
-        
+
         $query = "SELECT p.id, p.product_name, p.description, p.created_at, p.updated_at,
                 p.stock, p.price, p.wishlist_counter,
                 p.user_id, u.username, u.fullname, u.email, u.address, u.telp_number, u.status_user
@@ -119,7 +124,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                     'id' => $userId->getId()
                 ]
             );
-            
+
         return $this->parsingSet($productSet);
     }
 
@@ -148,6 +153,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
         $productRecord->price = $product->getPrice();
         $productRecord->wishlist_counter = $product->getWishlistCounter();
         $productRecord->user_id = $product->getSellerId()->getId();
+        $productRecord->image_path = $product->getImagePath();
 
         if ($productRecord->save()) {
             $transx->commit();
@@ -157,7 +163,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
 
         $transx->rollback();
-        return new Failed("Can't Save Product");
+        return new Failed($productRecord->getMessages()[0]);
     }
 
     public function deleteProduct(ProductId $productId)
@@ -178,7 +184,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
         }
 
         $transx->rollback();
-        return new Failed("Failed to delete product");
+        return new Failed($product->getMessages()[0]);
     }
 
     public function searchProduct(string $keyword)
@@ -186,7 +192,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
         $productRecord = ProductRecord::find([
             'conditions' => 'product_name LIKE :keyword:',
             'bind' => [
-                'keyword' => '%'.$keyword.'$'
+                'keyword' => '%' . $keyword . '%'
             ]
         ]);
 
@@ -201,6 +207,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $product->stock,
                 $product->price,
                 $product->wishlist_counter,
+                $product->image_path,
                 new User(
                     new UserId($product->user_id),
                     '',
@@ -216,8 +223,28 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
         return $products;
     }
 
-    public function editProduct(ProductId $productId)
+    public function editProduct(array $datas, ProductId $productId)
     {
-        // TODO: Implement editProduct() method.
+        $productResult = ProductRecord::findFirstById($productId);
+
+        if (isset($productResult)) {
+            $trans = (new Manager())->get();
+            $productRecord = new ProductRecord();
+            foreach ($datas as $data => $val) {
+                if($val !== null)
+                    $productRecord->$data = $val;
+            }
+
+            if ($productRecord->update()) {
+                $trans->commit();
+                return true;
+            } else {
+                $trans->rollback();
+
+                return new Failed($productRecord->getMessages()[0]);
+            }
+        }
+
+        return false;
     }
 }

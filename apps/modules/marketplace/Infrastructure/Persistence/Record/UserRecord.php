@@ -28,6 +28,7 @@ class UserRecord extends Model
 
         $this->hasOne('id', CartRecord::class, 'user_id');
         $this->hasMany('id', ProductRecord::class, 'user_id');
+        $this->hasOne('id', WishlistRecord::class, 'user_id');
     }
 
 }

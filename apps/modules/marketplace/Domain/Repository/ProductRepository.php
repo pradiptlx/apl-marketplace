@@ -20,7 +20,7 @@ interface ProductRepository
 
     public function deleteProduct(ProductId $productId);
 
-    public function editProduct(ProductId $productId);
+    public function editProduct(array $datas, ProductId $productId);
 
     public function searchProduct(string $keyword);
 

@@ -4,7 +4,11 @@
 namespace Dex\Marketplace\Domain\Model;
 
 
-class Product
+use Dex\Common\Events\DateTimeImmutable;
+use Dex\Common\Events\DomainEvent;
+use Dex\Common\Events\DomainEventPublisher;
+
+class Product implements DomainEvent
 {
     private ProductId $id;
     private string $productName;
@@ -16,6 +20,7 @@ class Product
     private ?int $wishlistCounter;
     private ?User $seller;
     private ?UserId $sellerId;
+    private ?string $image_path;
 
     public function __construct(
         ProductId $id,
@@ -26,6 +31,7 @@ class Product
         int $stock = 0,
         string $price = "",
         int $wishlistCounter = 0,
+        string $image_path = null,
         User $seller = null,
         UserId $sellerId = null
     )
@@ -38,6 +44,7 @@ class Product
         $this->stock = $stock;
         $this->price = $price;
         $this->wishlistCounter = $wishlistCounter;
+        $this->image_path = $image_path;
         $this->seller = $seller;
         $this->sellerId = $sellerId;
     }
@@ -82,14 +89,19 @@ class Product
         return $this->wishlistCounter;
     }
 
-    public function getSeller(): User
+    public function getSeller(): ?User
     {
         return $this->seller;
     }
 
-    public function getSellerId(): UserId
+    public function getSellerId(): ?UserId
     {
         return $this->sellerId;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->image_path;
     }
 
     public function incStock(): int
@@ -112,4 +124,8 @@ class Product
         return --$this->wishlistCounter;
     }
 
+    public function occurredOn()
+    {
+        // TODO: Implement occurredOn() method.
+    }
 }

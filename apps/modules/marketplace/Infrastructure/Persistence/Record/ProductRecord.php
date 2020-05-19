@@ -17,6 +17,7 @@ class ProductRecord extends Model
     public string $price;
     public ?int $wishlist_counter;
     public string $user_id;
+    public ?string $image_path;
 
     public function initialize()
     {
@@ -25,5 +26,6 @@ class ProductRecord extends Model
         $this->setSource('product');
 
         $this->belongsTo('user_id', UserRecord::class, 'id');
+        $this->belongsTo('user_id', WishlistRecord::class, 'id');
     }
 }

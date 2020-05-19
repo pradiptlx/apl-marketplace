@@ -4,7 +4,10 @@
 namespace Dex\Marketplace\Domain\Model;
 
 
-class Wishlist
+use Dex\Common\Events\DomainEvent;
+use Dex\Common\Events\DomainEventPublisher;
+
+class Wishlist implements DomainEvent
 {
     private string $id;
     private Product $product;
@@ -19,6 +22,22 @@ class Wishlist
         $this->id = $id;
         $this->product = $product;
         $this->user = $user;
+
+        DomainEventPublisher::instance()->publish(
+            new Product(
+                $product->getId(),
+                $product->getProductName(),
+                $product->getDescription(),
+                $product->getCreatedDate(),
+                $product->getUpdatedDate(),
+                $product->getStock(),
+                $product->getPrice(),
+                $product->incWishlistCounter(),
+                $product->getImagePath(),
+                $product->getSeller(),
+                $product->getSellerId()
+            )
+        );
     }
 
     public function getId()
@@ -36,4 +55,8 @@ class Wishlist
         return $this->user;
     }
 
+    public function occurredOn()
+    {
+        // TODO: Implement occurredOn() method.
+    }
 }
