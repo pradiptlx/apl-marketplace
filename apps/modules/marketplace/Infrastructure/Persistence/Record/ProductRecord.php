@@ -26,5 +26,6 @@ class ProductRecord extends Model
         $this->setSource('product');
 
         $this->belongsTo('user_id', UserRecord::class, 'id');
+        $this->belongsTo('user_id', WishlistRecord::class, 'id');
     }
 }

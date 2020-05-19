@@ -196,7 +196,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
         $productRecord = ProductRecord::find([
             'conditions' => 'product_name LIKE :keyword:',
             'bind' => [
-                'keyword' => '%' . $keyword . '$'
+                'keyword' => '%' . $keyword . '%'
             ]
         ]);
 
@@ -211,6 +211,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $product->stock,
                 $product->price,
                 $product->wishlist_counter,
+                $product->image_path,
                 new User(
                     new UserId($product->user_id),
                     '',
@@ -228,13 +229,14 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
     public function editProduct(array $datas, ProductId $productId)
     {
-        $productResult = $this->byId($productId);
+        $productResult = ProductRecord::findFirstById($productId);
 
         if (isset($productResult)) {
             $trans = (new Manager())->get();
             $productRecord = new ProductRecord();
             foreach ($datas as $data => $val) {
-                $productRecord->$data = $val;
+                if($val !== null)
+                    $productRecord->$data = $val;
             }
 
             if ($productRecord->update()) {

@@ -4,7 +4,6 @@
 namespace Dex\Marketplace\Application\SendNotificationTransactionBuyer;
 
 
-use Dex\Common\Events\DomainEvent;
 use Dex\Common\Events\DomainEventSubscriber;
 use Dex\Marketplace\Domain\Model\Product;
 use Dex\Marketplace\Domain\Model\User;

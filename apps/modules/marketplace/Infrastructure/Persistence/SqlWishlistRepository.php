@@ -19,12 +19,14 @@ class SqlWishlistRepository extends \Phalcon\Di\Injectable implements WishlistRe
 
     public function byUserId(UserId $userId)
     {
-        $query = "SELECT w.*, p.product_name, p.description, p.price, p.stock,
+//        var_dump(WishlistRecord::findFirstByUserId($userId->getId()));
+//        die();
+        $query = "SELECT w.*, p.product_name, p.description, p.price, p.stock, p.wishlist_counter, p.image_path,
                   u.username, u.fullname, u.email, u.password, u.status_user, u.telp_number, u.address
                   FROM Dex\Marketplace\Infrastructure\Persistence\Record\WishlistRecord w
                   JOIN Dex\Marketplace\Infrastructure\Persistence\Record\ProductRecord p on p.id=w.product_id
                   JOIN Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord u on u.id=w.user_id
-                  WHERE w.id=:userId:";
+                  WHERE w.user_id=:userId:";
         $wishlistResult = $this->modelsManager->createQuery($query)
             ->execute([
                 'userId' => $userId->getId()
@@ -45,7 +47,9 @@ class SqlWishlistRepository extends \Phalcon\Di\Injectable implements WishlistRe
                     '',
                     '',
                     $wishlist->stock,
-                    $wishlist->price
+                    $wishlist->price,
+                    $wishlist->wishlist_counter,
+                    $wishlist->image_path
                 ),
                 new User(
                     new UserId($wishlist->user_id),
