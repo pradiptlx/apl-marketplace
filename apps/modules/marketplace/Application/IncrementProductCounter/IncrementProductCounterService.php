@@ -4,6 +4,7 @@
 namespace Dex\Marketplace\Application\IncrementProductCounter;
 
 
+use DateTimeZone;
 use Dex\Common\Events\DomainEventSubscriber;
 use Dex\Marketplace\Domain\Model\Product;
 use Dex\Marketplace\Domain\Repository\ProductRepository;
@@ -32,7 +33,16 @@ class IncrementProductCounterService implements DomainEventSubscriber
         if ($aDomainEvent instanceof Product) {
             $datas = [
                 'id' => $aDomainEvent->getId()->getId(),
-                'wishlist_counter' => $aDomainEvent->getWishlistCounter()
+                'product_name' => $aDomainEvent->getProductName(),
+                'description' => $aDomainEvent->getDescription(),
+                'stock' => $aDomainEvent->getStock(),
+                'price' => $aDomainEvent->getPrice(),
+                'created_at'=> $aDomainEvent->getCreatedDate(),
+                'updated_at' => (new \DateTimeImmutable('now', new DateTimeZone('UTC')))
+                    ->format('Y-m-d H:i:s'),
+                'wishlist_counter' => $aDomainEvent->getWishlistCounter(),
+                'user_id' => $aDomainEvent->getSellerId()->getId(),
+                'image_path' => $aDomainEvent->getImagePath()
             ];
             $res = $this->productRepository->editProduct($datas, $aDomainEvent->getId());
             if ($res instanceof Failed) {

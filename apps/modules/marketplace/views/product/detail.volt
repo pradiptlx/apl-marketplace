@@ -14,7 +14,7 @@
 
             <div class="col-lg-3">
                 <h1 class="my-4">{{ product.getProductName() }}</h1>
-                <a type="button" href="{{ url('/marketplace/product/addToWishlist/'~product.id) }}"
+                <a type="button" href="{{ url('/marketplace/product/addToWishlist/'~product.getId().getId()) }}"
                    class="btn btn-info">Add To Wishlist</a>
                 <a type="button" href="#" class="btn btn-primary">Add To Cart</a>
             </div>

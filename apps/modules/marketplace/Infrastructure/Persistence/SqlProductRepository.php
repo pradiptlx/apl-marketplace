@@ -92,7 +92,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $productRecord[0]->p->stock,
                 $productRecord[0]->p->price,
                 $productRecord[0]->p->wishlist_counter,
-                $productRecord[0]->image_path,
+                $productRecord[0]->p->image_path,
                 new User(
                     new UserId($productRecord[0]->userId),
                     $productRecord[0]->username,
@@ -101,7 +101,8 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                     $productRecord[0]->email,
                     "",
                     $productRecord[0]->telp_number
-                )
+                ),
+                new UserId($productRecord[0]->userId)
             );
 
         return null;

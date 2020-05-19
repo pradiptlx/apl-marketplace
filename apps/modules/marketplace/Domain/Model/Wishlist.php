@@ -34,7 +34,8 @@ class Wishlist implements DomainEvent
                 $product->getPrice(),
                 $product->incWishlistCounter(),
                 $product->getImagePath(),
-                $product->getSeller()
+                $product->getSeller(),
+                $product->getSellerId()
             )
         );
     }
