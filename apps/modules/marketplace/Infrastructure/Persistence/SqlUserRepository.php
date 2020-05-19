@@ -68,7 +68,7 @@ class SqlUserRepository implements UserRepository
     {
         $userRecord = UserRecord::findFirstByUsername($username);
 
-        if(!isset($userRecord))
+        if (!isset($userRecord))
             return null;
 
         return $this->parsingRecord($userRecord);
@@ -154,13 +154,15 @@ class SqlUserRepository implements UserRepository
 
     }
 
-    public function changeProfile(User $user, array $datas = [])
+    public function changeProfile(UserId $userId, array $datas = [])
     {
         $trans = (new Manager())->get();
 
-        $userModel = new UserRecord();
+        $userModel = UserRecord::findFirstById($userId->getId());
         foreach ($datas as $data => $val) {
-            $userModel->$data = $val;
+            if ($val !== null) {
+                $userModel->$data = $val;
+            }
         }
 
         if ($userModel->update()) {

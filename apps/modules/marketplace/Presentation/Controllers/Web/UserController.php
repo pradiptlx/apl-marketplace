@@ -4,6 +4,8 @@
 namespace Dex\Marketplace\Presentation\Controllers\Web;
 
 
+use Dex\Marketplace\Application\ChangeProfileUser\ChangeProfileUserRequest;
+use Dex\Marketplace\Application\ChangeProfileUser\ChangeProfileUserService;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountRequest;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
 use Dex\Marketplace\Application\ForgotPasswordUser\ForgotPasswordUserRequest;
@@ -20,6 +22,7 @@ class UserController extends Controller
     private LoginUserService $loginUserService;
     private ForgotPasswordUserService $forgotPasswordUserService;
     private ShowProfileUserService $showProfileUserService;
+    private ChangeProfileUserService $changeProfileUserService;
 
     public function initialize()
     {
@@ -27,6 +30,7 @@ class UserController extends Controller
         $this->loginUserService = $this->di->get('loginUserService');
         $this->forgotPasswordUserService = $this->di->get('forgotPasswordUserService');
         $this->showProfileUserService = $this->di->get('showProfileUserService');
+        $this->changeProfileUserService = $this->di->get('changeProfileUserService');
 
         if ($this->session->has('username') && $this->session->has('fullname')
             && $this->session->has('status_user')) {
@@ -60,6 +64,34 @@ class UserController extends Controller
         $request = $this->request;
 
         if ($request->isPost()) {
+            $username = $request->getPost('username');
+            $fullname = $request->getPost('fullname');
+            $status_user = $request->getPost('status_user');
+            $email = $request->getPost('email');
+            $address = $request->getPost('address');
+            $telp_number = $request->getPost('telp_number');
+            $new_pass = $request->getPost('new_pass');
+
+            $req = new ChangeProfileUserRequest(
+                $this->session->get('user_id'),
+                $username,
+                $fullname,
+                $status_user,
+                $email,
+                $address,
+                $telp_number,
+                $new_pass
+            );
+
+            $res = $this->changeProfileUserService->execute($req);
+
+            if($res->getError()){
+                $this->flashSession->error($res->getMessage());
+                return $this->response->redirect('');
+            }else{
+                $this->flashSession->success($res->getMessage());
+                return $this->response->redirect('');
+            }
 
         } else {
             $res = $this->showProfileUserService->execute();

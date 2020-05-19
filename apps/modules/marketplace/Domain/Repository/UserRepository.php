@@ -25,6 +25,6 @@ interface UserRepository
 
     public function setStatusUser(User $user, string $status = "");
 
-    public function changeProfile(User $user, array $data = []);
+    public function changeProfile(UserId $userId, array $data = []);
 
 }

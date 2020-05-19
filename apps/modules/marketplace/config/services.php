@@ -1,6 +1,7 @@
 <?php
 
 use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerService;
+use Dex\Marketplace\Application\ChangeProfileUser\ChangeProfileUserService;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
 use Dex\Marketplace\Application\ForgotPasswordUser\ForgotPasswordUserService;
@@ -172,5 +173,11 @@ $di->set('showProfileUserService', function () use ($di) {
     return new ShowProfileUserService(
         $di->get('sqlUserRepository'),
         $di->get('sqlWishlistRepository')
+    );
+});
+
+$di->set('changeProfileUserService', function () use ($di) {
+    return new ChangeProfileUserService(
+        $di->get('sqlUserRepository')
     );
 });

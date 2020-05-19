@@ -38,7 +38,7 @@ class IncrementProductCounterService implements DomainEventSubscriber
                 'stock' => $aDomainEvent->getStock(),
                 'price' => $aDomainEvent->getPrice(),
                 'created_at'=> $aDomainEvent->getCreatedDate(),
-                'updated_at' => (new \DateTimeImmutable('now', new DateTimeZone('UTC')))
+                'updated_at' => (new \DateTimeImmutable('now'))
                     ->format('Y-m-d H:i:s'),
                 'wishlist_counter' => $aDomainEvent->getWishlistCounter(),
                 'user_id' => $aDomainEvent->getSellerId()->getId(),
