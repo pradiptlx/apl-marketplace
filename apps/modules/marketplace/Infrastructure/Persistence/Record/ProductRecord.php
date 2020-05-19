@@ -17,6 +17,7 @@ class ProductRecord extends Model
     public string $price;
     public ?int $wishlist_counter;
     public string $user_id;
+    public ?string $image_path;
 
     public function initialize()
     {

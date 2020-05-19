@@ -9,6 +9,7 @@ use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
 use Dex\Marketplace\Application\LoginUser\LoginUserService;
 use Dex\Marketplace\Application\SearchProduct\SearchProductService;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerService;
+use Dex\Marketplace\Application\ShowProfileUser\ShowProfileUserService;
 use Dex\Marketplace\Infrastructure\Persistence\SqlCartRepository;
 use Dex\Marketplace\Infrastructure\Persistence\SqlProductRepository;
 use Dex\Marketplace\Infrastructure\Persistence\SqlUserRepository;
@@ -17,7 +18,7 @@ use Dex\Marketplace\Infrastructure\Transport\SwiftMailer;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 
-$di['voltServiceMail'] = function($view) use ($di) {
+$di['voltServiceMail'] = function ($view) use ($di) {
 
     $config = $di->get('config');
 
@@ -66,7 +67,7 @@ $di['db'] = function () use ($di) {
 };
 
 
-$di->set('swiftMailerTransport', function ()  use ($di) {
+$di->set('swiftMailerTransport', function () use ($di) {
     $config = $di->get('config');
     return (new Swift_SmtpTransport($config->mail->smtp->server, $config->mail->smtp->port))
         ->setUsername($config->mail->smtp->username)
@@ -82,19 +83,19 @@ $di->set('swiftMailer', function () use ($di) {
 /**
  * SQL
  */
-$di->set('sqlUserRepository', function (){
+$di->set('sqlUserRepository', function () {
     return new SqlUserRepository();
 });
 
-$di->set('sqlProductRepository', function (){
+$di->set('sqlProductRepository', function () {
     return new SqlProductRepository();
 });
 
-$di->set('sqlCartRepository', function (){
+$di->set('sqlCartRepository', function () {
     return new SqlCartRepository();
 });
 
-$di->set('sqlWishlistRepository', function (){
+$di->set('sqlWishlistRepository', function () {
     return new SqlWishlistRepository();
 });
 
@@ -102,7 +103,7 @@ $di->set('sqlWishlistRepository', function (){
  * SERVICE
  */
 
-$di->set('addItemToWishlistBuyerService', function () use($di){
+$di->set('addItemToWishlistBuyerService', function () use ($di) {
     return new AddItemToWishlistBuyerService(
         $di->get('sqlWishlistRepository'),
         $di->get('sqlProductRepository'),
@@ -110,7 +111,7 @@ $di->set('addItemToWishlistBuyerService', function () use($di){
     );
 });
 
-$di->set('addToCartBuyerService', function () use($di){
+$di->set('addToCartBuyerService', function () use ($di) {
     return new AddItemToWishlistBuyerService(
         $di->get('sqlCartRepository'),
         $di->get('sqlProductRepository'),
@@ -118,51 +119,58 @@ $di->set('addToCartBuyerService', function () use($di){
     );
 });
 
-$di->set('showItemDetailBuyerService', function () use($di){
+$di->set('showItemDetailBuyerService', function () use ($di) {
     return new ShowItemDetailBuyerService(
         $di->get('sqlProductRepository')
     );
 });
 
-$di->set('listItemsBuyerService', function () use($di){
+$di->set('listItemsBuyerService', function () use ($di) {
     return new ListItemsBuyerService(
         $di->get('sqlProductRepository')
     );
 });
 
-$di->set('createUserAccountService', function () use($di){
+$di->set('createUserAccountService', function () use ($di) {
     return new CreateUserAccountService(
         $di->get('sqlUserRepository')
     );
 });
 
-$di->set('loginUserService', function () use($di){
+$di->set('loginUserService', function () use ($di) {
     return new LoginUserService(
         $di->get('sqlUserRepository')
     );
 });
 
-$di->set('createProductService', function () use($di){
+$di->set('createProductService', function () use ($di) {
     return new CreateProductService(
         $di->get('sqlProductRepository'),
         $di->get('sqlUserRepository')
     );
 });
 
-$di->set('forgotPasswordUserService', function () use($di){
+$di->set('forgotPasswordUserService', function () use ($di) {
     return new ForgotPasswordUserService(
         $di->get('sqlUserRepository')
     );
 });
 
-$di->set('searchProductService', function () use($di){
+$di->set('searchProductService', function () use ($di) {
     return new SearchProductService(
         $di->get('sqlProductRepository')
     );
 });
 
-$di->set('getProductBySellerIdService', function () use($di){
+$di->set('getProductBySellerIdService', function () use ($di) {
     return new GetProductBySellerIdService(
         $di->get('sqlProductRepository')
+    );
+});
+
+$di->set('showProfileUserService', function () use ($di) {
+    return new ShowProfileUserService(
+        $di->get('sqlUserRepository'),
+        $di->get('sqlWishlistRepository')
     );
 });

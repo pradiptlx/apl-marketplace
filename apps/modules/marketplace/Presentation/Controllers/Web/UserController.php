@@ -10,6 +10,7 @@ use Dex\Marketplace\Application\ForgotPasswordUser\ForgotPasswordUserRequest;
 use Dex\Marketplace\Application\ForgotPasswordUser\ForgotPasswordUserService;
 use Dex\Marketplace\Application\LoginUser\LoginUserRequest;
 use Dex\Marketplace\Application\LoginUser\LoginUserService;
+use Dex\Marketplace\Application\ShowProfileUser\ShowProfileUserService;
 use Phalcon\Mvc\Controller;
 
 class UserController extends Controller
@@ -18,13 +19,14 @@ class UserController extends Controller
     private CreateUserAccountService $createUserAccountService;
     private LoginUserService $loginUserService;
     private ForgotPasswordUserService $forgotPasswordUserService;
+    private ShowProfileUserService $showProfileUserService;
 
     public function initialize()
     {
-        // TODO: CREATE SERVICE
         $this->createUserAccountService = $this->di->get('createUserAccountService');
         $this->loginUserService = $this->di->get('loginUserService');
         $this->forgotPasswordUserService = $this->di->get('forgotPasswordUserService');
+        $this->showProfileUserService = $this->di->get('showProfileUserService');
 
         if ($this->session->has('username') && $this->session->has('fullname')
             && $this->session->has('status_user')) {
@@ -33,6 +35,48 @@ class UserController extends Controller
             $this->view->setVar('status_user', $this->session->get('status_user'));
             $this->view->setVar('user_id', $this->session->get('user_id'));
         }
+    }
+
+    public function dashboardAction()
+    {
+        if (strtoupper($this->session->get('status_user')) === 'SELLER') {
+            return $this->response->redirect('/marketplace/seller');
+        } elseif (strtoupper($this->session->get('status_user')) === 'BUYER') {
+            return $this->response->redirect('/marketplace/user/profile');
+        } else {
+            $this->dispatcher->forward(
+                [
+                    'namespace' => 'Dex\Marketplace\Presentation\Controllers\Web',
+                    'modules' => 'marketplace',
+                    'controllers' => 'user',
+                    'action' => 'login'
+                ]
+            );
+        }
+    }
+
+    public function profileAction()
+    {
+        $request = $this->request;
+
+        if ($request->isPost()) {
+
+        } else {
+            $res = $this->showProfileUserService->execute();
+            if ($res->getError() && $res->getCode() === 500) {
+                $this->flashSession->error($res->getMessage());
+                return $this->response->redirect('/marketplace/');
+            }
+            //elseif ($res->getError() && $res->getCode() === 200){ // Wishlist not found
+            //                $this->flashSession->error($res->getMessage());
+            //            }
+
+            $this->view->setVar('user', $res->getData()['user']);
+            $this->view->setVar('wishlist', $res->getData()['wishlist']);
+        }
+
+        $this->view->setVar('title', 'Profile Page ' . $this->session->get('fullname'));
+        $this->view->pick('user/profile');
     }
 
     public function indexAction()

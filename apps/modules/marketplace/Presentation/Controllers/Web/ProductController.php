@@ -93,10 +93,12 @@ class ProductController extends Controller
 
             $response = $this->createProductService->execute($request);
 
-            $response->getError() ?
-                $this->flashSession->error($response->getMessage())
-                :
+            if ($response->getError()) {
+                $this->flashSession->error($response->getMessage());
+                return $this->response->redirect('');
+            } else {
                 $this->flashSession->success($response->getMessage());
+            }
 
             return $this->response->redirect('/');
         }

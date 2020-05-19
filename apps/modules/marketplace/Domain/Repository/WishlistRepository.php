@@ -9,7 +9,7 @@ use Dex\Marketplace\Domain\Model\Wishlist;
 
 interface WishlistRepository
 {
-    public function byUserId(UserId $userId): ?Wishlist;
+    public function byUserId(UserId $userId);
 
     public function saveWishlist(Wishlist $wishlist);
 
