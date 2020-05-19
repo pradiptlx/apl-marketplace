@@ -57,7 +57,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                     '',
                     $product->email,
                     $product->address,
-                    $product->telp_no
+                    $product->telp_number
                 )
             );
         }
@@ -66,11 +66,14 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
     public function byId(ProductId $productId): ?Product
     {
-        $query = "SELECT p.*, u.id as userId, u.username as username, u.fullname,
-                u.email, u.telp_no
+       
+        $query = "SELECT p.*, u.id as userId, u.username as username, u.fullname as fullname,
+                u.email as email, u.telp_number as telp_number
                 FROM Dex\Marketplace\Infrastructure\Persistence\Record\ProductRecord p
                 JOIN Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord u on u.id = p.user_id
                 WHERE p.id=:id:";
+        // var_dump( $query);
+        // die();
 
         $productRecord = $this->modelsManager->createQuery($query)->execute([
             'id' => $productId->getId()
@@ -78,22 +81,22 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
         if (isset($productRecord))
             return new Product(
-                new ProductId($productRecord->id),
-                $productRecord->product_name,
-                $productRecord->description,
-                $productRecord->created_at,
-                $productRecord->updated_at,
-                $productRecord->stock,
-                $productRecord->price,
-                $productRecord->wishlist_counter,
+                new ProductId($productRecord[0]->p->id),
+                $productRecord[0]->p->product_name,
+                $productRecord[0]->p->description,
+                $productRecord[0]->p->created_at,
+                $productRecord[0]->p->updated_at,
+                $productRecord[0]->p->stock,
+                $productRecord[0]->p->price,
+                $productRecord[0]->p->wishlist_counter,
                 new User(
-                    new UserId($productRecord->userId),
-                    $productRecord->username,
-                    $productRecord->fullname,
+                    new UserId($productRecord[0]->userId),
+                    $productRecord[0]->username,
+                    $productRecord[0]->fullname,
                     "",
-                    $productRecord->email,
+                    $productRecord[0]->email,
                     "",
-                    $productRecord->telp_no
+                    $productRecord[0]->telp_number
                 )
             );
 
@@ -114,6 +117,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                     'id' => $userId->getId()
                 ]
             );
+       
 
         return $this->parsingSet($productSet);
     }
@@ -126,7 +130,6 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 FROM Dex\Marketplace\Infrastructure\Persistence\Record\ProductRecord p
                 JOIN Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord u on u.id = p.user_id";
         $productSet = $this->modelsManager->createQuery($query)->execute();
-
         return $this->parsingSet($productSet);
     }
 

@@ -5,20 +5,13 @@ namespace Dex\Marketplace\Presentation\Controllers\Web;
 
 use Dex\Marketplace\Application\CreateProduct\CreateProductRequest;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
-<<<<<<< HEAD
 use Dex\Marketplace\Application\LoginUser\LoginUserRequest;
 
-=======
->>>>>>> 71e90a3748110b212937b11e35f23e0d45791c2b
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
 use Dex\Marketplace\Application\SearchProduct\SearchProductRequest;
 use Dex\Marketplace\Application\SearchProduct\SearchProductService;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerRequest;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerService;
-<<<<<<< HEAD
-=======
-
->>>>>>> 71e90a3748110b212937b11e35f23e0d45791c2b
 use Phalcon\Mvc\Controller;
 
 class ProductController extends Controller
@@ -55,7 +48,6 @@ class ProductController extends Controller
 
         $response->getError() ? $this->flashSession->error($response->getMessage())
             : $this->view->setVar('products', $response->getData());
-
         $this->view->pick('product/home');
 
     }
@@ -63,17 +55,16 @@ class ProductController extends Controller
     public function detailProductAction()
     {
         $productId = $this->router->getParams()[0];
-
         if (!isset($productId))
             return $this->response->redirect('/');
 
         $request = new ShowItemDetailBuyerRequest($productId);
         $response = $this->showItemDetailBuyerService->execute($request);
 
-        if ($response->getError()) {
-            $this->flashSession->error($response->getMessage());
-            return $this->response->redirect('/');
-        }
+        // if ($response->getError()) {
+        //     $this->flashSession->error($response->getMessage());
+        //     return $this->response->redirect('/');
+        // }
 
         $this->view->setVar('product', $response->getData());
         $this->view->setVar('title', 'Detail Page');
