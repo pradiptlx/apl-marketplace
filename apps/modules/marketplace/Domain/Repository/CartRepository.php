@@ -13,7 +13,7 @@ interface CartRepository
 
     public function byId(CartId $cartId): ?Cart;
 
-    public function byBuyerId(UserId $userId): ?Cart;
+    public function byBuyerId(UserId $userId);
 
     public function saveCart(Cart $cart);
 
