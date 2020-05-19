@@ -3,16 +3,13 @@
 
 namespace Dex\Marketplace\Presentation\Controllers\Web;
 
-<<<<<<< HEAD
 use Dex\Marketplace\Application\CreateProduct\CreateProductRequest;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\LoginUser\LoginUserRequest;
-=======
 
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerRequest;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerService;
->>>>>>> 90fedeca0f5d36f76a478fb39a41e35ca97a36c6
 use Phalcon\Mvc\Controller;
 
 class ProductController extends Controller
