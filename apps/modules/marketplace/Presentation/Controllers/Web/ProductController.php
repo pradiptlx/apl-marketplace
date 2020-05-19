@@ -5,24 +5,35 @@ namespace Dex\Marketplace\Presentation\Controllers\Web;
 
 use Dex\Marketplace\Application\CreateProduct\CreateProductRequest;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
+<<<<<<< HEAD
 use Dex\Marketplace\Application\LoginUser\LoginUserRequest;
 
+=======
+>>>>>>> 71e90a3748110b212937b11e35f23e0d45791c2b
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
+use Dex\Marketplace\Application\SearchProduct\SearchProductRequest;
+use Dex\Marketplace\Application\SearchProduct\SearchProductService;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerRequest;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerService;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 71e90a3748110b212937b11e35f23e0d45791c2b
 use Phalcon\Mvc\Controller;
 
 class ProductController extends Controller
 {
     private ListItemsBuyerService $listItemsBuyerService;
     private ShowItemDetailBuyerService $showItemDetailBuyerService;
-
-    private CreateProductService $createProductSerivce;
+    private CreateProductService $createProductService;
+    private SearchProductService $searchProductService;
 
     public function initialize()
     {
         $this->listItemsBuyerService = $this->di->get('listItemsBuyerService');
         $this->showItemDetailBuyerService = $this->di->get('showItemDetailBuyerService');
+        $this->createProductService = $this->di->get('createProductService');
+        $this->searchProductService = $this->di->get('searchProductService');
 
         if ($this->cookies->has('rememberMe')) {
             $rememberMe = json_decode(($this->cookies->get('rememberMe')->getValue()));
@@ -36,7 +47,6 @@ class ProductController extends Controller
             $this->view->setVar('fullname', $this->session->get('fullname'));
         }
 
-        $this->createProductSerivce = $this->di->get('createProductSerivce');
     }
 
     public function indexAction()
@@ -83,14 +93,14 @@ class ProductController extends Controller
 
 
             $request = new CreateProductRequest(
-                $sellerId, 
-                $price, 
-                $description, 
-                $stok, 
+                $sellerId,
+                $price,
+                $description,
+                $stok,
                 $productName
             );
 
-            $response = $this->createProductSerivce->execute($request);
+            $response = $this->createProductService->execute($request);
 
             $response->getError() ?
                 $this->flashSession->error($response->getMessage())
@@ -103,7 +113,7 @@ class ProductController extends Controller
         $this->view->setVar('title', 'Create Product');
         // //TODO: Collection CSS/JS
 
-        $this->view->pick('product/create');
+        return $this->view->pick('product/create');
     }
 
     public function deleteProductAction()
@@ -116,5 +126,15 @@ class ProductController extends Controller
 
     }
 
+    public function searchProductAction()
+    {
+        $keyword = $this->request->get('q');
+        $req = new SearchProductRequest($keyword);
+
+        $res = $this->searchProductService->execute($req);
+
+        return $this->response->setJsonContent($res->getData());
+
+    }
 
 }

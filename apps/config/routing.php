@@ -98,10 +98,10 @@ $di['router'] = function () use ($defaultModule, $modules, $di, $config) {
                 'params' => 4
             ));
 
-            $moduleRouting = APP_PATH . '/modules/' . $moduleName . '/config/routing.php';
-            isset($module['userDefinedRouting']) && $module['userDefinedRouting'] && file_exists($moduleRouting) && is_file($moduleRouting)
-                ? include $moduleRouting
-                : null;
+//            $moduleRouting = APP_PATH . '/modules/' . $moduleName . '/config/routing.php';
+//            isset($module['userDefinedRouting']) && $module['userDefinedRouting'] && file_exists($moduleRouting) && is_file($moduleRouting)
+//                ? include $moduleRouting
+//                : null;
 
         } else {
 

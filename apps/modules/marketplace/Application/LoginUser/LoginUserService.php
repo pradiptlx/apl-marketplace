@@ -23,11 +23,11 @@ class LoginUserService extends \Phalcon\Di\Injectable
     {
         $response = $this->userRepository->byUsername($request->username);
 
+        if (is_null($response))
+            return new LoginUserResponse(null, "User Not Found", 200, true);
+
         if (!$this->verifyPassword($request->password, $response->getPassword()))
             return new LoginUserResponse(null, "Incorrect Password", 200, true);
-
-        if (is_null($response->getId()))
-            return new LoginUserResponse(null, "User Not Found", 200, true);
 
         if ($request->rememberMe) {
             $tomorrow = (new DateTimeImmutable())->modify('tomorrow');
@@ -45,6 +45,7 @@ class LoginUserService extends \Phalcon\Di\Injectable
 //            $this->response->sendCookies();
         }
 
+        $this->session->set('status_user', $response->getStatusUser());
         $this->session->set('username', $response->getUsername());
         $this->session->set('fullname', $response->getFullname());
         $this->session->set('user_id', $response->getId()->getId());

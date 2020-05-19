@@ -45,7 +45,7 @@
                         </div>
 
                         <div>
-                            <a href="#" class="txt3">
+                            <a href="{{ url('/marketplace/user/forgotPassword') }}" class="txt3">
                                 Forgot Password?
                             </a>
                         </div>

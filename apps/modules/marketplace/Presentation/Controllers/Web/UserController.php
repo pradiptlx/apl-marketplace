@@ -6,6 +6,8 @@ namespace Dex\Marketplace\Presentation\Controllers\Web;
 
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountRequest;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
+use Dex\Marketplace\Application\ForgotPasswordUser\ForgotPasswordUserRequest;
+use Dex\Marketplace\Application\ForgotPasswordUser\ForgotPasswordUserService;
 use Dex\Marketplace\Application\LoginUser\LoginUserRequest;
 use Dex\Marketplace\Application\LoginUser\LoginUserService;
 use Phalcon\Mvc\Controller;
@@ -15,16 +17,20 @@ class UserController extends Controller
 
     private CreateUserAccountService $createUserAccountService;
     private LoginUserService $loginUserService;
+    private ForgotPasswordUserService $forgotPasswordUserService;
 
     public function initialize()
     {
         // TODO: CREATE SERVICE
         $this->createUserAccountService = $this->di->get('createUserAccountService');
         $this->loginUserService = $this->di->get('loginUserService');
+        $this->forgotPasswordUserService = $this->di->get('forgotPasswordUserService');
 
-        if ($this->session->has('username') && $this->session->has('fullname')) {
+        if ($this->session->has('username') && $this->session->has('fullname')
+            && $this->session->has('status_user')) {
             $this->view->setVar('username', $this->session->get('username'));
             $this->view->setVar('fullname', $this->session->get('fullname'));
+            $this->view->setVar('status_user', $this->session->get('status_user'));
         }
     }
 
@@ -47,7 +53,7 @@ class UserController extends Controller
             $password = $request->getPost('password', 'string');
             $rememberMe = $request->getPost('remember-me');
 
-            if(isset($rememberMe))
+            if (isset($rememberMe))
                 $rememberMe = true;
             else
                 $rememberMe = false;
@@ -59,9 +65,10 @@ class UserController extends Controller
 
             $response = $this->loginUserService->execute($request);
 
-            $response->getError() ?
-                $this->flashSession->error($response->getMessage())
-                :
+            if ($response->getError()) {
+                $this->flashSession->error($response->getMessage());
+                return $this->response->redirect('/marketplace/user/login');
+            } else
                 $this->flashSession->success($response->getMessage());
 
             return $this->response->redirect('/');
@@ -109,9 +116,76 @@ class UserController extends Controller
         return $this->view->pick('user/register');
     }
 
+    public function forgotPasswordAction()
+    {
+        if ($this->request->isPost()) {
+            $email = $this->request->getPost('email', 'email');
+
+            $req = new ForgotPasswordUserRequest($email);
+
+            $res = $this->forgotPasswordUserService->execute($req);
+
+            if ($res->getError()) {
+                $this->flashSession->error($res->getMessage());
+            } else {
+                $this->flashSession->success($res->getMessage());
+                return $this->response->redirect('/marketplace/user/verifyToken');
+            }
+
+        }
+        $this->view->setVar('title', 'Forgot Password');
+        return $this->view->pick('user/forgot');
+    }
+
+    public function verifyTokenAction()
+    {
+        if ($this->request->isPost()) {
+            $token = $this->request->getPost('token');
+
+            $req = new ForgotPasswordUserRequest('', true, $token);
+
+            $res = $this->forgotPasswordUserService->execute($req);
+
+            if ($res->getError()) {
+                $this->flashSession->error($res->getMessage());
+            } else {
+                $this->session->set('resetPassword', true);
+                return $this->response->redirect('/marketplace/user/resetPassword');
+            }
+
+            return $this->response->redirect('/marketplace/user/forgotPassword');
+        }
+
+        $this->view->setVar('title', 'Verify Token');
+        return $this->view->pick('user/verify');
+    }
+
+    public function resetPasswordAction()
+    {
+
+        if ($this->request->isPost()) {
+            $password = $this->request->getPost('password');
+            $req = new ForgotPasswordUserRequest($this->session->get('email')
+                , false, null, true, $password);
+
+            $res = $this->forgotPasswordUserService->execute($req);
+
+            if ($res->getError()) {
+                $this->flashSession->error($res->getMessage());
+                return $this->response->redirect('/');
+            }
+            $this->flashSession->success($res->getMessage());
+
+            return $this->response->redirect('/marketplace/user/login');
+        }
+
+        $this->view->setVar('title', 'Reset Password');
+        return $this->view->pick('user/reset');
+    }
+
     public function logoutAction()
     {
-        $this->cookies->set('rememberMe', null, time()-3600);
+        $this->cookies->set('rememberMe', null, time() - 3600);
         $this->cookies->delete('rememberMe');
 
         if ($this->session->has('user_id')) {

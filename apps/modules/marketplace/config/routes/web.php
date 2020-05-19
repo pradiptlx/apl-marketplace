@@ -21,7 +21,7 @@ $router->add(
     '/seller',
     [
     'namespace' => $module['webControllerNamespace'],
-    'module' => $marketplace,
+    'module' => 'marketplace',
     'controller' => 'seller',
     'action' => 'index'
     ]

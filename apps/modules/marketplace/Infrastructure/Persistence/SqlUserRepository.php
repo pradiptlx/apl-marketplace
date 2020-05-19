@@ -68,6 +68,9 @@ class SqlUserRepository implements UserRepository
     {
         $userRecord = UserRecord::findFirstByUsername($username);
 
+        if(!isset($userRecord))
+            return null;
+
         return $this->parsingRecord($userRecord);
     }
 
@@ -166,7 +169,7 @@ class SqlUserRepository implements UserRepository
             return true;
         }
         $trans->rollback();
-        return new Failed((string)$trans->getMessages());
+        return new Failed((string)$trans->getMessages()[0]);
     }
 
 }

@@ -108,7 +108,7 @@ $di['voltService'] = function (ViewInterface $view) use ($di, $config) {
         'separator' => '_',
         'stat' => true,
         'path' => $config->application->cacheDir,
-        'prefix' => '-prefix-',
+        'prefix' => 'cache',
     ));
     return $volt;
 };
@@ -162,10 +162,10 @@ $di->set('flashSession', function () {
     $escaper = new Escaper();
     $flash = new FlashSession($escaper);
     $flash->setCssClasses([
-        'error' => 'alert alert-danger alert-dismissible fade show',
-        'success' => 'alert alert-success alert-dismissible fade show',
-        'notice' => 'alert alert-info alert-dismissible fade show',
-        'warning' => 'alert alert-warning alert-dismissible fade show'
+        'error' => 'alert alert-danger alert-dismissible fade show mt-3',
+        'success' => 'alert alert-success alert-dismissible fade show mt-3',
+        'notice' => 'alert alert-info alert-dismissible fade show mt-3',
+        'warning' => 'alert alert-warning alert-dismissible fade show mt-3'
     ]);
 
     return $flash;

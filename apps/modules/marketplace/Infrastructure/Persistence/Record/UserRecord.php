@@ -15,10 +15,10 @@ class UserRecord extends Model
     public string $password;
     public string $email;
     public string $address;
-    public string $telp_number;
+    public ?string $telp_number;
     public string $status_user;
-    public string $created_at;
-    public string $updated_at;
+    public ?string $created_at;
+    public ?string $updated_at;
 
     public function initialize()
     {
