@@ -34,7 +34,7 @@ class CreateProductService
                 $request->getStock(),
                 $request->getPrice(),
                 0,
-                "",
+                "public/",
                 $this->userRepository->byId($userId),
                 $userId
             )

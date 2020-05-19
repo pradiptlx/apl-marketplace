@@ -1,6 +1,10 @@
 <?php
 
 use Dex\Common\Events\DomainEventPublisher;
-use Dex\Marketplace\Application\SendRatingNotificationService;
+use Dex\Marketplace\Application\IncrementProductCounter\IncrementProductCounterService;
 
-DomainEventPublisher::instance()->subscribe(new SendRatingNotificationService($di->get('swiftMailer')));
+DomainEventPublisher::instance()->subscribe(new IncrementProductCounterService(
+    $di->get('sqlProductRepository')
+));
+
+

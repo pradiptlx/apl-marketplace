@@ -4,6 +4,8 @@
 namespace Dex\Marketplace\Domain\Model;
 
 
+use Dex\Common\Events\DomainEventPublisher;
+
 class User
 {
     protected UserId $id;
@@ -35,6 +37,25 @@ class User
         $this->address = $address;
         $this->telp_number = $telp_number;
         $this->status_user = $status;
+    }
+
+    // Send mail and others after click buy
+    public function processTransaction(Product $product)
+    {
+        DomainEventPublisher::instance()->publish(
+            new Product(
+                new ProductId($product->getId()),
+                $product->getProductName(),
+                $product->getDescription(),
+                $product->getCreatedDate(),
+                $product->getUpdatedDate(),
+                $product->getStock(),
+                $product->getPrice(),
+                $product->incWishlistCounter(),
+                $product->getImagePath(),
+                $product->getSeller()
+            )
+        );
     }
 
     public function getId(): UserId

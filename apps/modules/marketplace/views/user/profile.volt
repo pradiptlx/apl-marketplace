@@ -112,6 +112,26 @@
                             <div class="col-md-12">
                                 <h4>Wishlist</h4>
                                 <hr>
+                                {% if wishlist is defined %}
+                                    {% for wish in wishlist %}
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <a href="{{ url('/marketplace/product/'~wishlist.product_id) }}">
+                                                    {{ wishlist.product_name }}
+                                                </a>
+                                            </div>
+                                            <div class="card-body">
+                                                {{ wishlist.description }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="card">
+                                        <div class="card-body">
+                                            No Items
+                                        </div>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
