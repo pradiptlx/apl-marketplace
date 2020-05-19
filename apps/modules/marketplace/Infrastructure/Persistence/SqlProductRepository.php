@@ -162,15 +162,11 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
     public function deleteProduct(ProductId $productId)
     {
+       
         $transx = (new Manager())->get();
-
-        $product = ProductRecord::find([
-            'conditions' => 'id=:id',
-            'binds' => [
-                'id' => $productId->getId()
-            ]
-        ]);
-
+        
+        $product = ProductRecord::findById($productId->getId());
+            
         if (isset($product)) {
             if ($product->delete()) {
                 $transx->commit();

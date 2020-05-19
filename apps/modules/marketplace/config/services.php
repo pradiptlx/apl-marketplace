@@ -3,6 +3,7 @@
 use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerService;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
+use Dex\Marketplace\Application\DeleteProduct\DeleteProductService;
 use Dex\Marketplace\Application\ForgotPasswordUser\ForgotPasswordUserService;
 use Dex\Marketplace\Application\GetProductBySellerId\GetProductBySellerIdService;
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
@@ -166,3 +167,11 @@ $di->set('getProductBySellerIdService', function () use($di){
         $di->get('sqlProductRepository')
     );
 });
+
+$di->set('deleteProductService', function () use($di){
+    return new DeleteProductService(
+        $di->get('sqlProductRepository')
+    );
+});
+
+

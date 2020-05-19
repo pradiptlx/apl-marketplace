@@ -35,8 +35,8 @@
                                 </h4>
                                 <h5>Rp. {{product.getPrice()}}</h5>
                                 <p class="card-text">Stok : {{product.getStock()}}</p>
-                                <a class="btn btn-success"  href="">Edit</a>
-                                <a class="btn btn-danger"  href="">Hapus</a>
+                                <a class="btn btn-success"  href="{{url("marketplace/product/editProduct/"~product.getId().getId())}}">Edit</a>
+                                <a class="btn btn-danger"  href="{{url("marketplace/product/deleteProduct/"~product.getId().getId())}}">Hapus</a>
                             </div>
                            
                             <div class="card-footer">
