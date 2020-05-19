@@ -74,7 +74,7 @@
             minimumInputLength: 4,
             placeholder: 'Search Product',
         })
-        .on('select2:select', function () {
+        .on('select2:select', function (e) {
             window.location.href = "{{ this.url.getBaseUri() }}/marketplace/product/detailProduct/"+e.params.data.id;
         });
 
