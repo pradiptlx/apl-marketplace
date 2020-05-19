@@ -24,11 +24,8 @@ class ProductController extends Controller
     private ShowItemDetailBuyerService $showItemDetailBuyerService;
     private CreateProductService $createProductService;
     private SearchProductService $searchProductService;
-<<<<<<< HEAD
     private DeleteProductService $deleteProductService;
-=======
     private AddItemToWishlistBuyerService $addItemToWishlistBuyerService;
->>>>>>> 6446a7e50a36daa04327b213e9f6ae941de1a390
 
     public function initialize()
     {
@@ -36,11 +33,8 @@ class ProductController extends Controller
         $this->showItemDetailBuyerService = $this->di->get('showItemDetailBuyerService');
         $this->createProductService = $this->di->get('createProductService');
         $this->searchProductService = $this->di->get('searchProductService');
-<<<<<<< HEAD
         $this->deleteProductService = $this->di->get('deleteProductService');
-=======
         $this->addItemToWishlistBuyerService = $this->di->get('addItemToWishlistBuyerService');
->>>>>>> 6446a7e50a36daa04327b213e9f6ae941de1a390
 
         if ($this->cookies->has('rememberMe')) {
             $rememberMe = json_decode(($this->cookies->get('rememberMe')->getValue()));

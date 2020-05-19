@@ -170,7 +170,6 @@ $di->set('getProductBySellerIdService', function () use ($di) {
     );
 });
 
-<<<<<<< HEAD
 $di->set('deleteProductService', function () use($di){
     return new DeleteProductService(
         $di->get('sqlProductRepository')
@@ -178,7 +177,6 @@ $di->set('deleteProductService', function () use($di){
 });
 
 
-=======
 $di->set('showProfileUserService', function () use ($di) {
     return new ShowProfileUserService(
         $di->get('sqlUserRepository'),
@@ -191,4 +189,3 @@ $di->set('changeProfileUserService', function () use ($di) {
         $di->get('sqlUserRepository')
     );
 });
->>>>>>> 6446a7e50a36daa04327b213e9f6ae941de1a390
