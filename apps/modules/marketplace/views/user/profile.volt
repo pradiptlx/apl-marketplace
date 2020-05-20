@@ -9,6 +9,7 @@
                 <div class="list-group ">
                     <a href="#" id="userLink" class="list-group-item list-group-item-action active">User Management</a>
                     <a href="#wishlist" id="wishlistLink" class="list-group-item list-group-item-action">Wishlist</a>
+                    <a href="#cart" id="cartLink" class="list-group-item list-group-item-action">Cart</a>
 
 
                 </div>
@@ -137,6 +138,39 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-9" id="cart" hidden>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Cart</h4>
+                                <hr>
+                                {% if cart is defined %}
+                                    {% for c in cart %}
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <a href="{{ url('/marketplace/product/'~c.product_id) }}">
+                                                    {{ c.product_name }}
+                                                </a>
+                                            </div>
+                                            <div class="card-body">
+                                                {{ c.description }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="card">
+                                        <div class="card-body">
+                                            No Items
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -147,19 +181,33 @@
         $(document).ready(function () {
             let userLink = $('#userLink');
             let wishlistLink = $('#wishlistLink');
+            let cartLink = $('#cartLink');
 
             userLink.click(function () {
                 $('#wishlist').attr('hidden', true);
                 $('#user').attr('hidden', false);
+                $('#cart').attr('hidden', true);
                 userLink.attr('class', 'list-group-item list-group-item-action active');
                 wishlistLink.removeAttr('class', 'active').attr('class', 'list-group-item list-group-item-action');
+                cartLink.removeAttr('class', 'active').attr('class', 'list-group-item list-group-item-action');
             });
 
             wishlistLink.click(function () {
                 $('#wishlist').attr('hidden', false);
                 $('#user').attr('hidden', true);
+                $('#cart').attr('hidden', true);
                 wishlistLink.attr('class', 'list-group-item list-group-item-action active');
                 userLink.removeAttr('class', 'active').attr('class', 'list-group-item list-group-item-action');
+                cartLink.removeAttr('class', 'active').attr('class', 'list-group-item list-group-item-action');
+            });
+
+            cartLink.click(function () {
+                $('#wishlist').attr('hidden', true);
+                $('#user').attr('hidden', true);
+                $('#cart').attr('hidden', false);
+                cartLink.attr('class', 'list-group-item list-group-item-action active');
+                userLink.removeAttr('class', 'active').attr('class', 'list-group-item list-group-item-action');
+                wishlistLink.removeAttr('class', 'active').attr('class', 'list-group-item list-group-item-action');
             });
         });
 

@@ -1,6 +1,7 @@
 <?php
 
 use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerService;
+use Dex\Marketplace\Application\AddToCartBuyer\AddToCartBuyerService;
 use Dex\Marketplace\Application\ChangeProfileUser\ChangeProfileUserService;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
@@ -11,6 +12,7 @@ use Dex\Marketplace\Application\GetProductBySellerId\GetProductBySellerIdService
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
 use Dex\Marketplace\Application\LoginUser\LoginUserService;
 use Dex\Marketplace\Application\SearchProduct\SearchProductService;
+use Dex\Marketplace\Application\ShowCartUser\ShowCartUserService;
 use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerService;
 use Dex\Marketplace\Application\ShowProfileUser\ShowProfileUserService;
 use Dex\Marketplace\Infrastructure\Persistence\SqlCartRepository;
@@ -115,10 +117,16 @@ $di->set('addItemToWishlistBuyerService', function () use ($di) {
 });
 
 $di->set('addToCartBuyerService', function () use ($di) {
-    return new AddItemToWishlistBuyerService(
+    return new AddToCartBuyerService(
         $di->get('sqlCartRepository'),
         $di->get('sqlProductRepository'),
         $di->get('sqlUserRepository')
+    );
+});
+
+$di->set('showCartUserService', function () use ($di) {
+    return new ShowCartUserService(
+        $di->get('sqlCartRepository')
     );
 });
 
@@ -187,7 +195,8 @@ $di->set('editProductService', function () use ($di) {
 $di->set('showProfileUserService', function () use ($di) {
     return new ShowProfileUserService(
         $di->get('sqlUserRepository'),
-        $di->get('sqlWishlistRepository')
+        $di->get('sqlWishlistRepository'),
+        $di->get('sqlCartRepository'),
     );
 });
 

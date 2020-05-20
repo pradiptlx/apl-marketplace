@@ -16,7 +16,8 @@
                 <h1 class="my-4">{{ product.getProductName() }}</h1>
                 <a type="button" href="{{ url('/marketplace/product/addToWishlist/'~product.getId().getId()) }}"
                    class="btn btn-info">Add To Wishlist</a>
-                <a type="button" href="#" class="btn btn-primary">Add To Cart</a>
+                <a type="button" href="{{ this.url.getBaseUri()~'/marketplace/cart/addCart/?q='~product.getId().getId()}}"
+                   class="btn btn-primary">Add To Cart</a>
             </div>
             <!-- /.col-lg-3 -->
 

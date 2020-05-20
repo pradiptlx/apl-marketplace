@@ -28,7 +28,7 @@
                         Product Reviews
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{url("marketplace/product/editProduct/"~product['idProduct'])}}">
+                        <form method="POST" action="{{url("/marketplace/product/editProduct/"~product['idProduct'])}}">
                             <div class="form-group">
                               <label for="productName">Product Name</label>
                               <input type="text" class="form-control" id="productName" name="productName" value="{{product['productName']}}">

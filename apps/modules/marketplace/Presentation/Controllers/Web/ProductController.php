@@ -11,7 +11,6 @@ use Dex\Marketplace\Application\DeleteProduct\DeleteProductRequest;
 use Dex\Marketplace\Application\DeleteProduct\DeleteProductService;
 use Dex\Marketplace\Application\EditProduct\EditProductRequest;
 use Dex\Marketplace\Application\EditProduct\EditProductService;
-use Dex\Marketplace\Application\LoginUser\LoginUserRequest;
 
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
 use Dex\Marketplace\Application\SearchProduct\SearchProductRequest;
@@ -126,7 +125,7 @@ class ProductController extends Controller
         $productId = $this->router->getParams()[0];
         if (!isset($productId))
             return $this->response->redirect('/');
-           
+
         $request = new DeleteProductRequest($productId);
         $response = $this->deleteProductService->execute($request);
 
@@ -137,7 +136,7 @@ class ProductController extends Controller
 
         $this->flashSession->success('Delete Product success');
         $this->response->redirect('marketplace/seller');
-       
+
     }
 
     public function editProductAction()
@@ -145,7 +144,7 @@ class ProductController extends Controller
         $productId = $this->router->getParams()[0];
         if (!isset($productId))
             return $this->response->redirect('/');
-        
+
         $request = $this->request;
         if ($request->isPost()) {
             $product['product_name'] = $request->getPost('productName', 'string');
@@ -170,7 +169,7 @@ class ProductController extends Controller
 
             return $this->response->redirect('/');
         }
-           
+
         $request = new ShowItemDetailBuyerRequest($productId);
         $response = $this->showItemDetailBuyerService->execute($request);
 

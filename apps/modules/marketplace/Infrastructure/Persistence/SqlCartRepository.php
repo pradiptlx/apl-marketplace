@@ -30,7 +30,7 @@ class SqlCartRepository extends \Phalcon\Di\Injectable implements CartRepository
 
     public function byBuyerId(UserId $userId): array
     {
-        $query = "SELECT c.*, p.product_name, p.description, p.price, 
+        $query = "SELECT c.id, c.product_id, c.user_id, p.product_name, p.description, p.price, 
                 u.username, u.fullname
                 FROM Dex\Marketplace\Infrastructure\Persistence\Record\CartRecord c 
                 JOIN Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord u on u.id=c.user_id
@@ -41,7 +41,11 @@ class SqlCartRepository extends \Phalcon\Di\Injectable implements CartRepository
             'user_id' => $userId->getId()
         ]);
 
-        if (!isset($model))
+        var_dump($model->next());
+        var_dump(CartRecord::findFirstByUserId($userId->getId()));
+        die();
+
+        if (empty($model->next()))
             return [];
 
         $carts = [];
@@ -77,9 +81,9 @@ class SqlCartRepository extends \Phalcon\Di\Injectable implements CartRepository
         $trans = (new Manager())->get();
 
         $record = new CartRecord();
-        $record->id = $cart->getId();
-        $record->product_id = $cart->getProduct()->getId();
-        $record->user_id;
+        $record->id = $cart->getId()->getId();
+        $record->product_id = $cart->getProduct()->getId()->getId();
+        $record->user_id = $cart->getBuyer()->getId()->getId();
         $record->created_at = (new \DateTime())->format('Y-m-d H:i:s');
 
         if ($record->save()) {

@@ -25,8 +25,8 @@ class CartController extends Controller
     public function addCartAction()
     {
 
-        if ($this->request->isPost()) {
-            $productId = $this->request->getPost('productId');
+        if ($this->request->isGet()) {
+            $productId = $this->request->get('q');
             $req = new AddToCartBuyerRequest($productId, $this->session->get('user_id'));
 
             $res = $this->addToCartBuyerService->execute($req);
@@ -36,7 +36,7 @@ class CartController extends Controller
             } else {
                 $this->flashSession->success($res->getMessage());
             }
-//            return $this->response->redirect('');
+            return $this->response->redirect('/marketplace/product/detailProduct' . $productId);
         }
 
 

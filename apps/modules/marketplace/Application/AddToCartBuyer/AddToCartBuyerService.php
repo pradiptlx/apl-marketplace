@@ -35,7 +35,8 @@ class AddToCartBuyerService
             new Cart(
                 new CartId(),
                 $this->productRepository->byId($productId),
-                $this->userRepository->byId($userId)
+                $this->userRepository->byId($userId),
+                ""
             )
         );
 
