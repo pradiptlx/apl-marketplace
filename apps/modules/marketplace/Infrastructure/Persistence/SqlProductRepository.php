@@ -253,4 +253,13 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
         return false;
     }
+
+    public function changeStock(ProductId $productId, int $stock)
+    {
+        $sql = "UPDATE [product] SET stock = :stock WHERE id=:id";
+        $param = 
+       ['id' => $productId->getId(), 'stock' => $stock];
+       $result = $this->db->execute($sql, $param);
+       return $result;
+    }
 }

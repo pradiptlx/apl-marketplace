@@ -3,6 +3,7 @@
 use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerService;
 use Dex\Marketplace\Application\AddToCartBuyer\AddToCartBuyerService;
 use Dex\Marketplace\Application\ChangeProfileUser\ChangeProfileUserService;
+use Dex\Marketplace\Application\ChangeStockProduct\ChangeStockProductService;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
 use Dex\Marketplace\Application\DeleteProduct\DeleteProductService;
@@ -187,6 +188,12 @@ $di->set('deleteProductService', function () use($di){
 
 $di->set('editProductService', function () use ($di) {
     return new EditProductService(
+        $di->get('sqlProductRepository')
+    );
+});
+
+$di->set('changeStockProductService', function () use ($di) {
+    return new ChangeStockProductService(
         $di->get('sqlProductRepository')
     );
 });
