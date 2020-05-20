@@ -9,6 +9,8 @@ use Dex\Marketplace\Application\CreateProduct\CreateProductRequest;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\DeleteProduct\DeleteProductRequest;
 use Dex\Marketplace\Application\DeleteProduct\DeleteProductService;
+use Dex\Marketplace\Application\EditProduct\EditProductRequest;
+use Dex\Marketplace\Application\EditProduct\EditProductService;
 use Dex\Marketplace\Application\LoginUser\LoginUserRequest;
 
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
@@ -26,6 +28,7 @@ class ProductController extends Controller
     private SearchProductService $searchProductService;
     private DeleteProductService $deleteProductService;
     private AddItemToWishlistBuyerService $addItemToWishlistBuyerService;
+    private EditProductService $editProductService;
 
     public function initialize()
     {
@@ -35,6 +38,7 @@ class ProductController extends Controller
         $this->searchProductService = $this->di->get('searchProductService');
         $this->deleteProductService = $this->di->get('deleteProductService');
         $this->addItemToWishlistBuyerService = $this->di->get('addItemToWishlistBuyerService');
+        $this->editProductService = $this->di->get('editProductService');
 
         if ($this->cookies->has('rememberMe')) {
             $rememberMe = json_decode(($this->cookies->get('rememberMe')->getValue()));
@@ -138,7 +142,50 @@ class ProductController extends Controller
 
     public function editProductAction()
     {
+        $productId = $this->router->getParams()[0];
+        if (!isset($productId))
+            return $this->response->redirect('/');
+        
+        $request = $this->request;
+        if ($request->isPost()) {
+            $product['product_name'] = $request->getPost('productName', 'string');
+            $product['stock'] = $request->getPost('stok');
+            $product['price'] = $request->getPost('price');
+            $product['description'] = $request->getPost('description');
+            $product['user_id'] = strval($this->session->get('user_id'));
 
+            $request = new EditProductRequest(
+               $productId,
+               $product
+            );
+
+            $response = $this->editProductService->execute($request);
+
+            if ($response->getError()) {
+                $this->flashSession->error($response->getMessage());
+                return $this->response->redirect('');
+            } else {
+                $this->flashSession->success('Edit Product success');
+            }
+
+            return $this->response->redirect('/');
+        }
+           
+        $request = new ShowItemDetailBuyerRequest($productId);
+        $response = $this->showItemDetailBuyerService->execute($request);
+
+        if ($response->getError()) {
+            $this->flashSession->error($response->getMessage());
+            return $this->response->redirect('/');
+        }
+        $product['idProduct'] = $response->getData()->getId()->getId();
+        $product['productName'] = $response->getData()->getProductName();
+        $product['stock'] = $response->getData()->getStock();
+        $product['price'] = $response->getData()->getPrice();
+        $product['description'] = $response->getData()->getDescription();
+        $this->view->setVar('product', $product);
+        $this->view->setVar('title', 'Edit Product');
+        return $this->view->pick('product/edit');
     }
 
     public function searchProductAction()

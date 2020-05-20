@@ -11,7 +11,7 @@ class ProductRecord extends Model
     public string $id;
     public string $product_name;
     public string $description;
-    public string $created_at;
+    public ?string $created_at;
     public ?string $updated_at;
     public int $stock;
     public string $price;

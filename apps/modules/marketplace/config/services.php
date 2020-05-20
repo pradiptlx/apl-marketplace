@@ -5,6 +5,7 @@ use Dex\Marketplace\Application\ChangeProfileUser\ChangeProfileUserService;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
 use Dex\Marketplace\Application\DeleteProduct\DeleteProductService;
+use Dex\Marketplace\Application\EditProduct\EditProductService;
 use Dex\Marketplace\Application\ForgotPasswordUser\ForgotPasswordUserService;
 use Dex\Marketplace\Application\GetProductBySellerId\GetProductBySellerIdService;
 use Dex\Marketplace\Application\ListItemsBuyer\ListItemsBuyerService;
@@ -176,6 +177,12 @@ $di->set('deleteProductService', function () use($di){
     );
 });
 
+$di->set('editProductService', function () use ($di) {
+    return new EditProductService(
+        $di->get('sqlProductRepository')
+    );
+});
+
 
 $di->set('showProfileUserService', function () use ($di) {
     return new ShowProfileUserService(
@@ -189,3 +196,5 @@ $di->set('changeProfileUserService', function () use ($di) {
         $di->get('sqlUserRepository')
     );
 });
+
+

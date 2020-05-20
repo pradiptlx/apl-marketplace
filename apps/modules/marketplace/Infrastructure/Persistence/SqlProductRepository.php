@@ -92,7 +92,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $productRecord[0]->p->stock,
                 $productRecord[0]->p->price,
                 $productRecord[0]->p->wishlist_counter,
-                $productRecord[0]->p->image_path,
+                null,
                 new User(
                     new UserId($productRecord[0]->userId),
                     $productRecord[0]->username,
@@ -225,15 +225,21 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
     public function editProduct(array $datas, ProductId $productId)
     {
-        $productResult = ProductRecord::findFirstById($productId);
-
+        
+        $productResult = ProductRecord::findFirstById($productId->getId());
         if (isset($productResult)) {
             $trans = (new Manager())->get();
             $productRecord = new ProductRecord();
+            $productRecord->id = $productId->getId();
+            $productRecord->wishlist_counter = 0;
+            $productRecord->created_at = (new \DateTime())->format('Y-m-d H:i:s');
+            $productRecord->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
             foreach ($datas as $data => $val) {
                 if($val !== null)
                     $productRecord->$data = $val;
             }
+            // var_dump($productRecord);
+            // die();
 
             if ($productRecord->update()) {
                 $trans->commit();
