@@ -9,6 +9,7 @@ use Dex\Marketplace\Domain\Model\ProductId;
 use Dex\Marketplace\Domain\Model\User;
 use Dex\Marketplace\Domain\Model\UserId;
 use Dex\Marketplace\Domain\Model\Wishlist;
+use Dex\Marketplace\Domain\Model\WishlistId;
 use Dex\Marketplace\Domain\Repository\WishlistRepository;
 use Dex\Marketplace\Infrastructure\Persistence\Record\WishlistRecord;
 use Phalcon\Mvc\Model\Transaction\Failed;
@@ -19,9 +20,7 @@ class SqlWishlistRepository extends \Phalcon\Di\Injectable implements WishlistRe
 
     public function byUserId(UserId $userId)
     {
-//        var_dump(WishlistRecord::findFirstByUserId($userId->getId()));
-//        die();
-        $query = "SELECT w.*, p.product_name, p.description, p.price, p.stock, p.wishlist_counter, p.image_path,
+        $query = "SELECT w.id, w.user_id, w.product_id , p.product_name, p.description, p.price, p.stock, p.wishlist_counter, p.image_path,
                   u.username, u.fullname, u.email, u.password, u.status_user, u.telp_number, u.address
                   FROM Dex\Marketplace\Infrastructure\Persistence\Record\WishlistRecord w
                   JOIN Dex\Marketplace\Infrastructure\Persistence\Record\ProductRecord p on p.id=w.product_id
@@ -32,14 +31,13 @@ class SqlWishlistRepository extends \Phalcon\Di\Injectable implements WishlistRe
                 'userId' => $userId->getId()
             ]);
 
-        if (empty($wishlistResult->next()))
-            return null;
-
         $wishlists = [];
 
         foreach ($wishlistResult as $wishlist) {
+            if ($wishlist == null)
+                return [];
             $wishlists[] = new Wishlist(
-                $wishlist->id,
+                new WishlistId($wishlist->id),
                 new Product(
                     new ProductId($wishlist->product_id),
                     $wishlist->product_name,
@@ -71,7 +69,7 @@ class SqlWishlistRepository extends \Phalcon\Di\Injectable implements WishlistRe
         $trans = (new Manager())->get();
 
         $wishlistRecord = new WishlistRecord();
-        $wishlistRecord->id = $wishlist->getId();
+        $wishlistRecord->id = $wishlist->getId()->getId();
         $wishlistRecord->product_id = $wishlist->getProduct()->getId()->getId();
         $wishlistRecord->user_id = $wishlist->getUser()->getId()->getId();
 

@@ -113,8 +113,8 @@
                             <div class="col-md-12">
                                 <h4>Wishlist</h4>
                                 <hr>
-                                {% if wishlists is defined %}
-                                    {% for wish in wishlist %}
+                                {% if wishlists is not null %}
+                                    {% for wishlist in wishlists %}
                                         <div class="card">
                                             <div class="card-header">
                                                 <a href="{{ url('/marketplace/product/'~wishlist.product_id) }}">
@@ -146,11 +146,11 @@
                             <div class="col-md-12">
                                 <h4>Cart</h4>
                                 <hr>
-                                {% if carts is defined %}
+                                {% if carts is not null %}
                                     {% for cart in carts %}
                                         <div class="card">
                                             <div class="card-header">
-                                                <a href="{{ url('/marketplace/product/'~cart.product_id) }}">
+                                                <a href="{{ url('/marketplace/product/detailProduct/'~cart.product_id) }}">
                                                     {{ cart.product_name }}
                                                 </a>
                                             </div>

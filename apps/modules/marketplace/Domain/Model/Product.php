@@ -4,11 +4,11 @@
 namespace Dex\Marketplace\Domain\Model;
 
 
-use Dex\Common\Events\DateTimeImmutable;
-use Dex\Common\Events\DomainEvent;
-use Dex\Common\Events\DomainEventPublisher;
-
-class Product implements DomainEvent
+/**
+ * Class Product Aggregate
+ * @package Dex\Marketplace\Domain\Model
+ */
+class Product
 {
     private ProductId $id;
     private string $productName;
@@ -104,28 +104,5 @@ class Product implements DomainEvent
         return $this->image_path;
     }
 
-    public function incStock(): int
-    {
-        return ++$this->stock;
-    }
 
-    public function decStock(): int
-    {
-        return --$this->stock;
-    }
-
-    public function incWishlistCounter(): int
-    {
-        return ++$this->wishlistCounter;
-    }
-
-    public function decWishlistCounter(): int
-    {
-        return --$this->wishlistCounter;
-    }
-
-    public function occurredOn()
-    {
-        // TODO: Implement occurredOn() method.
-    }
 }

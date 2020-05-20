@@ -4,17 +4,21 @@
 namespace Dex\Marketplace\Domain\Model;
 
 
-use Dex\Common\Events\DomainEvent;
 use Dex\Common\Events\DomainEventPublisher;
+use Dex\Marketplace\Domain\Event\ChangeProductCounterEvent;
 
-class Wishlist implements DomainEvent
+/**
+ * Class Wishlist Aggregate
+ * @package Dex\Marketplace\Domain\Model
+ */
+class Wishlist
 {
-    private string $id;
+    private WishlistId $id;
     private Product $product;
     private User $user;
 
     public function __construct(
-        string $id,
+        WishlistId $id,
         Product $product,
         User $user
     )
@@ -23,21 +27,6 @@ class Wishlist implements DomainEvent
         $this->product = $product;
         $this->user = $user;
 
-        DomainEventPublisher::instance()->publish(
-            new Product(
-                $product->getId(),
-                $product->getProductName(),
-                $product->getDescription(),
-                $product->getCreatedDate(),
-                $product->getUpdatedDate(),
-                $product->getStock(),
-                $product->getPrice(),
-                $product->incWishlistCounter(),
-                $product->getImagePath(),
-                $product->getSeller(),
-                $product->getSellerId()
-            )
-        );
     }
 
     public function getId()
@@ -55,8 +44,15 @@ class Wishlist implements DomainEvent
         return $this->user;
     }
 
-    public function occurredOn()
+    public function notifyProduct()
     {
-        // TODO: Implement occurredOn() method.
+        DomainEventPublisher::instance()->publish(
+            new ChangeProductCounterEvent(
+                $this->product->getId(),
+                $this->product->getWishlistCounter(),
+                $this->product->getStock()
+            )
+        );
     }
+
 }

@@ -39,25 +39,6 @@ class User
         $this->status_user = $status;
     }
 
-    // Send mail and others after click buy
-    public function processTransaction(Product $product)
-    {
-        DomainEventPublisher::instance()->publish(
-            new Product(
-                new ProductId($product->getId()),
-                $product->getProductName(),
-                $product->getDescription(),
-                $product->getCreatedDate(),
-                $product->getUpdatedDate(),
-                $product->getStock(),
-                $product->getPrice(),
-                $product->incWishlistCounter(),
-                $product->getImagePath(),
-                $product->getSeller()
-            )
-        );
-    }
-
     public function getId(): UserId
     {
         return $this->id;
@@ -108,6 +89,7 @@ class User
         return $this->updated_at;
     }
 
+    //TODO: REMOVE SETTER BECAUSE THIS IS AGGREGATE
     public function setUsername(string $username)
     {
         $this->username = $username;

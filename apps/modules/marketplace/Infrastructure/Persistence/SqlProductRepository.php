@@ -17,26 +17,6 @@ use Phalcon\Mvc\Model\Transaction\Manager;
 class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepository
 {
 
-    /*private function parsingRecord(ProductRecord $record): ?Product
-    {
-
-        return new Product(
-            new ProductId($record->id),
-            $record->product_name,
-            $record->description,
-            $record->created_at,
-            $record->updated_at,
-            $record->stock,
-            $record->price,
-            $record->wishlist_counter,
-            new User(
-                new UserId($record->user_id),
-
-            )
-        )
-
-    }*/
-
     private function parsingSet(Resultset $result)
     {
         $products = [];
@@ -168,11 +148,11 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
     public function deleteProduct(ProductId $productId)
     {
-       
+
         $transx = (new Manager())->get();
-        
+
         $product = ProductRecord::findById($productId->getId());
-            
+
         if (isset($product)) {
             if ($product->delete()) {
                 $transx->commit();
@@ -225,29 +205,25 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
 
     public function editProduct(array $datas, ProductId $productId)
     {
-        
+
         $productResult = ProductRecord::findFirstById($productId->getId());
         if (isset($productResult)) {
             $trans = (new Manager())->get();
-            $productRecord = new ProductRecord();
-            $productRecord->id = $productId->getId();
-            $productRecord->wishlist_counter = 0;
-            $productRecord->created_at = (new \DateTime())->format('Y-m-d H:i:s');
-            $productRecord->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
+            $productResult->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
             foreach ($datas as $data => $val) {
-                if($val !== null)
-                    $productRecord->$data = $val;
+                if ($val !== null)
+                    $productResult->$data = $val;
             }
-            // var_dump($productRecord);
+            // var_dump($productResult);
             // die();
 
-            if ($productRecord->update()) {
+            if ($productResult->update()) {
                 $trans->commit();
                 return true;
             } else {
                 $trans->rollback();
 
-                return new Failed($productRecord->getMessages()[0]);
+                return new Failed($productResult->getMessages()[0]);
             }
         }
 
@@ -257,9 +233,9 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
     public function changeStock(ProductId $productId, int $stock)
     {
         $sql = "UPDATE [product] SET stock = :stock WHERE id=:id";
-        $param = 
-       ['id' => $productId->getId(), 'stock' => $stock];
-       $result = $this->db->execute($sql, $param);
-       return $result;
+        $param =
+            ['id' => $productId->getId(), 'stock' => $stock];
+        $result = $this->db->execute($sql, $param);
+        return $result;
     }
 }

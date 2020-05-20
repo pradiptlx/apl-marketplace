@@ -18,7 +18,7 @@ class WishlistRecord extends Model
         $this->setSchema('dbo');
         $this->setSource('wishlist');
 
-        $this->hasMany('product_id', ProductRecord::class, 'id');
+        $this->belongsTo('product_id', ProductRecord::class, 'id');
         $this->belongsTo('user_id', UserRecord::class, 'id');
     }
 

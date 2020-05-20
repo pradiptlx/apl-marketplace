@@ -2,6 +2,8 @@
 
 namespace Dex\Common\Events;
 
+use DateTimeImmutable;
+
 interface DomainEvent
 {
     /**

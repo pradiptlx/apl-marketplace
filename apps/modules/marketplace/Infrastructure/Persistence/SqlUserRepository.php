@@ -149,7 +149,7 @@ class SqlUserRepository implements UserRepository
             }
             throw new Failed("Can't update status user");
         } catch (Failed $exception) {
-            //TODO: Exception
+            //TODO: Exceptions
         }
 
     }

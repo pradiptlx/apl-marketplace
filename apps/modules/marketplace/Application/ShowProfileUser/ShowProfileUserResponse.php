@@ -25,12 +25,6 @@ class ShowProfileUserResponse extends GenericResponse
          * @var User $user
          */
         $user = $datas['user'];
-
-        /**
-         * @var Wishlist $wishlist
-         */
-        $wishlist = $datas['wishlist'];
-
         $resUser = (object)[
             'id' => $user->getId()->getId(),
             'username' => $user->getUsername(),
@@ -42,37 +36,37 @@ class ShowProfileUserResponse extends GenericResponse
             'status_user' => $user->getStatusUser()
         ];
 
-        if (empty($wishlist))
-            $resWishlist = [];
-        else
-            foreach ($wishlist as $item) {
-                $resWishlist[] = (object)[
-                    'id' => $item->getId(),
-                    'product_id' => $item->getProduct()->getId()->getId(),
-                    'product_name' => $item->getProduct()->getProductName(),
-                    'price' => $item->getProduct()->getPrice(),
-                    'stock' => $item->getProduct()->getStock(),
-                    'description' => $item->getProduct()->getDescription()
-                ];
-            }
+        /**
+         * @var Wishlist $item
+         */
+        $wishlist = $datas['wishlist'];
+        $resWishlist = [];
+        foreach ($wishlist as $item) {
+            $resWishlist[] = (object)[
+                'id' => $item->getId()->getId(),
+                'product_id' => $item->getProduct()->getId()->getId(),
+                'product_name' => $item->getProduct()->getProductName(),
+                'price' => $item->getProduct()->getPrice(),
+                'stock' => $item->getProduct()->getStock(),
+                'description' => $item->getProduct()->getDescription()
+            ];
+        }
 
         /**
-         * @var Cart $cart
+         * @var Cart $item
          */
         $cart = $datas['cart'];
-        if (empty($cart))
-            $cartRes = [];
-        else
-            foreach ($cart as $item) {
-                $cartRes[] = (object)[
-                    'id' => $item->getId()->getId(),
-                    'product_id' => $item->getProduct()->getId()->getId(),
-                    'product_name' => $item->getProduct()->getProductName(),
-                    'price' => $item->getProduct()->getPrice(),
-                    'stock' => $item->getProduct()->getStock(),
-                    'description' => $item->getProduct()->getDescription()
-                ];
-            }
+        $cartRes = [];
+        foreach ($cart as $item) {
+            $cartRes[] = (object)[
+                'id' => $item->getId()->getId(),
+                'product_id' => $item->getProduct()->getId()->getId(),
+                'product_name' => $item->getProduct()->getProductName(),
+                'price' => $item->getProduct()->getPrice(),
+                'stock' => $item->getProduct()->getStock(),
+                'description' => $item->getProduct()->getDescription()
+            ];
+        }
 
         return array('user' => $resUser, 'wishlist' => $resWishlist, 'cart' => $cartRes);
     }

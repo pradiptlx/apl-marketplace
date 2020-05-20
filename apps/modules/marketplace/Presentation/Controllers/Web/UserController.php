@@ -99,10 +99,6 @@ class UserController extends Controller
                 $this->flashSession->error($res->getMessage());
                 return $this->response->redirect('/marketplace/');
             }
-            //elseif ($res->getError() && $res->getCode() === 200){ // Wishlist not found
-            //                $this->flashSession->error($res->getMessage());
-            //            }
-
             $this->view->setVar('user', $res->getData()['user']);
             $this->view->setVar('wishlists', $res->getData()['wishlist']);
             $this->view->setVar('carts', $res->getData()['cart']);
