@@ -37,10 +37,7 @@ class ShowProfileUserService extends \Phalcon\Di\Injectable
         $wishlist = $this->wishlistRepository->byUserId(new UserId($userId));
         $cart = $this->cartRepository->byBuyerId(new UserId($userId));
 
-        var_dump($cart);
-        die();
-
-        $datas = array('user' => $user, 'wishlist' => $wishlist);
+        $datas = array('user' => $user, 'wishlist' => $wishlist, 'cart'=> $cart);
 
         return new ShowProfileUserResponse($datas, '', 200, false);
     }

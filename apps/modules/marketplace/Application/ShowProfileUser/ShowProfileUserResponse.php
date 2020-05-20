@@ -5,6 +5,7 @@ namespace Dex\Marketplace\Application\ShowProfileUser;
 
 
 use Dex\Marketplace\Application\GenericResponse;
+use Dex\Marketplace\Domain\Model\Cart;
 use Dex\Marketplace\Domain\Model\User;
 use Dex\Marketplace\Domain\Model\Wishlist;
 
@@ -12,10 +13,10 @@ class ShowProfileUserResponse extends GenericResponse
 {
     public function __construct($data, $message, $code = 200, $error = null)
     {
-        if($code == 200)
+        if ($code == 200)
             parent::__construct($this->parsingData($data), $message, $code, $error);
         else
-            parent::__construct(null,  $message, $code, $error);
+            parent::__construct(null, $message, $code, $error);
     }
 
     private function parsingData(array $datas)
@@ -44,16 +45,36 @@ class ShowProfileUserResponse extends GenericResponse
         if (empty($wishlist))
             $resWishlist = [];
         else
-            $resWishlist = (object)[
-                'id' => $wishlist->getId(),
-                'product_id' => $wishlist->getProduct()->getId()->getId(),
-                'product_name' => $wishlist->getProduct()->getProductName(),
-                'price' => $wishlist->getProduct()->getPrice(),
-                'stock' => $wishlist->getProduct()->getStock(),
-                'description' => $wishlist->getProduct()->getDescription()
-            ];
+            foreach ($wishlist as $item) {
+                $resWishlist[] = (object)[
+                    'id' => $item->getId(),
+                    'product_id' => $item->getProduct()->getId()->getId(),
+                    'product_name' => $item->getProduct()->getProductName(),
+                    'price' => $item->getProduct()->getPrice(),
+                    'stock' => $item->getProduct()->getStock(),
+                    'description' => $item->getProduct()->getDescription()
+                ];
+            }
 
-        return array('user' => $resUser, 'wishlist' => $resWishlist);
+        /**
+         * @var Cart $cart
+         */
+        $cart = $datas['cart'];
+        if (empty($cart))
+            $cartRes = [];
+        else
+            foreach ($cart as $item) {
+                $cartRes[] = (object)[
+                    'id' => $item->getId()->getId(),
+                    'product_id' => $item->getProduct()->getId()->getId(),
+                    'product_name' => $item->getProduct()->getProductName(),
+                    'price' => $item->getProduct()->getPrice(),
+                    'stock' => $item->getProduct()->getStock(),
+                    'description' => $item->getProduct()->getDescription()
+                ];
+            }
+
+        return array('user' => $resUser, 'wishlist' => $resWishlist, 'cart' => $cartRes);
     }
 
 }

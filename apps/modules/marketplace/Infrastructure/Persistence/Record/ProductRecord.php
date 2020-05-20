@@ -25,7 +25,9 @@ class ProductRecord extends Model
         $this->setSchema('dbo');
         $this->setSource('product');
 
-        $this->belongsTo('user_id', UserRecord::class, 'id');
-        $this->belongsTo('user_id', WishlistRecord::class, 'id');
+        $this->hasManyToMany('id', CartRecord::class, 'product_id', 'user_id', UserRecord::class, 'id');
+        $this->hasManyToMany('id', WishlistRecord::class, 'product_id', 'user_id', UserRecord::class, 'id');
+//        $this->hasMany('id', WishlistRecord::class, 'product_id');
+//        $this->hasMany('id', CartRecord::class, 'product_id');
     }
 }

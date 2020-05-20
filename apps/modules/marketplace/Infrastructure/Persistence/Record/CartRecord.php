@@ -19,8 +19,12 @@ class CartRecord extends Model
         $this->setSchema('dbo');
         $this->setSource('cart');
 
-        $this->belongsTo('product_id', ProductRecord::class, 'id');
-        $this->belongsTo('user_id', UserRecord::class, 'id');
+        $this->belongsTo('product_id', ProductRecord::class, 'id', [
+            'reusable' => true
+        ]);
+        $this->belongsTo('user_id', UserRecord::class, 'id',[
+            'reusable' => true,
+        ]);
     }
 
 }

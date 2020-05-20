@@ -26,9 +26,10 @@ class UserRecord extends Model
         $this->setSchema('dbo');
         $this->setSource('users');
 
-        $this->hasOne('id', CartRecord::class, 'user_id');
-        $this->hasMany('id', ProductRecord::class, 'user_id');
-        $this->hasOne('id', WishlistRecord::class, 'user_id');
+        $this->hasManyToMany('id', CartRecord::class, 'user_id', 'product_id', ProductRecord::class, 'id');
+//        $this->hasMany('id', ProductRecord::class, 'user_id');
+        $this->hasManyToMany('id', WishlistRecord::class, 'user_id', 'product_id', ProductRecord::class, 'id');
+//        $this->hasOne('id', WishlistRecord::class, 'user_id');
     }
 
 }

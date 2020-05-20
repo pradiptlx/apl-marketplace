@@ -104,7 +104,8 @@ class UserController extends Controller
             //            }
 
             $this->view->setVar('user', $res->getData()['user']);
-            $this->view->setVar('wishlist', $res->getData()['wishlist']);
+            $this->view->setVar('wishlists', $res->getData()['wishlist']);
+            $this->view->setVar('carts', $res->getData()['cart']);
         }
 
         $this->view->setVar('title', 'Profile Page ' . $this->session->get('fullname'));

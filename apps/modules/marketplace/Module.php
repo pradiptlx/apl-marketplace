@@ -18,6 +18,7 @@ class Module implements ModuleDefinitionInterface
             'Dex\Marketplace\Domain\Transport' => __DIR__ . '/Domain/Transport',
             'Dex\Marketplace\Domain\Exception' => __DIR__ . '/Domain/Exception',
             'Dex\Marketplace\Infrastructure\Persistence' => __DIR__ . '/Infrastructure/Persistence',
+            'Dex\Marketplace\Infrastructure\Persistence\Record' => __DIR__ . '/Infrastructure/Persistence/Record',
             'Dex\Marketplace\Infrastructure\Transport' => __DIR__ . '/Infrastructure/Transport',
             'Dex\Marketplace\Application' => __DIR__ . '/Application',
             'Dex\Marketplace\Presentation\Controllers\Web' => __DIR__ . '/Presentation/Controllers/Web',

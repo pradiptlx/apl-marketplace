@@ -113,7 +113,7 @@
                             <div class="col-md-12">
                                 <h4>Wishlist</h4>
                                 <hr>
-                                {% if wishlist is defined %}
+                                {% if wishlists is defined %}
                                     {% for wish in wishlist %}
                                         <div class="card">
                                             <div class="card-header">
@@ -146,16 +146,16 @@
                             <div class="col-md-12">
                                 <h4>Cart</h4>
                                 <hr>
-                                {% if cart is defined %}
-                                    {% for c in cart %}
+                                {% if carts is defined %}
+                                    {% for cart in carts %}
                                         <div class="card">
                                             <div class="card-header">
-                                                <a href="{{ url('/marketplace/product/'~c.product_id) }}">
-                                                    {{ c.product_name }}
+                                                <a href="{{ url('/marketplace/product/'~cart.product_id) }}">
+                                                    {{ cart.product_name }}
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                {{ c.description }}
+                                                {{ cart.description }}
                                             </div>
                                         </div>
                                     {% endfor %}

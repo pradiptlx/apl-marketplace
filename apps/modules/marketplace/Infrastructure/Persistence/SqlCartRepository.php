@@ -30,27 +30,30 @@ class SqlCartRepository extends \Phalcon\Di\Injectable implements CartRepository
 
     public function byBuyerId(UserId $userId): array
     {
-        $query = "SELECT c.id, c.product_id, c.user_id, p.product_name, p.description, p.price, 
+//        $query = "SELECT c.* FROM Dex\Marketplace\Infrastructure\Persistence\Record\CartRecord c WHERE c.user_id=:user_id:";
+//        $query = "SELECT cart.id, cart.product_id, cart.user_id, p.product_name, p.description, p.price,
+//                  u.username, u.fullname
+//                  FROM Dex\Marketplace\Infrastructure\Persistence\Record\ProductRecord p
+//                  JOIN Dex\Marketplace\Infrastructure\Persistence\Record\CartRecord cart on cart.product_id=p.id
+//                  JOIN Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord u on u.id=p.user_id
+//                  WHERE p.user_id=:user_id:";
+        $query = "SELECT cart.id, cart.product_id, cart.user_id, p.product_name, p.description, p.price,
                 u.username, u.fullname
-                FROM Dex\Marketplace\Infrastructure\Persistence\Record\CartRecord c 
-                JOIN Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord u on u.id=c.user_id
-                JOIN Dex\Marketplace\Infrastructure\Persistence\Record\ProductRecord p on p.id=c.product_id
-                WHERE c.user_id=:user_id:";
+                FROM Dex\Marketplace\Infrastructure\Persistence\Record\CartRecord cart
+                JOIN Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord u on u.id=cart.user_id
+                JOIN Dex\Marketplace\Infrastructure\Persistence\Record\ProductRecord p on p.id=cart.product_id
+                WHERE cart.user_id=:user_id:";
 
         $model = $this->modelsManager->createQuery($query)->execute([
             'user_id' => $userId->getId()
         ]);
-
-        var_dump($model->next());
-        var_dump(CartRecord::findFirstByUserId($userId->getId()));
-        die();
-
-        if (empty($model->next()))
-            return [];
+//        $model = $this->modelsManager->createQuery($query)->execute();
 
         $carts = [];
 
         foreach ($model as $cart) {
+            if ($cart == null)
+                return [];
             $carts[] = new Cart(
                 new CartId($cart->id),
                 new Product(
@@ -59,7 +62,7 @@ class SqlCartRepository extends \Phalcon\Di\Injectable implements CartRepository
                     $cart->description,
                     '',
                     '',
-                    null,
+                    0,
                     $cart->price
                 ),
                 new User(
