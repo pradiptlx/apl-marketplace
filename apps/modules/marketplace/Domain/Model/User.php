@@ -136,4 +136,9 @@ class User
         else
             return strtoupper($this->status_user) === self::$SELLER;
     }
+
+    public function doVerifyPassword(string $requestPassword): bool
+    {
+        return password_verify($requestPassword, $this->password);
+    }
 }

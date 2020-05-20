@@ -26,9 +26,11 @@ class LoginUserService extends \Phalcon\Di\Injectable
         if (is_null($response))
             return new LoginUserResponse(null, "User Not Found", 200, true);
 
-        if (!$this->verifyPassword($request->password, $response->getPassword()))
+        // Call its domain
+        if ($response->doVerifyPassword($request->password))
             return new LoginUserResponse(null, "Incorrect Password", 200, true);
 
+        // Handle Cookies Request
         if ($request->rememberMe) {
             $tomorrow = (new DateTimeImmutable())->modify('tomorrow');
 
@@ -41,8 +43,6 @@ class LoginUserService extends \Phalcon\Di\Injectable
 
             $this->cookies->set('rememberMe', $rememberMe, (int) $tomorrow->format('U'));
             $this->cookies->send();
-//            $this->response->setCookies($this->cookies);
-//            $this->response->sendCookies();
         }
 
         $this->session->set('status_user', $response->getStatusUser());
@@ -51,11 +51,6 @@ class LoginUserService extends \Phalcon\Di\Injectable
         $this->session->set('user_id', $response->getId()->getId());
 
         return new LoginUserResponse($response, "Login Success", 200, false);
-    }
-
-    private function verifyPassword($password, $dbPassword): bool
-    {
-        return password_verify($password, $dbPassword);
     }
 
 }
