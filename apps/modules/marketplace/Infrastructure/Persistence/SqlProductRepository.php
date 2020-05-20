@@ -6,6 +6,7 @@ namespace Dex\Marketplace\Infrastructure\Persistence;
 
 use Dex\Marketplace\Domain\Model\Product;
 use Dex\Marketplace\Domain\Model\ProductId;
+use Dex\Marketplace\Domain\Model\ProductImage;
 use Dex\Marketplace\Domain\Model\User;
 use Dex\Marketplace\Domain\Model\UserId;
 use Dex\Marketplace\Domain\Repository\ProductRepository;
@@ -133,7 +134,17 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
         $productRecord->price = $product->getPrice();
         $productRecord->wishlist_counter = $product->getWishlistCounter();
         $productRecord->user_id = $product->getSellerId()->getId();
-        $productRecord->image_path = $product->getImagePath();
+        $productImages = $product->getProductImages();
+        $filenames = [];
+        if(isset($productImages)){
+            /**
+             * @var ProductImage $productImage
+             */
+            foreach ($productImages as $productImage) {
+                $filenames[] = $productImage->getFilename();
+            }
+        }
+        $productRecord->image_path = json_encode($filenames);
 
         if ($productRecord->save()) {
             $transx->commit();

@@ -92,14 +92,18 @@ class ProductController extends Controller
             $price = $request->getPost('price');
             $description = $request->getPost('description');
             $sellerId = strval($this->session->get('user_id'));
+            $files = [];
 
+            if ($request->hasFiles())
+                $files = $request->getUploadedFiles() ?: [];
 
             $request = new CreateProductRequest(
                 $sellerId,
                 $price,
                 $description,
                 $stok,
-                $productName
+                $productName,
+                $files
             );
 
             $response = $this->createProductService->execute($request);
@@ -154,8 +158,8 @@ class ProductController extends Controller
             $product['user_id'] = strval($this->session->get('user_id'));
 
             $request = new EditProductRequest(
-               $productId,
-               $product
+                $productId,
+                $product
             );
 
             $response = $this->editProductService->execute($request);
@@ -207,9 +211,9 @@ class ProductController extends Controller
 
         $res = $this->addItemToWishlistBuyerService->execute($req);
 
-        if($res->getError()){
+        if ($res->getError()) {
             $this->flashSession->error($res->getMessage());
-        }else{
+        } else {
             $this->flashSession->success($res->getMessage());
         }
 

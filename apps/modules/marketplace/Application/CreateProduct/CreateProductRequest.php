@@ -12,13 +12,15 @@ class CreateProductRequest
     protected string $description;
     protected string $price;
     protected string $seller_id;
+    public array $files;
 
     public function __construct(
         string $seller_id,
         string $price,
         string $description,
         int $stock,
-        string $productName
+        string $productName,
+        array $files
     )
     {
         $this->seller_id = $seller_id;
@@ -26,6 +28,7 @@ class CreateProductRequest
         $this->description = $description;
         $this->stock = $stock;
         $this->productName = $productName;
+        $this->files = $files;
     }
 
     public function getSeller_id(): string

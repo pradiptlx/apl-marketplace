@@ -20,7 +20,10 @@ class Product
     private ?int $wishlistCounter;
     private ?User $seller;
     private ?UserId $sellerId;
-    private ?string $image_path;
+    /**
+     * @var ProductImage[] $productImage
+     */
+    private ?array $productImage;
 
     public function __construct(
         ProductId $id,
@@ -31,7 +34,7 @@ class Product
         int $stock = 0,
         string $price = "",
         int $wishlistCounter = 0,
-        string $image_path = null,
+        array $productImage = null,
         User $seller = null,
         UserId $sellerId = null
     )
@@ -44,7 +47,7 @@ class Product
         $this->stock = $stock;
         $this->price = $price;
         $this->wishlistCounter = $wishlistCounter;
-        $this->image_path = $image_path;
+        $this->productImage = $productImage;
         $this->seller = $seller;
         $this->sellerId = $sellerId;
     }
@@ -99,10 +102,9 @@ class Product
         return $this->sellerId;
     }
 
-    public function getImagePath(): ?string
+    public function getProductImages(): ?array
     {
-        return $this->image_path;
+        return $this->productImage;
     }
-
 
 }
