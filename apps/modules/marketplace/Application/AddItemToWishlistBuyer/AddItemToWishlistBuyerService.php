@@ -9,6 +9,7 @@ use Dex\Marketplace\Domain\Model\CartId;
 use Dex\Marketplace\Domain\Model\ProductId;
 use Dex\Marketplace\Domain\Model\UserId;
 use Dex\Marketplace\Domain\Model\Wishlist;
+use Dex\Marketplace\Domain\Model\WishlistId;
 use Dex\Marketplace\Domain\Repository\WishlistRepository;
 use Dex\Marketplace\Domain\Repository\ProductRepository;
 use Dex\Marketplace\Domain\Repository\UserRepository;
@@ -33,16 +34,20 @@ class AddItemToWishlistBuyerService
         $productId = new ProductId($request->productId);
         $userId = new UserId($request->userId);
 
+        $wishlist = new Wishlist(
+            new WishlistId(),
+            $this->productRepository->byId($productId),
+            $this->userRepository->byId($userId)
+        );
         $response = $this->wishlistRepository->saveWishlist(
-            new Wishlist(
-                Uuid::uuid4()->toString(),
-                $this->productRepository->byId($productId),
-                $this->userRepository->byId($userId)
-            )
+            $wishlist
         );
 
         if ($response instanceof Failed)
             return new AddItemToWishlistBuyerResponse($response, $response->getMessage(), 500, true);
+
+        // Send Event to Change Wishlist Product Counter
+        $wishlist->notifyProduct();
 
         return new AddItemToWishlistBuyerResponse($response, "Add to Wishlist Success", 200, false);
     }
