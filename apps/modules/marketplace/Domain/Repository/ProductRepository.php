@@ -24,4 +24,6 @@ interface ProductRepository
 
     public function searchProduct(string $keyword);
 
+    public function changeStock(ProductId $productId, int $stock);
+
 }

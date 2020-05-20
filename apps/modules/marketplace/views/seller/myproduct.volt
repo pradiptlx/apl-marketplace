@@ -37,6 +37,9 @@
                                 <p class="card-text">Stok : {{product.getStock()}}</p>
                                 <a class="btn btn-success"  href="{{url("marketplace/product/editProduct/"~product.getId().getId())}}">Edit</a>
                                 <a class="btn btn-danger"  href="{{url("marketplace/product/deleteProduct/"~product.getId().getId())}}">Hapus</a>
+                                <br>
+                                <br>
+                                <button class="btn btn-info" data-toggle="modal" data-target="#myModal"~{{product.getId().getId()}}>Edit Stok</button>
                             </div>
                            
                             <div class="card-footer">
@@ -55,6 +58,28 @@
         <!-- /.row -->
 
     </div>
+        <div class="modal fade" id="myModal"~{{product.getId().getId()}} role="dialog">
+            <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 style="text-align: left">Edit Stok</h4>
+                </div>
+                <form method="POST" action="{{url("marketplace/seller/editStock/"~product.getId().getId())}}">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="stok">Stok</label>
+                            <input type="number" class="form-control" id="stok" name="stok" value="{{product.getStock()}}">
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" >Edit</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     <!-- /.container -->
 
 {% endblock %}
