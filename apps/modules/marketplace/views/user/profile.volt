@@ -48,11 +48,11 @@
                                         <div class="col-8">
                                             <select id="select" name="status_user" class="custom-select">
                                                 {% if user.status_user|upper === 'BUYER' %}
-                                                <option value="BUYER" selected>Buyer</option>
-                                                <option value="SELLER">Seller</option>
+                                                    <option value="BUYER" selected>Buyer</option>
+                                                    <option value="SELLER">Seller</option>
                                                 {% else %}
                                                     <option value="BUYER">Buyer</option>
-                                                <option value="SELLER" selected>Seller</option>
+                                                    <option value="SELLER" selected>Seller</option>
                                                 {% endif %}
                                             </select>
                                         </div>
@@ -120,6 +120,11 @@
                                                 <a href="{{ url('/marketplace/product/'~wishlist.product_id) }}">
                                                     {{ wishlist.product_name }}
                                                 </a>
+
+                                                <button id="deleteWishlist" data-wishlist="{{ wishlist.id }}"
+                                                        type="button" class="btn btn-sm btn-danger float-right">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </div>
                                             <div class="card-body">
                                                 {{ wishlist.description }}
@@ -179,6 +184,20 @@
     <script>
 
         $(document).ready(function () {
+            $('#deleteWishlist').click(function () {
+                let wishlistId = $('#deleteWishlist').attr('data-wishlist');
+                console.log(wishlistId);
+                $.post("{{ url('/marketplace/product/deleteWishlist') }}", {
+                    wishlistId: wishlistId
+                }, function (data, status) {
+                    console.log(data);
+                    if(data.success){
+                        window.location.reload()
+                    }
+                })
+
+            });
+
             let userLink = $('#userLink');
             let wishlistLink = $('#wishlistLink');
             let cartLink = $('#cartLink');

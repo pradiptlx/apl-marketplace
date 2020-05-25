@@ -7,6 +7,8 @@ use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerReq
 use Dex\Marketplace\Application\AddItemToWishlistBuyer\AddItemToWishlistBuyerService;
 use Dex\Marketplace\Application\CreateProduct\CreateProductRequest;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
+use Dex\Marketplace\Application\DeleteItemOnWishlist\DeleteItemOnWishlistRequest;
+use Dex\Marketplace\Application\DeleteItemOnWishlist\DeleteItemOnWishlistService;
 use Dex\Marketplace\Application\DeleteProduct\DeleteProductRequest;
 use Dex\Marketplace\Application\DeleteProduct\DeleteProductService;
 use Dex\Marketplace\Application\EditProduct\EditProductRequest;
@@ -27,6 +29,7 @@ class ProductController extends Controller
     private SearchProductService $searchProductService;
     private DeleteProductService $deleteProductService;
     private AddItemToWishlistBuyerService $addItemToWishlistBuyerService;
+    private DeleteItemOnWishlistService $deleteItemOnWishlistService;
     private EditProductService $editProductService;
 
     public function initialize()
@@ -37,6 +40,7 @@ class ProductController extends Controller
         $this->searchProductService = $this->di->get('searchProductService');
         $this->deleteProductService = $this->di->get('deleteProductService');
         $this->addItemToWishlistBuyerService = $this->di->get('addItemToWishlistBuyerService');
+        $this->deleteItemOnWishlistService = $this->di->get('deleteItemOnWishlistService');
         $this->editProductService = $this->di->get('editProductService');
 
         if ($this->cookies->has('rememberMe')) {
@@ -218,6 +222,23 @@ class ProductController extends Controller
         }
 
         return $this->response->redirect('');
+    }
+
+    public function deleteWishlistAction()
+    {
+        $request = $this->request;
+
+        if ($request->isAjax()) {
+            $wishlistId = $request->getPost('wishlistId');
+            $req = new DeleteItemOnWishlistRequest($wishlistId);
+            $res = $this->deleteItemOnWishlistService->execute($req);
+            if ($res->getError())
+                return $this->response->setJsonContent(array('success' => false));
+
+            return $this->response->setJsonContent(array('success' => true));
+        }
+
+        return false;
     }
 
 }

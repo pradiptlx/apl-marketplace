@@ -4,10 +4,8 @@
 namespace Dex\Marketplace\Application\IncrementWishlistProductCounter;
 
 
-use DateTimeZone;
 use Dex\Common\Events\DomainEventSubscriber;
-use Dex\Marketplace\Domain\Event\ChangeProductCounterEvent;
-use Dex\Marketplace\Domain\Model\Product;
+use Dex\Marketplace\Domain\Event\IncreaseProductCounterEvent;
 use Dex\Marketplace\Domain\Repository\ProductRepository;
 use Phalcon\Mvc\Model\Transaction\Failed;
 
@@ -23,7 +21,7 @@ class IncrementWishlistProductCounterService implements DomainEventSubscriber
     }
 
     protected array $subscribedTo = [
-        ChangeProductCounterEvent::class
+        IncreaseProductCounterEvent::class
     ];
 
     /**
@@ -31,7 +29,7 @@ class IncrementWishlistProductCounterService implements DomainEventSubscriber
      */
     public function handle($aDomainEvent): IncrementWishlistProductCounterResponse
     {
-        if ($aDomainEvent instanceof ChangeProductCounterEvent) {
+        if ($aDomainEvent instanceof IncreaseProductCounterEvent) {
             $datas = [
                 'wishlist_counter' => $aDomainEvent->incWishlistCounter(),
             ];

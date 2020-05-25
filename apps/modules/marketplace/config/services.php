@@ -6,6 +6,7 @@ use Dex\Marketplace\Application\ChangeProfileUser\ChangeProfileUserService;
 use Dex\Marketplace\Application\ChangeStockProduct\ChangeStockProductService;
 use Dex\Marketplace\Application\CreateProduct\CreateProductService;
 use Dex\Marketplace\Application\CreateUserAccount\CreateUserAccountService;
+use Dex\Marketplace\Application\DeleteItemOnWishlist\DeleteItemOnWishlistService;
 use Dex\Marketplace\Application\DeleteProduct\DeleteProductService;
 use Dex\Marketplace\Application\EditProduct\EditProductService;
 use Dex\Marketplace\Application\ForgotPasswordUser\ForgotPasswordUserService;
@@ -198,7 +199,6 @@ $di->set('changeStockProductService', function () use ($di) {
     );
 });
 
-
 $di->set('showProfileUserService', function () use ($di) {
     return new ShowProfileUserService(
         $di->get('sqlUserRepository'),
@@ -210,6 +210,12 @@ $di->set('showProfileUserService', function () use ($di) {
 $di->set('changeProfileUserService', function () use ($di) {
     return new ChangeProfileUserService(
         $di->get('sqlUserRepository')
+    );
+});
+
+$di->set('deleteItemOnWishlistService', function () use ($di) {
+    return new DeleteItemOnWishlistService(
+        $di->get('sqlWishlistRepository')
     );
 });
 

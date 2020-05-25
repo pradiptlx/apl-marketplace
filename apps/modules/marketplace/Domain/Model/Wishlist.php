@@ -5,7 +5,8 @@ namespace Dex\Marketplace\Domain\Model;
 
 
 use Dex\Common\Events\DomainEventPublisher;
-use Dex\Marketplace\Domain\Event\ChangeProductCounterEvent;
+use Dex\Marketplace\Domain\Event\DecreaseProductCounterEvent;
+use Dex\Marketplace\Domain\Event\IncreaseProductCounterEvent;
 
 /**
  * Class Wishlist Aggregate
@@ -44,10 +45,21 @@ class Wishlist
         return $this->user;
     }
 
-    public function notifyProduct()
+    public function notifyProductToIncreaseCounter()
     {
         DomainEventPublisher::instance()->publish(
-            new ChangeProductCounterEvent(
+            new IncreaseProductCounterEvent(
+                $this->product->getId(),
+                $this->product->getWishlistCounter(),
+                $this->product->getStock()
+            )
+        );
+    }
+
+    public function notifyProductToDecreaseCounter()
+    {
+        DomainEventPublisher::instance()->publish(
+            new DecreaseProductCounterEvent(
                 $this->product->getId(),
                 $this->product->getWishlistCounter(),
                 $this->product->getStock()

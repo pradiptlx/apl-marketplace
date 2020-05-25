@@ -7,7 +7,7 @@ namespace Dex\Marketplace\Domain\Event;
 use Dex\Common\Events\DomainEvent;
 use Dex\Marketplace\Domain\Model\ProductId;
 
-class ChangeProductCounterEvent implements DomainEvent
+class IncreaseProductCounterEvent implements DomainEvent
 {
     private ProductId $productId;
     private ?int $wishlist_counter;
@@ -38,25 +38,11 @@ class ChangeProductCounterEvent implements DomainEvent
         return ++$this->wishlist_counter;
     }
 
-    public function decWishlistCounter(): ?int
-    {
-        if (!isset($this->stock_counter))
-            return null;
-        return --$this->wishlist_counter;
-    }
-
     public function incStockCounter(): ?int
     {
         if (!isset($this->stock_counter))
             return null;
         return ++$this->stock_counter;
-    }
-
-    public function decStockCounter(): ?int
-    {
-        if (!isset($this->stock_counter))
-            return null;
-        return --$this->stock_counter;
     }
 
     /**
