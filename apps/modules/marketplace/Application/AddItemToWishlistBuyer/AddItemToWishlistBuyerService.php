@@ -47,9 +47,14 @@ class AddItemToWishlistBuyerService
             return new AddItemToWishlistBuyerResponse($response, $response->getMessage(), 500, true);
 
         // Send Event to Change Wishlist Product Counter
-        $wishlist->notifyProductToIncreaseCounter();
+        if($wishlist->notifyProductToIncreaseCounter()){
+            return new AddItemToWishlistBuyerResponse($response, "Add to Wishlist Success", 200, false);
+        }
+        else{
+            return new AddItemToWishlistBuyerResponse($response, "Stock is not fulfill", 500, true);
+        }
 
-        return new AddItemToWishlistBuyerResponse($response, "Add to Wishlist Success", 200, false);
+        
     }
 
 }

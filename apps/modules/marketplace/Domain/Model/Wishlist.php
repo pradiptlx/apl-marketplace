@@ -47,17 +47,26 @@ class Wishlist
 
     public function notifyProductToIncreaseCounter()
     {
-        DomainEventPublisher::instance()->publish(
-            new IncreaseProductCounterEvent(
-                $this->product->getId(),
-                $this->product->getWishlistCounter(),
-                $this->product->getStock()
-            )
-        );
+        
+        if(!$this->isStockFullfill()){
+            return false;
+        }
+        else
+        {
+            DomainEventPublisher::instance()->publish(
+                new IncreaseProductCounterEvent(
+                    $this->product->getId(),
+                    $this->product->getWishlistCounter(),
+                    $this->product->getStock()
+                )
+            );
+        }
+        
     }
 
     public function notifyProductToDecreaseCounter()
     {
+        
         DomainEventPublisher::instance()->publish(
             new DecreaseProductCounterEvent(
                 $this->product->getId(),
@@ -65,6 +74,22 @@ class Wishlist
                 $this->product->getStock()
             )
         );
+    }
+
+    public function isStockFullfill()
+    {
+        if($this->product->getStock() <= 0)
+        {
+            return false;
+        }
+        elseif ($this->product->getStock() <= $this->product->getWishlistCounter())
+        {
+            return false;
+        }
+        elseif($this->product->getStock() > $this->product->getWishlistCounter())
+        {
+            return true;
+        }
     }
 
 }
