@@ -36,6 +36,7 @@ class SqlWishlistRepository extends \Phalcon\Di\Injectable implements WishlistRe
                     $wishlist->stock,
                     $wishlist->price,
                     $wishlist->wishlist_counter,
+                    $wishlist->cart_counter,
                     null
                 ),
                 new User(

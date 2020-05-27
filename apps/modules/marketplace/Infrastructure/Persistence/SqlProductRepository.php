@@ -32,6 +32,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $product->stock,
                 $product->price,
                 $product->wishlist_counter,
+                $product->cart_counter,
                 $product->image_path,
                 new User(
                     new UserId($product->user_id),
@@ -73,6 +74,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $productRecord[0]->p->stock,
                 $productRecord[0]->p->price,
                 $productRecord[0]->p->wishlist_counter,
+                $productRecord[0]->p->cart_counter,
                 null,
                 new User(
                     new UserId($productRecord[0]->userId),
@@ -198,6 +200,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $product->stock,
                 $product->price,
                 $product->wishlist_counter,
+                $product->cart_counter,
                 $product->image_path,
                 new User(
                     new UserId($product->user_id),

@@ -17,7 +17,7 @@ class Cart
         CartId $id,
         Product $product,
         User $buyer,
-        string $createdAt
+        string $createdAt=""
     )
     {
         $this->id = $id;
