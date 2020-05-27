@@ -2,7 +2,7 @@
 
 
 namespace Dex\Marketplace\Domain\Model;
-
+use Dex\Common\Events\DomainEventPublisher;
 
 class Cart
 {
@@ -13,9 +13,9 @@ class Cart
 
     public function __construct(
         CartId $id,
-        Product $product = null,
-        User $buyer = null,
-        string $createdAt = null
+        Product $product,
+        User $buyer,
+        string $createdAt
     )
     {
         $this->id = $id;
@@ -43,5 +43,36 @@ class Cart
     public function getCreatedDate(): ?string
     {
         return $this->createdAt;
+    }
+
+    public function notifyProductToIncreaseCounter()
+    {
+        
+        // if(!$this->isStockFullfill()){
+        //     return false;
+        // }
+        else
+        {
+            DomainEventPublisher::instance()->publish(
+                new IncreaseProductCounterEvent(
+                    $this->product->getId(),
+                    $this->product->getWishlistCounter(),
+                    $this->product->getStock()
+                )
+            );
+        }
+        
+    }
+
+    public function notifyProductToDecreaseCounter()
+    {
+        
+        DomainEventPublisher::instance()->publish(
+            new DecreaseProductCounterEvent(
+                $this->product->getId(),
+                $this->product->getWishlistCounter(),
+                $this->product->getStock()
+            )
+        );
     }
 }
