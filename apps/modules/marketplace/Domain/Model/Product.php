@@ -18,6 +18,7 @@ class Product
     private int $stock;
     private string $price;
     private ?int $wishlistCounter;
+    private ?int $cartCounter;
     private ?User $seller;
     private ?UserId $sellerId;
     /**
@@ -34,6 +35,7 @@ class Product
         int $stock = 0,
         string $price = "",
         int $wishlistCounter = 0,
+        int $cartCounter=0,
         array $productImage = null,
         User $seller = null,
         UserId $sellerId = null
@@ -47,6 +49,7 @@ class Product
         $this->stock = $stock;
         $this->price = $price;
         $this->wishlistCounter = $wishlistCounter;
+        $this->cartCounter = $cartCounter;
         $this->productImage = $productImage;
         $this->seller = $seller;
         $this->sellerId = $sellerId;
@@ -90,6 +93,11 @@ class Product
     public function getWishlistCounter(): ?int
     {
         return $this->wishlistCounter;
+    }
+
+    public function getCartCounter(): ?int
+    {
+        return $this->cartCounter;
     }
 
     public function getSeller(): ?User

@@ -3,6 +3,8 @@
 
 namespace Dex\Marketplace\Domain\Model;
 use Dex\Common\Events\DomainEventPublisher;
+use Dex\Marketplace\Domain\Event\DecreaseProductCounterEvent;
+use Dex\Marketplace\Domain\Event\IncreaseProductCounterEvent;
 
 class Cart
 {
@@ -48,19 +50,20 @@ class Cart
     public function notifyProductToIncreaseCounter()
     {
         
-        // if(!$this->isStockFullfill()){
-        //     return false;
+        // // if(!$this->isStockFullfill()){
+        // //     return false;
+        // // }
+        // else
+        // {
+        DomainEventPublisher::instance()->publish(
+            new IncreaseProductCounterEvent(
+                $this->product->getId(),
+                $this->product->getWishlistCounter(),
+                $this->product->getStock(),
+                $this->product->getCartCounter(),
+            )
+        );
         // }
-        else
-        {
-            DomainEventPublisher::instance()->publish(
-                new IncreaseProductCounterEvent(
-                    $this->product->getId(),
-                    $this->product->getWishlistCounter(),
-                    $this->product->getStock()
-                )
-            );
-        }
         
     }
 
@@ -71,7 +74,8 @@ class Cart
             new DecreaseProductCounterEvent(
                 $this->product->getId(),
                 $this->product->getWishlistCounter(),
-                $this->product->getStock()
+                $this->product->getStock(),
+                $this->product->getCartCounter(),
             )
         );
     }
