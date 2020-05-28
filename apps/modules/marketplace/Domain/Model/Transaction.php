@@ -48,6 +48,7 @@ class Transaction
         $this->updatedAt = $updated_at;
     }
 
+    // Setelah melakukan use case transaction
     public function notifyPostTransaction()
     {
         switch ($this->statusTransaction) {
@@ -70,6 +71,13 @@ class Transaction
                                 $this->cart
                             )
                         );
+                        // Update status gagal
+                        DomainEventPublisher::instance()->publish(
+                            new UpdateStatusTransactionEvent(
+                                $this->id,
+                                self::$FAILED
+                            )
+                        );
 
                     } else {
                         DomainEventPublisher::instance()->publish(
@@ -86,14 +94,6 @@ class Transaction
                     return new InvalidIdModelException($e->getMessage());
                 }
 
-                // Update status gagal / berhasil
-                DomainEventPublisher::instance()->publish(
-                    new UpdateStatusTransactionEvent(
-                        $this->id,
-                        $this->statusTransaction
-                    )
-                );
-
                 break;
             case self::$FAILED:
                 DomainEventPublisher::instance()->publish(
@@ -108,6 +108,20 @@ class Transaction
         }
 
         return false;
+    }
+
+    // Ketika buyer sudah menyerahkan bukti pembayaran dan valid
+    public function notifyPostPayment()
+    {
+        if($this->paymentMethod->isPaid()){
+            DomainEventPublisher::instance()->publish(
+                new UpdateStatusTransactionEvent(
+                    $this->id,
+                    self::$FINISHED
+                )
+            );
+        }
+
     }
 
     public function getId(): TransactionId

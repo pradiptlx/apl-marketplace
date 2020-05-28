@@ -26,7 +26,6 @@ class TransactionBuyerService
     public function execute(TransactionBuyerRequest $request): TransactionBuyerResponse
     {
         $cartModel = $this->cartRepository->byId(new CartId($request->cartId));
-        $productModel = $cartModel->getProduct();
         $userModel = $cartModel->getBuyer();
 
         $transactionId = new TransactionId();
@@ -49,6 +48,7 @@ class TransactionBuyerService
             return new TransactionBuyerResponse($response, $response->getMessage(), 500, true);
 
         //EVENT
+        $transactionModel->notifyPostTransaction();
 
         return new TransactionBuyerResponse(null, 'Product is waiting to be paid.', 200, false);
     }
