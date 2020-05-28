@@ -64,8 +64,7 @@ create table [transaction]
             on delete cascade,
     cart_id            varchar(150)     not null
         constraint transaction_cart_id_fk
-            references cart (id)
-            on delete cascade,
+            references cart (id),
     payment_method     varchar(100)     not null,
     status_transaction varchar(50)      not null,
     created_at         datetime         not null,

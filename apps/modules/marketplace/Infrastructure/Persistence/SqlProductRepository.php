@@ -114,7 +114,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
     public function getAll()
     {
         $query = "SELECT p.id, p.product_name, p.description, p.created_at, p.updated_at,
-                p.stock, p.price, p.wishlist_counter,
+                p.stock, p.price, p.wishlist_counter, p.cart_counter,
                 p.user_id, u.username, u.fullname, u.email, u.address, u.telp_number, u.status_user
                 FROM Dex\Marketplace\Infrastructure\Persistence\Record\ProductRecord p
                 JOIN Dex\Marketplace\Infrastructure\Persistence\Record\UserRecord u on u.id = p.user_id";
@@ -200,17 +200,9 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $product->stock,
                 $product->price,
                 $product->wishlist_counter,
-                $product->cart_counter,
-                $product->image_path,
-                new User(
-                    new UserId($product->user_id),
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    ''
-                )
+                $product->cart_counter ?: 0,
+                null,
+                null
             );
         }
 
