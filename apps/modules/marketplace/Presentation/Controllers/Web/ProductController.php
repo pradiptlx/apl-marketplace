@@ -123,7 +123,6 @@ class ProductController extends Controller
         }
 
         $this->view->setVar('title', 'Create Product');
-        // //TODO: Collection CSS/JS
 
         return $this->view->pick('product/create');
     }

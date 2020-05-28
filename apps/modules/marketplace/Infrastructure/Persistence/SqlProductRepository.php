@@ -32,8 +32,8 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $product->stock,
                 $product->price,
                 $product->wishlist_counter,
-                $product->cart_counter,
-                $product->image_path,
+                $product->cart_counter ?: 0,
+                null,
                 new User(
                     new UserId($product->user_id),
                     $product->username,
@@ -74,7 +74,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
                 $productRecord[0]->p->stock,
                 $productRecord[0]->p->price,
                 $productRecord[0]->p->wishlist_counter,
-                $productRecord[0]->p->cart_counter,
+                $productRecord[0]->p->cart_counter ?: 0,
                 null,
                 new User(
                     new UserId($productRecord[0]->userId),
@@ -138,7 +138,7 @@ class SqlProductRepository extends \Phalcon\Di\Injectable implements ProductRepo
         $productRecord->user_id = $product->getSellerId()->getId();
         $productImages = $product->getProductImages();
         $filenames = [];
-        if(isset($productImages)){
+        if (isset($productImages)) {
             /**
              * @var ProductImage $productImage
              */
