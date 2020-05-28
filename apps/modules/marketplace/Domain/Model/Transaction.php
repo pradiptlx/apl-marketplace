@@ -3,6 +3,13 @@
 
 namespace Dex\Marketplace\Domain\Model;
 
+use Dex\Common\Events\DomainEventPublisher;
+use Dex\Marketplace\Domain\Event\DecreaseProductCounterEvent;
+use Dex\Marketplace\Domain\Event\IncreaseProductCounterEvent;
+use Dex\Marketplace\Domain\Event\AfterTransactionEvent;
+use Dex\Marketplace\Domain\Event\UpdateStatusTransactionEvent;
+use Dex\Marketplace\Domain\Exception\InvalidIdModelException;
+
 /**
  * Aggregate class Transaction
  * Class Transaction
@@ -41,17 +48,62 @@ class Transaction
         $this->updatedAt = $updated_at;
     }
 
-    public function isTransactionFinished(): bool{
-        switch ($this->statusTransaction){
+    public function notifyPostTransaction()
+    {
+        switch ($this->statusTransaction) {
             case self::$FINISHED:
-                //TODO: Event remove cart counter
+                DomainEventPublisher::instance()->publish(
+                    new AfterTransactionEvent(
+                        $this->paymentMethod,
+                        $this->cart
+                    )
+                );
                 return true;
                 break;
             case self::$PENDING:
-                //TODO: SEND EMAIL NOTIFICATION
+                // Jika jatuh tempo pembayaran lebih dari 2 hari, akan berubah menjadi FAILED
+                try {
+                    if (date_diff(new \DateTime($this->updatedAt), new \DateTime($this->createdAt)) > 2) {
+                        DomainEventPublisher::instance()->publish(
+                            new AfterTransactionEvent(
+                                $this->paymentMethod,
+                                $this->cart
+                            )
+                        );
+
+                    } else {
+                        DomainEventPublisher::instance()->publish(
+                            new DecreaseProductCounterEvent(
+                                $this->cart->getProduct()->getId(),
+                                $this->cart->getProduct()->getWishlistCounter(),
+                                $this->cart->getProduct()->getStock(),
+                                $this->cart->getProduct()->getCartCounter()
+                            )
+                        );
+
+                    }
+                } catch (\Exception $e) {
+                    return new InvalidIdModelException($e->getMessage());
+                }
+
+                // Update status gagal / berhasil
+                DomainEventPublisher::instance()->publish(
+                    new UpdateStatusTransactionEvent(
+                        $this->id,
+                        $this->statusTransaction
+                    )
+                );
+
                 break;
             case self::$FAILED:
-                //TODO: SEND EMAIL
+                DomainEventPublisher::instance()->publish(
+                    new IncreaseProductCounterEvent(
+                        $this->cart->getProduct()->getId(),
+                        $this->cart->getProduct()->getWishlistCounter(),
+                        $this->cart->getProduct()->getStock(),
+                        $this->cart->getProduct()->getCartCounter()
+                    )
+                );
                 break;
         }
 

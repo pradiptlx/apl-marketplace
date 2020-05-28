@@ -17,3 +17,4 @@ DomainEventPublisher::instance()->subscribe(new DecreaseWishlistProductCounterSe
     $di->get('sqlProductRepository')
 ));
 
+//TODO: REGISTER Transaction service

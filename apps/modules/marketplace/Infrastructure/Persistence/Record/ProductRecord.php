@@ -30,4 +30,13 @@ class ProductRecord extends Model
 //        $this->hasMany('id', WishlistRecord::class, 'product_id');
 //        $this->hasMany('id', CartRecord::class, 'product_id');
     }
+
+    public function beforeUpdate()
+    {
+        if ($this->stock < 0) {
+            $this->stock = 0;
+        }
+
+        $this->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
+    }
 }

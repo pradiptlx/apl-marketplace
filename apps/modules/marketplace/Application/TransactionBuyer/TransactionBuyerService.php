@@ -4,31 +4,53 @@
 namespace Dex\Marketplace\Application\TransactionBuyer;
 
 
-use Dex\Common\Events\DomainEvent;
-use Dex\Common\Events\DomainEventSubscriber;
-use Dex\Marketplace\Domain\Model\Product;
-use Dex\Marketplace\Domain\Model\User;
+use Dex\Marketplace\Domain\Model\CartId;
+use Dex\Marketplace\Domain\Model\PaymentMethodTransaction;
+use Dex\Marketplace\Domain\Model\Transaction;
+use Dex\Marketplace\Domain\Model\TransactionId;
+use Dex\Marketplace\Domain\Repository\CartRepository;
+use Dex\Marketplace\Domain\Repository\TransactionRepository;
+use Phalcon\Mvc\Model\Transaction\Failed;
 
-class TransactionBuyerService implements DomainEventSubscriber
+class TransactionBuyerService
 {
+    private CartRepository $cartRepository;
+    private TransactionRepository $transactionRepository;
 
-    protected array $subscribedTo = [
-        User::class,
-        Product::class
-    ];
-    /**
-     * @inheritDoc
-     */
-    public function handle($aDomainEvent)
+    public function __construct(CartRepository $cartRepository, TransactionRepository $transactionRepository)
     {
-        // TODO: Implement handle() method.
+        $this->cartRepository = $cartRepository;
+        $this->transactionRepository = $transactionRepository;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isSubscribedTo($aDomainEvent)
+    public function execute(TransactionBuyerRequest $request): TransactionBuyerResponse
     {
-        // TODO: Implement isSubscribedTo() method.
+        $cartModel = $this->cartRepository->byId(new CartId($request->cartId));
+        $productModel = $cartModel->getProduct();
+        $userModel = $cartModel->getBuyer();
+
+        $transactionId = new TransactionId();
+        $paymentMethod = new PaymentMethodTransaction(
+            $transactionId,
+            $request->paymentMethod
+        );
+
+        $transactionModel = new Transaction(
+            $transactionId,
+            $userModel,
+            $cartModel,
+            $paymentMethod,
+            Transaction::$PENDING,
+            (new \DateTime())->format('Y-m-d H:i:s'),
+            (new \DateTime())->format('Y-m-d H:i:s') // Updated_at == created_at
+        );
+        $response = $this->transactionRepository->save($transactionModel);
+        if ($response instanceof Failed)
+            return new TransactionBuyerResponse($response, $response->getMessage(), 500, true);
+
+        //EVENT
+
+        return new TransactionBuyerResponse(null, 'Product is waiting to be paid.', 200, false);
     }
+
 }
