@@ -30,6 +30,11 @@ class UserRecord extends Model
 //        $this->hasMany('id', ProductRecord::class, 'user_id');
         $this->hasManyToMany('id', WishlistRecord::class, 'user_id', 'product_id', ProductRecord::class, 'id');
 //        $this->hasOne('id', WishlistRecord::class, 'user_id');
+        $this->hasMany('id', TransactionRecord::class, 'user_id', [
+            'foreignKey' => [
+                'action' => Model\Relation::ACTION_CASCADE
+            ]
+        ]);
     }
 
 }
