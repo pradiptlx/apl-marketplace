@@ -8,13 +8,13 @@ use Phalcon\Mvc\Model;
 
 class TransactionRecord extends Model
 {
-    private string $id;
-    private string $user_id;
-    private string $cart_id;
-    private string $payment_method;
-    private string $status_transaction;
-    private string $createdAt;
-    private ?string $updatedAt;
+    public string $id;
+    public string $user_id;
+    public string $cart_id;
+    public string $payment_method;
+    public string $status_transaction;
+    public string $created_at;
+    public ?string $updated_at;
 
     public function initialize()
     {
