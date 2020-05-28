@@ -31,19 +31,14 @@ class UpdateStatusTransactionEvent implements DomainEvent
         return $this->transactionId->getId() === $transactionId->getId();
     }
 
-    public function statusComplete()
+    public function getTransactionId(): TransactionId
     {
-        $this->statusTransaction = Transaction::$FINISHED;
+        return $this->transactionId;
     }
 
-    public function statusFailed()
+    public function getNewStatusTransaction()
     {
-        $this->statusTransaction = Transaction::$FAILED;
-    }
-
-    public function statusPending()
-    {
-        $this->statusTransaction = Transaction::$PENDING;
+        $this->statusTransaction;
     }
 
     public function occurredOn()

@@ -4,6 +4,7 @@
 namespace Dex\Marketplace\Application\TransactionBuyer;
 
 
+use Dex\Marketplace\Domain\Exception\InvalidIdModelException;
 use Dex\Marketplace\Domain\Model\CartId;
 use Dex\Marketplace\Domain\Model\PaymentMethodTransaction;
 use Dex\Marketplace\Domain\Model\Transaction;
@@ -48,7 +49,11 @@ class TransactionBuyerService
             return new TransactionBuyerResponse($response, $response->getMessage(), 500, true);
 
         //EVENT
-        $transactionModel->notifyPostTransaction();
+        $eventResponse = $transactionModel->notifyPostTransaction();
+        if ($eventResponse instanceof InvalidIdModelException){
+            return new TransactionBuyerResponse($eventResponse,
+                $eventResponse->getMessage(), $eventResponse->getCode(), true);
+        }
 
         return new TransactionBuyerResponse(null, 'Product is waiting to be paid.', 200, false);
     }

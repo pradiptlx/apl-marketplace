@@ -10,7 +10,7 @@ use Dex\Marketplace\Domain\Model\UserId;
 
 interface TransactionRepository
 {
-    public function byId(TransactionId $transactionId): ?Transaction;
+    public function byId(TransactionId $transactionId);
 
     public function byUserId(UserId $userId);
 

@@ -19,6 +19,7 @@ use Dex\Marketplace\Application\ShowItemDetailBuyer\ShowItemDetailBuyerService;
 use Dex\Marketplace\Application\ShowProfileUser\ShowProfileUserService;
 use Dex\Marketplace\Infrastructure\Persistence\SqlCartRepository;
 use Dex\Marketplace\Infrastructure\Persistence\SqlProductRepository;
+use Dex\Marketplace\Infrastructure\Persistence\SqlTransactionRepository;
 use Dex\Marketplace\Infrastructure\Persistence\SqlUserRepository;
 use Dex\Marketplace\Infrastructure\Persistence\SqlWishlistRepository;
 use Dex\Marketplace\Infrastructure\Transport\SwiftMailer;
@@ -104,6 +105,10 @@ $di->set('sqlCartRepository', function () {
 
 $di->set('sqlWishlistRepository', function () {
     return new SqlWishlistRepository();
+});
+
+$di->set('sqlTransactionRepository', function () {
+    return new SqlTransactionRepository();
 });
 
 /**

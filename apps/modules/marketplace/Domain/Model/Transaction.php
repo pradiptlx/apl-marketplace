@@ -64,7 +64,7 @@ class Transaction
             case self::$PENDING:
                 // Jika jatuh tempo pembayaran lebih dari 2 hari, akan berubah menjadi FAILED
                 try {
-                    if (date_diff(new \DateTime($this->updatedAt), new \DateTime($this->createdAt)) > 2) {
+                    if (date_diff(new \DateTime($this->createdAt), new \DateTime()) > 2) {
                         DomainEventPublisher::instance()->publish(
                             new AfterTransactionEvent(
                                 $this->paymentMethod,
@@ -113,7 +113,7 @@ class Transaction
     // Ketika buyer sudah menyerahkan bukti pembayaran dan valid
     public function notifyPostPayment()
     {
-        if($this->paymentMethod->isPaid()){
+        if ($this->paymentMethod->isPaid()) {
             DomainEventPublisher::instance()->publish(
                 new UpdateStatusTransactionEvent(
                     $this->id,
