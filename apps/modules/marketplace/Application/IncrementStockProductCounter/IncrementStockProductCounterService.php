@@ -6,6 +6,7 @@ namespace Dex\Marketplace\Application\IncrementStockProductCounter;
 
 use Dex\Common\Events\DomainEventSubscriber;
 use Dex\Marketplace\Domain\Event\DecreaseProductCounterEvent;
+use Dex\Marketplace\Domain\Event\IncreaseProductCounterEvent;
 use Dex\Marketplace\Domain\Repository\ProductRepository;
 
 class IncrementStockProductCounterService implements DomainEventSubscriber
@@ -18,12 +19,12 @@ class IncrementStockProductCounterService implements DomainEventSubscriber
     }
 
     private array $subscribedTo = [
-        DecreaseProductCounterEvent::class
+        IncreaseProductCounterEvent::class
     ];
 
     public function handle($aDomainEvent)
     {
-        if($aDomainEvent instanceof DecreaseProductCounterEvent){
+        if($aDomainEvent instanceof IncreaseProductCounterEvent){
             $datas = [
                 'stock' => $aDomainEvent->incStockCounter()
             ];

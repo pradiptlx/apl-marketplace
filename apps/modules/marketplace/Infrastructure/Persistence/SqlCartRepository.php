@@ -73,7 +73,8 @@ class SqlCartRepository extends \Phalcon\Di\Injectable implements CartRepository
                     '',
                     '',
                     ''
-                )
+                ),
+                (new \DateTime())->format('Y-m-d H:i:s')
             );
         }
         return $carts;
