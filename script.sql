@@ -10,7 +10,9 @@ create table product
     wishlist_counter int         default 0,
     user_id          varchar(150)          not null,
     created_at       datetime              not null,
-    updated_at       datetime
+    updated_at       datetime,
+    image_path       varchar(150),
+    cart_counter     int         default 0
 )
 go
 
@@ -51,18 +53,28 @@ create unique index cart_id_uindex
     on cart (id)
 go
 
-create table transaction_product
+create table [transaction]
 (
-    id         uniqueidentifier not null
-        constraint transaction_product_pk
+    id                 varchar(150)     not null
+        constraint transaction_pk
             primary key nonclustered,
-    product_id varchar(150)     not null
-        constraint transaction_product_product_id_fk
-            references product,
-    user_id    uniqueidentifier not null
-        constraint transaction_product_users_id_fk
+    user_id            uniqueidentifier not null
+        constraint transaction_users_id_fk
             references users
+            on delete cascade,
+    cart_id            varchar(150)     not null
+        constraint transaction_cart_id_fk
+            references cart (id)
+            on delete cascade,
+    payment_method     varchar(100)     not null,
+    status_transaction varchar(50)      not null,
+    created_at         datetime         not null,
+    updated_at         datetime
 )
+go
+
+create unique index transaction_id_uindex
+    on [transaction] (id)
 go
 
 create unique index User_id_uindex
@@ -88,10 +100,12 @@ create table wishlist
             primary key nonclustered,
     product_id varchar(150)     not null
         constraint wishlist_product_id_fk
-            references product,
+            references product
+            on delete cascade,
     user_id    uniqueidentifier not null
         constraint wishlist_users_id_fk
             references users
+            on delete cascade
 )
 go
 
