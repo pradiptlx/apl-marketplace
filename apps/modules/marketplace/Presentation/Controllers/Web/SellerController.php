@@ -49,7 +49,7 @@ class SellerController extends UserController
         
         $request = new GetProductBySellerIdRequest($sellerId);
         $response = $this->getProductBySellerIdService->execute($request);
-        $this->view->setVar('products', $response->getData());
+        $this->view->setVar('products', $response->getData()['product']);
         $this->view->setVar('title', 'My Product');
         return $this->view->pick('seller/myproduct');
 

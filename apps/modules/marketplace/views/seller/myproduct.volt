@@ -31,15 +31,15 @@
                             <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
                             <div class="card-body">
                                 <h4 class="card-title">
-                                    <a href="{{url("marketplace/product/detailProduct/"~product.getId().getId())}}">{{product.getProductName()}}</a>
+                                    <a href="{{url("marketplace/product/detailProduct/"~product.id)}}">{{product.product_name}}</a>
                                 </h4>
-                                <h5>Rp. {{product.getPrice()}}</h5>
-                                <p class="card-text">Stok : {{product.getStock()}}</p>
-                                <a class="btn btn-success"  href="{{url("marketplace/product/editProduct/"~product.getId().getId())}}">Edit</a>
-                                <a class="btn btn-danger"  href="{{url("marketplace/product/deleteProduct/"~product.getId().getId())}}">Hapus</a>
+                                <h5>Rp. {{product.price}}</h5>
+                                <p class="card-text">Stok : {{product.stock}}</p>
+                                <a class="btn btn-success"  href="{{url("marketplace/product/editProduct/"~product.id)}}">Edit</a>
+                                <a class="btn btn-danger"  href="{{url("marketplace/product/deleteProduct/"~product.id)}}">Hapus</a>
                                 <br>
                                 <br>
-                                <button class="btn btn-info" data-toggle="modal" data-target="#myModal"~{{product.getId().getId()}}>Edit Stok</button>
+                                <button class="btn btn-info" data-toggle="modal" data-target="#myModal"~{{product.id}}>Edit Stok</button>
                             </div>
                            
                             <div class="card-footer">
@@ -58,18 +58,18 @@
         <!-- /.row -->
 
     </div>
-        <div class="modal fade" id="myModal"~{{product.getId().getId()}} role="dialog">
+        <div class="modal fade" id="myModal"~{{product.id}} role="dialog">
             <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                 <h4 style="text-align: left">Edit Stok</h4>
                 </div>
-                <form method="POST" action="{{url("marketplace/seller/editStock/"~product.getId().getId())}}">
+                <form method="POST" action="{{url("marketplace/seller/editStock/"~product.id)}}">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="stok">Stok</label>
-                            <input type="number" class="form-control" id="stok" name="stok" value="{{product.getStock()}}">
+                            <input type="number" class="form-control" id="stok" name="stok" value="{{product.stock}}">
                         </div>
                         
                     </div>
