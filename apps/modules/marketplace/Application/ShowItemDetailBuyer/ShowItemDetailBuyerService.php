@@ -24,7 +24,10 @@ class ShowItemDetailBuyerService
         if($productDetail instanceof Failed)
             return new ShowItemDetailBuyerResponse($productDetail, $productDetail->getMessage(), 500, true);
 
-        return new ShowItemDetailBuyerResponse($productDetail, '', 200, false);
+        
+        $datas = array('product' => $productDetail);
+
+        return new ShowItemDetailBuyerResponse($datas, '', 200, false);
     }
 
 }
