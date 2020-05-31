@@ -28,12 +28,10 @@ class ListItemsBuyerResponse extends GenericResponse
             $resProduct[] = (object)[
                 'id' => $item->getId()->getId(),
                 'product_name' => $item->getProductName(),
-                'price' => $item->getProduct()->getPrice(),
-                'description' => $item->getProduct()->getDescription()
+                'price' => $item->getPrice(),
+                'description' => $item->getDescription()
             ];
         }
-
-     
 
         return array('product' => $resProduct);
     }

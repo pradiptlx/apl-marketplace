@@ -59,10 +59,12 @@ class ProductController extends Controller
 
     public function indexAction()
     {
-        $response = $this->listItemsBuyerService->execute();
-
-        $response->getError() ? $this->flashSession->error($response->getMessage())
-            : $this->view->setVar('products', $response->getData());
+        $res = $this->listItemsBuyerService->execute();
+        if ($res->getError() && $res->getCode() === 500) {
+            $this->flashSession->error($res->getMessage());
+            return $this->response->redirect('/marketplace/');
+        }
+        $this->view->setVar('products', $res->getData()['product']);
         $this->view->pick('product/home');
 
     }
