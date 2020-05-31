@@ -83,7 +83,7 @@ class ProductController extends Controller
             return $this->response->redirect('/');
         }
 
-        $this->view->setVar('product', $response->getData());
+        $this->view->setVar('product', $response->getData()['product']);
         $this->view->setVar('title', 'Detail Page');
         return $this->view->pick('product/detail');
     }

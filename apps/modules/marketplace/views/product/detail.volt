@@ -13,10 +13,10 @@
         <div class="row">
 
             <div class="col-lg-3">
-                <h1 class="my-4">{{ product.getProductName() }}</h1>
-                <a type="button" href="{{ url('/marketplace/product/addToWishlist/'~product.getId().getId()) }}"
+                <h1 class="my-4">{{ product.product_name }}</h1>
+                <a type="button" href="{{ url('/marketplace/product/addToWishlist/'~product.id) }}"
                    class="btn btn-info">Add To Wishlist</a>
-                <a type="button" href="{{ this.url.getBaseUri()~'/marketplace/cart/addCart/?q='~product.getId().getId()}}"
+                <a type="button" href="{{ this.url.getBaseUri()~'/marketplace/cart/addCart/?q='~product.id}}"
                    class="btn btn-primary">Add To Cart</a>
             </div>
             <!-- /.col-lg-3 -->
@@ -26,12 +26,12 @@
                 <div class="card mt-4">
                     <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
                     <div class="card-body">
-                        <h3 class="card-title">{{product.getProductName()}}</h3>
-                        <h4>Rp. {{product.getPrice()}}</h4>
-                        <p class="card-text">{{product.getDescription()}}</p>
-                        <h5>Penjual : {{product.getSeller().getFullname()}}</h5>
-                        <p>{{product.getSeller().getEmail()}}</p>
-                        <p>Telp : {{product.getSeller().getTelp()}}</p>
+                        <h3 class="card-title">{{product.product_name}}</h3>
+                        <h4>Rp. {{product.price}}</h4>
+                        <p class="card-text">{{product.description}}</p>
+                        <h5>Penjual : {{product.seller_name}}</h5>
+                        <p>{{product.email}}</p>
+                        <p>Telp : {{product.telp}}</p>
                         <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
                         4.0 stars
                     </div>
