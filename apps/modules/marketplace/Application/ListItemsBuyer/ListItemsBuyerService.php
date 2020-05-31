@@ -20,10 +20,13 @@ class ListItemsBuyerService
     {
         $products = $this->productRepository->getAll();
 
+    
         if (empty($products))
-            return new ListItemsBuyerResponse(null, "Products Not Found", 200, false);
+            return new ListItemsBuyerResponse(null, "Products Not Found", 500, true);
 
-        return new ListItemsBuyerResponse($products, '', 200, false);
+        $datas = array('product' => $products);
+
+        return new ListItemsBuyerResponse($datas, '', 200, false);
     }
 
 }
