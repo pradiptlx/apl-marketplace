@@ -25,7 +25,9 @@ class GetProductBySellerIdService
         if($productDetail instanceof Failed)
             return new GetProductBySellerIdResponse($productDetail, $productDetail->getMessage(), 500, true);
 
-        return new GetProductBySellerIdResponse($productDetail, '', 200, false);
+        $datas = array('product' => $productDetail);
+
+        return new GetProductBySellerIdResponse($datas, '', 200, false);
     }
 
 }
